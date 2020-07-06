@@ -99,12 +99,17 @@
         class="hidden-sm-and-down"
       ></v-text-field>
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>mdi-apps</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-bell</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon
+                 v-bind="attrs"
+                 v-on="on"
+                 v-on:click="logout">
+            <v-icon>mdi-logout</v-icon>
+          </v-btn>
+        </template>
+        <span>Log out {{ user.email }}</span>
+      </v-tooltip>
     </v-app-bar>
     <v-main>
       <v-container
@@ -129,7 +134,6 @@
             </template>
             <span>Source</span>
           </v-tooltip>
-          <HelloWorld />
         </v-row>
       </v-container>
     </v-main>
@@ -137,11 +141,21 @@
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
+  import { mapState } from 'vuex';
 
   export default {
+    methods: {
+      logout() {
+        this.$store.commit('logOut');
+        this.$router.push({ path: '/login' })
+      }
+    },
     components: {
-      HelloWorld,
+    },
+    computed: {
+      ...mapState({
+        user: 'user'
+      })
     },
     props: {
       source: String,
@@ -182,5 +196,5 @@
         { icon: 'mdi-keyboard', text: 'Go to the old version' },
       ],
     }),
-  }
+  };
 </script>

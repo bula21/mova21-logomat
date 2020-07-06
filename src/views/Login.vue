@@ -19,44 +19,34 @@
               dark
               flat
             >
-              <v-toolbar-title>Login form</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    :href="source"
-                    icon
-                    large
-                    target="_blank"
-                    v-on="on"
-                  >
-                    <v-icon>mdi-code-tags</v-icon>
-                  </v-btn>
-                </template>
-                <span>Source</span>
-              </v-tooltip>
+              <v-toolbar-title>Login</v-toolbar-title>
             </v-toolbar>
+            <v-alert type="error" v-if="errorMessage.length > 0">
+              {{ errorMessage }}
+            </v-alert>
             <v-card-text>
               <v-form>
                 <v-text-field
-                  label="Login"
+                  label="Email"
                   name="login"
                   prepend-icon="mdi-account"
                   type="text"
+                  v-model="email"
                 ></v-text-field>
 
                 <v-text-field
                   id="password"
-                  label="Password"
+                  label="Passwort"
                   name="password"
                   prepend-icon="mdi-lock"
                   type="password"
+                  v-model="password"
                 ></v-text-field>
               </v-form>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary">Login</v-btn>
+              <v-btn color="primary" v-on:click="login">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -66,9 +56,43 @@
 </template>
 
 <script>
+  import api from '@/lib/api.js';
+
   export default {
     props: {
       source: String,
     },
-  }
+    data() {
+      return {
+        errorMessage: '',
+        email: '',
+        password: '',
+     };
+    },
+    methods: {
+      async login () {
+        this.errorMessage = '';
+
+        try {
+          const response = await api.post("/auth/authenticate", {
+            "email": this.email,
+            "password": this.password,
+            "mode": "jwt"
+          });
+          this.$store.commit('loginSucceeded', response.data.data.user, response.data.data.token);
+          this.$router.push({ path: '/' })
+        } catch (err) {
+          if (err.response) {
+            const resp = err.response;
+            this.errorMessage = `${resp.request.status}: ${err.response.data.error.message}`;
+          } else if (err.request) {
+            this.errorMessage = 'Konnte den Server nicht erreichen';
+          } else {
+            this.errorMessage = 'Unbekannter Fehler';
+          }
+          this.$store.commit('loginFailed');
+        }
+      }
+    }
+  };
 </script>

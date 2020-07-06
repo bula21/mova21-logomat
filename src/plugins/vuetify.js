@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
 import de from 'vuetify/es5/locale/de';
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
 export default new Vuetify({
   icons: {
@@ -29,4 +29,4 @@ export default new Vuetify({
       locales: { de },
       current: 'de',
   }
-})
+});
