@@ -59,9 +59,6 @@
   import api from '@/lib/api.js';
 
   export default {
-    props: {
-      source: String,
-    },
     data() {
       return {
         errorMessage: '',
@@ -79,7 +76,9 @@
             "password": this.password,
             "mode": "jwt"
           });
-          this.$store.commit('loginSucceeded', response.data.data.user, response.data.data.token);
+          const userData = response.data.data.user;
+          userData['_token'] = response.data.data.token;
+          this.$store.commit('loginSucceeded', userData);
           this.$router.push({path: '/'})
         } catch (err) {
           if (err.response) {

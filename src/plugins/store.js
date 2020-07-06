@@ -15,20 +15,17 @@ export default new Vuex.Store({
   plugins: debug ? [createLogger(), vuexLocalStorage.plugin] : [vuexLocalStorage.plugin],
   state: {
     user: null,
-    jwt: null,
   },
   mutations: {
-    loginSucceeded(state, userInfo, jwt) {
-      state.user = userInfo;
-      state.jwt = jwt;
+    loginSucceeded(state, user) {
+      console.log(user)
+      state.user = user;
     },
     loginFailed(state) {
       state.user = null;
-      state.jwt = null;
     },
     logOut(state) {
       state.user = null;
-      state.jwt = null;
     }
   }
 });

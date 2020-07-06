@@ -97,6 +97,7 @@
         prepend-inner-icon="mdi-magnify"
         label="Search"
         class="hidden-sm-and-down"
+        v-model="searchText"
       ></v-text-field>
       <v-spacer></v-spacer>
       <v-tooltip bottom>
@@ -112,43 +113,70 @@
       </v-tooltip>
     </v-app-bar>
     <v-main>
-      <v-container
-        class="fill-height"
-        fluid
+      <br>
+      <v-data-table
+        :headers="headers"
+        :items="anlagen"
+        :search="searchText"
+        item-key="id"
+        class="elevation-1"
+        :items-per-page="25"
       >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          Content
-        </v-row>
-      </v-container>
+      </v-data-table>
     </v-main>
   </div>
 </template>
 
 <script>
   import {mapState} from 'vuex';
+  import api from '@/lib/api.js';
 
   export default {
     methods: {
       logout() {
         this.$store.commit('logOut');
         this.$router.push({path: '/login'})
-      }
+      },
+      async apiFetch(path) {
+        const config = {
+          headers: {
+            Authorization: `bearer ${this.user._token}`
+          }
+        };
+        try {
+          const resp = await api.get(path, config);
+          return resp.data.data;
+        } catch (err) {
+          this.logout()
+          throw err;
+        }
+      },
+      fetchData() {
+        this.apiFetch("/items/anlage")
+          .then((data) => {
+            this.anlagen = data;
+          });
+      },
+    },
+    created() {
+      this.fetchData()
     },
     components: {},
     computed: {
       ...mapState({
-        user: 'user'
+        user: 'user',
       })
     },
-    props: {
-      source: String,
-    },
     data: () => ({
-      dialog: false,
+      anlagen: [],
+      searchText: "",
       drawer: null,
+      headers: [
+        {text: "Anlagenname", value: "anlagenname", filterable: true},
+        {text: "Beschreibung", value: "beschreibung", filterable: true},
+        {text: "Kontaktperson", value: "kontaktperson"},
+        {text: "Avanti", value: "avanti_link"},
+      ],
       items: [
         {icon: 'mdi-contacts', text: 'Contacts'},
         {
