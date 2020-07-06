@@ -22,3 +22,11 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+## Initial setup
+
+```bash
+yarn global add @vue/cli
+vue create bula-bauten
+```
