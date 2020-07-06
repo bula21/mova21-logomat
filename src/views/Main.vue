@@ -120,20 +120,7 @@
           align="center"
           justify="center"
         >
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                :href="source"
-                icon
-                large
-                target="_blank"
-                v-on="on"
-              >
-                <v-icon large>mdi-code-tags</v-icon>
-              </v-btn>
-            </template>
-            <span>Source</span>
-          </v-tooltip>
+          Content
         </v-row>
       </v-container>
     </v-main>
@@ -141,17 +128,16 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import {mapState} from 'vuex';
 
   export default {
     methods: {
       logout() {
         this.$store.commit('logOut');
-        this.$router.push({ path: '/login' })
+        this.$router.push({path: '/login'})
       }
     },
-    components: {
-    },
+    components: {},
     computed: {
       ...mapState({
         user: 'user'
@@ -164,36 +150,19 @@
       dialog: false,
       drawer: null,
       items: [
-        { icon: 'mdi-contacts', text: 'Contacts' },
-        { icon: 'mdi-history', text: 'Frequently contacted' },
-        { icon: 'mdi-content-copy', text: 'Duplicates' },
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: 'Labels',
-          model: true,
-          children: [
-            { icon: 'mdi-plus', text: 'Create label' },
-          ],
-        },
+        {icon: 'mdi-contacts', text: 'Contacts'},
         {
           icon: 'mdi-chevron-up',
           'icon-alt': 'mdi-chevron-down',
           text: 'More',
           model: false,
           children: [
-            { text: 'Import' },
-            { text: 'Export' },
-            { text: 'Print' },
-            { text: 'Undo changes' },
-            { text: 'Other contacts' },
+            {text: 'Import'},
+            {text: 'Export'},
+            {text: 'Print'},
           ],
         },
-        { icon: 'mdi-cog', text: 'Settings' },
-        { icon: 'mdi-message', text: 'Send feedback' },
-        { icon: 'mdi-help-circle', text: 'Help' },
-        { icon: 'mdi-cellphone-link', text: 'App downloads' },
-        { icon: 'mdi-keyboard', text: 'Go to the old version' },
+        {icon: 'mdi-cog', text: 'Settings'},
       ],
     }),
   };

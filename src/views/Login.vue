@@ -70,7 +70,7 @@
      };
     },
     methods: {
-      async login () {
+      async login() {
         this.errorMessage = '';
 
         try {
@@ -80,7 +80,7 @@
             "mode": "jwt"
           });
           this.$store.commit('loginSucceeded', response.data.data.user, response.data.data.token);
-          this.$router.push({ path: '/' })
+          this.$router.push({path: '/'})
         } catch (err) {
           if (err.response) {
             const resp = err.response;
