@@ -30,3 +30,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 yarn global add @vue/cli
 vue create bula-bauten
 ```
+
+
+
+docker build -t test .
+docker run -it --rm -p 8080:80 test
