@@ -36,6 +36,7 @@ export const apiAuthenticated = async (path) => {
       Authorization: `bearer ${store.state.user._token}`
     }
   };
+  // TODO handle expired tokens
   const resp = await api.get(path, config);
   return resp.data.data;
 }

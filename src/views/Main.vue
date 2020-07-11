@@ -116,7 +116,9 @@
     </v-app-bar>
     <v-main>
       <AnlagenTable :filterText="searchText" :items="anlagen" v-on:item-clicked="openTab" v-if="activeTab === null" />
-      <AnlagenDetail v-if="activeTab !== null" :item="tabs[activeTab]" />
+      <template v-for="item in tabs">
+        <AnlagenDetail v-bind:key="item.id" :hidden="activeTab !== item.id" :item="item" />
+      </template>
     </v-main>
     <Clippy v-if="!clippyDismissed" :showProbability="0.15"/>
   </div>
