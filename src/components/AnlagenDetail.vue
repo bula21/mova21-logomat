@@ -1,12 +1,12 @@
 <template>
-  <div>{{item}}</div>
+  <div>{{ item }}</div>
 </template>
 
 <script>
-  export default {
-    name: 'AnlagenDetail',
-    props: {
-      item: Object,
-    }
-  }
+export default {
+  name: "AnlagenDetail",
+  props: {
+    item: Object,
+  },
+};
 </script>

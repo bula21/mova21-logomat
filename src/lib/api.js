@@ -1,19 +1,19 @@
-import axios from 'axios';
-import store from '../plugins/store'
+import axios from "axios";
+import store from "../plugins/store";
 
 const BASE_URL = "https://log.bula21.ch/_/";
 
 export class ApiError extends Error {
   constructor(axiosError, ...params) {
     // noinspection JSCheckFunctionSignatures
-    super(...params)
+    super(...params);
 
     // Maintains proper stack trace for where our error was thrown (only available on V8)
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, ApiError)
+      Error.captureStackTrace(this, ApiError);
     }
 
-    this.name = 'ApiError';
+    this.name = "ApiError";
 
     this.statusCode = null;
     this.statusText = null;
@@ -45,24 +45,24 @@ export const api = axios.create({
 export const login = async (email, password) => {
   try {
     const response = await api.post("/auth/authenticate", {
-      "email": email,
-      "password": password,
-      "mode": "jwt"
+      email: email,
+      password: password,
+      mode: "jwt",
     });
     const userData = response.data.data.user;
-    userData['_token'] = response.data.data.token;
-    store.commit('loginSucceeded', userData);
+    userData["_token"] = response.data.data.token;
+    store.commit("loginSucceeded", userData);
   } catch (err) {
-    store.commit('loginFailed');
+    store.commit("loginFailed");
     throw new ApiError(err);
   }
-}
+};
 
 export const apiAuthenticated = async (path) => {
   const config = {
     headers: {
-      Authorization: `bearer ${store.state.user._token}`
-    }
+      Authorization: `bearer ${store.state.user._token}`,
+    },
   };
 
   try {
@@ -71,9 +71,9 @@ export const apiAuthenticated = async (path) => {
   } catch (err) {
     if (err.response.status === 401) {
       // TODO refresh token
-      console.log("refresh token")
+      console.log("refresh token");
     } else {
       throw new ApiError(err);
     }
   }
-}
+};

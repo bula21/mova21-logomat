@@ -1,9 +1,9 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Main from '../views/Main.vue';
-import Login from '../views/Login.vue';
-import store from './store';
-import jwt from 'jwt-decode';
+import Vue from "vue";
+import Router from "vue-router";
+import Main from "../views/Main.vue";
+import Login from "../views/Login.vue";
+import store from "./store";
+import jwt from "jwt-decode";
 
 Vue.use(Router);
 
@@ -18,7 +18,7 @@ function loginValid(user) {
 
 function ensureLoggedIn(to, from, next) {
   if (store.state.user === null || !loginValid(store.state.user)) {
-    next('/login');
+    next("/login");
   } else {
     next();
   }
@@ -28,15 +28,15 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'main',
+      path: "/",
+      name: "main",
       component: Main,
-      beforeEnter: ensureLoggedIn
+      beforeEnter: ensureLoggedIn,
     },
     {
-      path: '/login',
-      name: 'login',
+      path: "/login",
+      name: "login",
       component: Login,
     },
-  ]
+  ],
 });

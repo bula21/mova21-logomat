@@ -1,24 +1,10 @@
 <template>
   <v-main>
-    <v-container
-      class="fill-height"
-      fluid
-    >
-      <v-row
-        align="center"
-        justify="center"
-      >
-        <v-col
-          cols="12"
-          sm="8"
-          md="4"
-        >
+    <v-container class="fill-height" fluid>
+      <v-row align="center" justify="center">
+        <v-col cols="12" sm="8" md="4">
           <v-card class="elevation-12">
-            <v-toolbar
-              color="primary"
-              dark
-              flat
-            >
+            <v-toolbar color="primary" dark flat>
               <v-toolbar-title>Login</v-toolbar-title>
             </v-toolbar>
             <v-alert type="error" v-if="errorMessage.length > 0">
@@ -56,26 +42,26 @@
 </template>
 
 <script>
-  import {login} from '@/lib/api.js';
+import { login } from "@/lib/api.js";
 
-  export default {
-    data() {
-      return {
-        errorMessage: '',
-        email: '',
-        password: '',
-     };
-    },
-    methods: {
-      async login() {
-        this.errorMessage = '';
-        try {
-          await login(this.email, this.password);
-          await this.$router.push({path: '/'})
-        } catch (error) {
-          this.errorMessage = error.userMessage();
-        }
+export default {
+  data() {
+    return {
+      errorMessage: "",
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    async login() {
+      this.errorMessage = "";
+      try {
+        await login(this.email, this.password);
+        await this.$router.push({ path: "/" });
+      } catch (error) {
+        this.errorMessage = error.userMessage();
       }
-    }
-  };
+    },
+  },
+};
 </script>
