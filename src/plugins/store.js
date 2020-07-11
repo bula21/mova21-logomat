@@ -17,7 +17,6 @@ export const store = new Vuex.Store({
     : [vuexLocalStorage.plugin],
   state: {
     user: null,
-    clippyDismissed: false,
   },
   mutations: {
     loginSucceeded(state, user) {
@@ -33,9 +32,6 @@ export const store = new Vuex.Store({
     },
     logOut(state) {
       state.user = null;
-    },
-    dismissClippy(state) {
-      state.clippyDismissed = true;
     },
   },
 });

@@ -9,10 +9,6 @@ import clippy from "clippyjs";
 export default {
   name: "Clippy",
   created() {
-    if (this.clippyDismissed === true) {
-      return;
-    }
-
     if (Math.random() >= this.showProbability) {
       return;
     }
@@ -34,7 +30,7 @@ export default {
   methods: {
     clippyAnimateForever() {
       setTimeout(() => this.clippyAnimateForever(), 5000);
-      if (this.clippyDismissed === true || this.clippy === undefined) {
+      if (this.clippy === undefined) {
         return;
       }
       this.clippy.animate();

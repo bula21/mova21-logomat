@@ -134,7 +134,7 @@
         </v-btn>
       </template>
     </v-snackbar>
-    <Clippy v-if="!clippyDismissed" :showProbability="0.15" />
+    <Clippy :showProbability="0.15" />
   </div>
 </template>
 
@@ -155,7 +155,6 @@ export default {
   computed: {
     ...mapState({
       user: "user",
-      clippyDismissed: "clippyDismissed",
     }),
     haveTabs() {
       return Object.keys(this.tabs).length > 0;
