@@ -7,7 +7,7 @@
     >
       <v-list dense>
         <v-list-item
-          @click="showTab(null)"
+          @click="activeTab = null"
           :class="{ 'v-list-item--active': activeTab === null }"
           link
         >
@@ -33,34 +33,28 @@
       </v-list>
 
       <v-divider v-if="haveTabs"></v-divider>
-      <v-subheader v-if="haveTabs">Anlagen-Übersicht</v-subheader>
+      <v-subheader v-if="haveTabs">Anlagen</v-subheader>
 
       <v-list dense>
-        <template v-for="(item, key) in tabs">
-          <v-list-item
-            :key="item.id"
-            link
-            :class="{ 'v-list-item--active': activeTab === item.id }"
-            @click="showTab(item.id)"
-          >
-            <v-list-item-action>
+        <v-list-item-group v-model="activeTab">
+          <v-list-item v-for="item in tabs" :key="item.id">
+            <v-list-item-avatar>
               <v-icon>mdi-castle</v-icon>
-            </v-list-item-action>
+            </v-list-item-avatar>
+
             <v-list-item-content>
-              <v-list-item-title>
-                {{ item.anlagenname }}
-              </v-list-item-title>
+              <v-list-item-title v-text="item.anlagenname"></v-list-item-title>
             </v-list-item-content>
 
             <v-list-item-action>
               <v-btn icon>
-                <v-icon color="grey lighten-1" v-on:click="closeTab(key)"
-                  >mdi-close-circle</v-icon
-                >
+                <v-icon color="grey lighten-1" v-on:click="closeTab(item)">
+                  mdi-close-circle
+                </v-icon>
               </v-btn>
             </v-list-item-action>
           </v-list-item>
-        </template>
+        </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
 
@@ -121,10 +115,10 @@
         v-on:item-clicked="openTab"
         v-if="activeTab === null"
       />
-      <template v-for="item in tabs">
+      <template v-for="(item, i) in tabs">
         <AnlagenDetail
           v-bind:key="item.id"
-          :hidden="activeTab !== item.id"
+          :hidden="activeTab !== i"
           :anlage="item"
           :users="users"
           v-on:api-error="showError"
@@ -177,7 +171,7 @@ export default {
       { icon: "mdi-castle", text: "Alle Anlagen" },
       { icon: "mdi-cog", text: "Einstellungen" },
     ],
-    tabs: {},
+    tabs: [],
     activeTab: null,
   }),
   created() {
@@ -211,27 +205,18 @@ export default {
       }
     },
     openTab(anlage) {
-      if (!(anlage.id in this.tabs)) {
-        this.$set(this.tabs, anlage.id, anlage);
+      const currentIx = this.tabs.findIndex((tab) => tab.id === anlage.id);
+      if (currentIx < 0) {
+        this.tabs.push(anlage);
+        this.activeTab = this.tabs.length - 1;
+      } else {
+        this.activeTab = currentIx;
       }
-      this.showTab(anlage.id);
     },
-    closeTab(anlageId) {
-      const keys = Object.keys(this.tabs);
-      const ix = keys.indexOf(anlageId);
-      this.$delete(this.tabs, anlageId);
-
-      if (keys.length === 1) {
-        return this.showTab(null);
-      }
-
-      if (keys[ix - 1] !== undefined) {
-        return this.showTab(parseInt(keys[ix - 1]));
-      }
-      return this.showTab(parseInt(keys[ix + 1]));
-    },
-    showTab(id) {
-      this.activeTab = id;
+    closeTab(anlage) {
+      const currentIx = this.tabs.findIndex((tab) => tab.id === anlage.id);
+      this.$delete(this.tabs, currentIx);
+      this.activeTab = null;
     },
   },
 };
