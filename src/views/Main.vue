@@ -136,47 +136,27 @@
       >
       </v-data-table>
     </v-main>
+    <Clippy v-if="!clippyDismissed" :showProbability="0.15"/>
   </div>
 </template>
 
 <script>
   import {mapState} from 'vuex';
+  import Clippy from '@/components/Clippy';
   import api from '@/lib/api.js';
 
   export default {
-    methods: {
-      logout() {
-        this.$store.commit('logOut');
-        this.$router.push({path: '/login'})
-      },
-      async apiFetch(path) {
-        const config = {
-          headers: {
-            Authorization: `bearer ${this.user._token}`
-          }
-        };
-        try {
-          const resp = await api.get(path, config);
-          return resp.data.data;
-        } catch (err) {
-          this.logout()
-          throw err;
-        }
-      },
-      fetchData() {
-        this.apiFetch("/items/anlage")
-          .then((data) => {
-            this.anlagen = data;
-          });
-      },
+    name: "Main",
+    components: {
+      Clippy
     },
     created() {
       this.fetchData()
     },
-    components: {},
     computed: {
       ...mapState({
         user: 'user',
+        clippyDismissed: 'clippyDismissed'
       })
     },
     data: () => ({
@@ -205,5 +185,31 @@
         {icon: 'mdi-cog', text: 'Settings'},
       ],
     }),
+    methods: {
+      logout() {
+        this.$store.commit('logOut');
+        this.$router.push({path: '/login'})
+      },
+      async apiFetch(path) {
+        const config = {
+          headers: {
+            Authorization: `bearer ${this.user._token}`
+          }
+        };
+        try {
+          const resp = await api.get(path, config);
+          return resp.data.data;
+        } catch (err) {
+          this.logout()
+          throw err;
+        }
+      },
+      fetchData() {
+        this.apiFetch("/items/anlage")
+          .then((data) => {
+            this.anlagen = data;
+          });
+      },
+    },
   };
 </script>

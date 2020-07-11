@@ -15,6 +15,7 @@ export default new Vuex.Store({
   plugins: debug ? [createLogger(), vuexLocalStorage.plugin] : [vuexLocalStorage.plugin],
   state: {
     user: null,
+    clippyDismissed: false
   },
   mutations: {
     loginSucceeded(state, user) {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     logOut(state) {
       state.user = null;
+    },
+    dismissClippy(state) {
+      state.clippyDismissed = true;
     }
   }
 });

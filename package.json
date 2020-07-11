@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "clippyjs": "^0.0.3",
     "core-js": "^3.6.5",
     "jwt-decode": "^2.2.0",
     "vue": "^2.6.11",
