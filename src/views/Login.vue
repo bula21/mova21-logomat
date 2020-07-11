@@ -71,9 +71,9 @@
         this.errorMessage = '';
         try {
           await login(this.email, this.password);
-          this.$router.push({path: '/'})
-        } catch (msg) {
-          this.errorMessage = msg;
+          await this.$router.push({path: '/'})
+        } catch (error) {
+          this.errorMessage = error.userMessage();
         }
       }
     }

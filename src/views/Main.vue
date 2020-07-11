@@ -120,6 +120,22 @@
         <AnlagenDetail v-bind:key="item.id" :hidden="activeTab !== item.id" :item="item" />
       </template>
     </v-main>
+    <v-snackbar
+      :value="errorText.length > 0"
+      color="error"
+      :timeout="-1"
+    >
+      {{ errorText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          v-bind="attrs"
+          @click="dismissError()"
+        >
+          Schliessen
+        </v-btn>
+      </template>
+    </v-snackbar>
     <Clippy v-if="!clippyDismissed" :showProbability="0.15"/>
   </div>
 </template>
@@ -149,7 +165,9 @@
     },
     data: () => ({
       anlagen: [],
+      users: [],
       searchText: "",
+      errorText: "",
       drawer: null,
       items: [
         {icon: 'mdi-castle', text: 'Alle Anlagen'},
@@ -159,18 +177,27 @@
       activeTab: null
     }),
     created() {
-      this.fetchAnlagen()
+      this.fetchData()
     },
     methods: {
+      dismissError() {
+        this.errorText = "";
+      },
+      showError(message) {
+        this.errorText = message;
+      },
       logout() {
         this.$store.commit('logOut');
         this.$router.push({path: '/login'})
       },
-      async fetchAnlagen() {
+      async fetchData() {
         try {
-          this.anlagen = await apiAuthenticated("/items/anlage");
+          const anlagen = await apiAuthenticated("/items/anlage");
+          const users = await apiAuthenticated("/users");
+          this.anlagen = anlagen;
+          this.users = users;
         } catch (err) {
-          console.log(err) // TODO
+          this.showError(err.userMessage())
         }
       },
       openTab(anlage) {

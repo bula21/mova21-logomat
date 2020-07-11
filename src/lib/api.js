@@ -3,6 +3,41 @@ import store from '../plugins/store'
 
 const BASE_URL = "https://log.bula21.ch/_/";
 
+export class ApiError extends Error {
+  constructor(axiosError, ...params) {
+    // noinspection JSCheckFunctionSignatures
+    super(...params)
+
+    // Maintains proper stack trace for where our error was thrown (only available on V8)
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, ApiError)
+    }
+
+    this.name = 'ApiError';
+
+    this.statusCode = null;
+    this.statusText = null;
+    if (axiosError.response) {
+      const resp = axiosError.response;
+
+      this.statusCode = resp.request.status;
+      this.statusText = resp.request.statusText;
+      this.message = resp.data.error.message;
+    } else if (axiosError.request) {
+      this.message = "Konnte den Server nicht erreichen";
+    } else {
+      this.message = "Unbekannter Fehler";
+    }
+  }
+
+  userMessage() {
+    if (this.statusCode === null) {
+      return this.message;
+    }
+    return `${this.statusCode} ${this.statusText} - ${this.message}`;
+  }
+}
+
 export const api = axios.create({
   baseURL: BASE_URL,
 });
@@ -19,14 +54,7 @@ export const login = async (email, password) => {
     store.commit('loginSucceeded', userData);
   } catch (err) {
     store.commit('loginFailed');
-    if (err.response) {
-      const resp = err.response;
-      throw `${resp.request.status}: ${err.response.data.error.message}`;
-    } else if (err.request) {
-      throw 'Konnte den Server nicht erreichen';
-    } else {
-      throw 'Unbekannter Fehler';
-    }
+    throw new ApiError(err);
   }
 }
 
@@ -36,7 +64,16 @@ export const apiAuthenticated = async (path) => {
       Authorization: `bearer ${store.state.user._token}`
     }
   };
-  // TODO handle expired tokens
-  const resp = await api.get(path, config);
-  return resp.data.data;
+
+  try {
+    const resp = await api.get(path, config);
+    return resp.data.data;
+  } catch (err) {
+    if (err.response.status === 401) {
+      // TODO refresh token
+      console.log("refresh token")
+    } else {
+      throw new ApiError(err);
+    }
+  }
 }
