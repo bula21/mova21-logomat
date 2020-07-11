@@ -198,16 +198,24 @@ export default {
       }
     },
     openTab(anlage) {
-      if (anlage.id in this.tabs) {
-        return;
+      if (!(anlage.id in this.tabs)) {
+        this.$set(this.tabs, anlage.id, anlage);
       }
-      this.$set(this.tabs, anlage.id, anlage);
       this.showTab(anlage.id);
     },
     closeTab(anlageId) {
+      const keys = Object.keys(this.tabs);
+      const ix = keys.indexOf(anlageId);
       this.$delete(this.tabs, anlageId);
-      // TODO show previous OR null
-      this.showTab(null);
+
+      if (keys.length === 1) {
+        return this.showTab(null);
+      }
+
+      if (keys[ix - 1] !== undefined) {
+        return this.showTab(parseInt(keys[ix - 1]));
+      }
+      return this.showTab(parseInt(keys[ix + 1]));
     },
     showTab(id) {
       this.activeTab = id;
