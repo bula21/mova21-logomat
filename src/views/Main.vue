@@ -105,6 +105,18 @@
           <v-btn icon
                  v-bind="attrs"
                  v-on="on"
+                 target="_blank"
+                 href="https://github.com/jo-m/logomat-frontend">
+            <v-icon>mdi-github</v-icon>
+          </v-btn>
+        </template>
+        <span>View the source code</span>
+      </v-tooltip>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon
+                 v-bind="attrs"
+                 v-on="on"
                  v-on:click="logout">
             <v-icon>mdi-logout</v-icon>
           </v-btn>
