@@ -65,12 +65,20 @@ const refreshToken = async () => {
   store.commit("updateToken", response.data.data.token);
 };
 
-export const apiAuthenticated = async (path, tryRefresh = true) => {
+export const apiAuthenticated = async (
+  path,
+  query = null,
+  tryRefresh = true
+) => {
   const config = {
     headers: {
       Authorization: `bearer ${store.state.user._token}`,
     },
   };
+
+  if (query !== null) {
+    config.params = query;
+  }
 
   try {
     const resp = await api.get(path, config);
@@ -79,7 +87,7 @@ export const apiAuthenticated = async (path, tryRefresh = true) => {
     if (err.response.status === 401) {
       if (tryRefresh) {
         await refreshToken();
-        return apiAuthenticated(path, false);
+        return apiAuthenticated(path, query, false);
       } else {
         throw new ApiError(err);
       }
@@ -87,4 +95,14 @@ export const apiAuthenticated = async (path, tryRefresh = true) => {
       throw new ApiError(err);
     }
   }
+};
+
+// https://docs.directus.io/api/query/filter.html
+export const filter = (fieldName, op, value) => {
+  if (Array.isArray(value)) {
+    value = value.join(",");
+  }
+  return {
+    [`filter[${fieldName}][${op}]`]: value,
+  };
 };

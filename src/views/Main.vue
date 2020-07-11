@@ -76,13 +76,17 @@
       </v-avatar>
       <v-toolbar-title style="width: 300px;" class="ml-0 pl-4">
         <span class="hidden-sm-and-down">Logomat</span>
+        <span v-if="activeTab !== null" class="hidden-sm-and-down"
+          >: {{ tabs[activeTab].anlagenname }}</span
+        >
       </v-toolbar-title>
       <v-text-field
+        v-if="activeTab === null"
         flat
         solo-inverted
         hide-details
         prepend-inner-icon="mdi-magnify"
-        label="Search"
+        label="Suche Anlagen"
         class="hidden-sm-and-down"
         v-model="searchText"
       ></v-text-field>
@@ -121,7 +125,9 @@
         <AnlagenDetail
           v-bind:key="item.id"
           :hidden="activeTab !== item.id"
-          :item="item"
+          :anlage="item"
+          :users="users"
+          v-on:api-error="showError"
         />
       </template>
     </v-main>
@@ -143,25 +149,8 @@ import { mapState } from "vuex";
 import Clippy from "@/components/Clippy";
 import AnlagenTable from "@/components/AnlagenTable";
 import AnlagenDetail from "@/components/AnlagenDetail";
-import { apiAuthenticated } from "@/lib/api.js";
-
-function joinInPlace(left, right, leftPropName) {
-  const rightLookup = right.reduce((obj, item) => {
-    obj[item.id] = item;
-    return obj;
-  }, {});
-
-  for (const obj of left) {
-    const rightId = obj[leftPropName];
-    if (rightId !== undefined && rightId !== null) {
-      obj[leftPropName] = rightLookup[rightId];
-    } else {
-      obj[leftPropName] = null;
-    }
-  }
-
-  return left;
-}
+import { apiAuthenticated, ApiError } from "@/lib/api.js";
+import { joinInPlace } from "@/lib/join.js";
 
 export default {
   name: "Main",
@@ -211,9 +200,14 @@ export default {
         const users = await apiAuthenticated("/users");
         joinInPlace(anlagen, users, "kontaktperson");
         joinInPlace(anlagen, users, "owner");
-        this.anlagen = anlagen;
+        this.users = Object.freeze(users);
+        this.anlagen = Object.freeze(anlagen);
       } catch (err) {
-        this.showError(err.userMessage());
+        if (err instanceof ApiError) {
+          this.showError(err.userMessage());
+        } else {
+          throw err;
+        }
       }
     },
     openTab(anlage) {
