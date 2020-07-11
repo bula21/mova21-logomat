@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Main from "../views/Main.vue";
 import Login from "../views/Login.vue";
 import store from "./store";
 import jwt from "jwt-decode";
@@ -28,15 +27,15 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
-      name: "main",
-      component: Main,
-      beforeEnter: ensureLoggedIn,
-    },
-    {
       path: "/login",
       name: "login",
       component: Login,
+    },
+    {
+      path: "/",
+      name: "main",
+      component: () => import("../views/Main.vue"),
+      beforeEnter: ensureLoggedIn,
     },
   ],
 });
