@@ -15,9 +15,9 @@
   >
     <template v-slot:item="{ item }">
       <tr @click="$emit('item-clicked', item)" style="cursor: pointer;">
-        <td>{{ item.anlagenname}}</td>
+        <td>{{ item.anlagenname }}</td>
         <td class="truncate-ellipsis" :title="item.beschreibung">{{ item.beschreibung }}</td>
-        <td>{{ item.kontaktperson}}</td>
+        <td>{{ item.kontaktperson }}</td>
         <td>
           <a :href="item.avanti_link" target="_blank" v-if="item.avanti_link" v-on:click.stop>
             Link zu Avanti

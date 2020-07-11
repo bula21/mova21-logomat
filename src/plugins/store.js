@@ -10,7 +10,7 @@ const vuexLocalStorage = new VuexPersist({
 
 const debug = process.env.NODE_ENV !== 'production';
 
-export default new Vuex.Store({
+export const store = new Vuex.Store({
   strict: debug,
   plugins: debug ? [createLogger(), vuexLocalStorage.plugin] : [vuexLocalStorage.plugin],
   state: {
@@ -32,3 +32,5 @@ export default new Vuex.Store({
     }
   }
 });
+
+export default store;

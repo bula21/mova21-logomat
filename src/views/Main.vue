@@ -127,7 +127,7 @@
   import Clippy from '@/components/Clippy';
   import AnlagenTable from '@/components/AnlagenTable';
   import AnlagenDetail from '@/components/AnlagenDetail';
-  import api from '@/lib/api.js';
+  import { apiAuthenticated } from '@/lib/api.js';
 
   export default {
     name: "Main",
@@ -135,9 +135,6 @@
       Clippy,
       AnlagenTable,
       AnlagenDetail
-    },
-    created() {
-      this.fetchAnlagen()
     },
     computed: {
       ...mapState({
@@ -159,30 +156,20 @@
       tabs: {},
       activeTab: null
     }),
+    created() {
+      this.fetchAnlagen()
+    },
     methods: {
       logout() {
         this.$store.commit('logOut');
         this.$router.push({path: '/login'})
       },
-      async apiFetch(path) {
-        const config = {
-          headers: {
-            Authorization: `bearer ${this.user._token}`
-          }
-        };
+      async fetchAnlagen() {
         try {
-          const resp = await api.get(path, config);
-          return resp.data.data;
+          this.anlagen = await apiAuthenticated("/items/anlage");
         } catch (err) {
-          this.logout()
-          throw err;
+          console.log(err) // TODO
         }
-      },
-      fetchAnlagen() {
-        this.apiFetch("/items/anlage")
-          .then((data) => {
-            this.anlagen = data;
-          });
       },
       openTab(anlage) {
         if (anlage.id in this.tabs) {

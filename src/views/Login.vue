@@ -56,7 +56,7 @@
 </template>
 
 <script>
-  import api from '@/lib/api.js';
+  import {login} from '@/lib/api.js';
 
   export default {
     data() {
@@ -69,27 +69,11 @@
     methods: {
       async login() {
         this.errorMessage = '';
-
         try {
-          const response = await api.post("/auth/authenticate", {
-            "email": this.email,
-            "password": this.password,
-            "mode": "jwt"
-          });
-          const userData = response.data.data.user;
-          userData['_token'] = response.data.data.token;
-          this.$store.commit('loginSucceeded', userData);
+          await login(this.email, this.password);
           this.$router.push({path: '/'})
-        } catch (err) {
-          if (err.response) {
-            const resp = err.response;
-            this.errorMessage = `${resp.request.status}: ${err.response.data.error.message}`;
-          } else if (err.request) {
-            this.errorMessage = 'Konnte den Server nicht erreichen';
-          } else {
-            this.errorMessage = 'Unbekannter Fehler';
-          }
-          this.$store.commit('loginFailed');
+        } catch (msg) {
+          this.errorMessage = msg;
         }
       }
     }
