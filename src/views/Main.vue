@@ -12,7 +12,7 @@
           link
         >
           <v-list-item-action>
-            <v-icon>mdi-castle</v-icon>
+            <v-icon>mdi-format-list-bulleted-type</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>
@@ -145,6 +145,24 @@ import AnlagenTable from "@/components/AnlagenTable";
 import AnlagenDetail from "@/components/AnlagenDetail";
 import { apiAuthenticated } from "@/lib/api.js";
 
+function joinInPlace(left, right, leftPropName) {
+  const rightLookup = right.reduce((obj, item) => {
+    obj[item.id] = item;
+    return obj;
+  }, {});
+
+  for (const obj of left) {
+    const rightId = obj[leftPropName];
+    if (rightId !== undefined && rightId !== null) {
+      obj[leftPropName] = rightLookup[rightId];
+    } else {
+      obj[leftPropName] = null;
+    }
+  }
+
+  return left;
+}
+
 export default {
   name: "Main",
   components: {
@@ -191,8 +209,9 @@ export default {
       try {
         const anlagen = await apiAuthenticated("/items/anlage");
         const users = await apiAuthenticated("/users");
+        joinInPlace(anlagen, users, "kontaktperson");
+        joinInPlace(anlagen, users, "owner");
         this.anlagen = anlagen;
-        this.users = users;
       } catch (err) {
         this.showError(err.userMessage());
       }

@@ -18,7 +18,12 @@
         <td class="truncate-ellipsis" :title="item.beschreibung">
           {{ item.beschreibung }}
         </td>
-        <td>{{ item.kontaktperson }}</td>
+        <td>
+          <span v-if="item.kontaktperson"
+            >{{ item.kontaktperson.first_name }}
+            {{ item.kontaktperson.last_name }}</span
+          >
+        </td>
         <td>
           <a
             :href="item.avanti_link"
