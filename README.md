@@ -1,37 +1,23 @@
 # Logomat Frontend - Bula Bauten Übersicht
 
-## Project setup
-```
-yarn install
-```
+## Dev setup
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
+    yarn install
+    yarn serve
+    yarn lint
 
 ## Initial setup
 
-```bash
-yarn global add @vue/cli
-vue create bula-bauten
-```
+    yarn global add @vue/cli
+    vue create logomat-frontend
 
+## Docker build
 
+    docker build -t test .
+    docker run -it --rm -p 8080:80 test
 
-docker build -t test .
-docker run -it --rm -p 8080:80 test
+## Deployment
+
+    ./deploy.sh
+
+Check version deployed: <https://logomat.verteilt.com/version.txt>
