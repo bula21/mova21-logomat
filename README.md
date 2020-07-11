@@ -1,4 +1,4 @@
-# Bula Bauten übersicht
+# Logomat Frontend - Bula Bauten Übersicht
 
 ## Project setup
 ```
