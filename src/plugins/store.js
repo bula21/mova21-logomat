@@ -19,7 +19,6 @@ export default new Vuex.Store({
   },
   mutations: {
     loginSucceeded(state, user) {
-      console.log(user)
       state.user = user;
     },
     loginFailed(state) {

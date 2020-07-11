@@ -6,69 +6,59 @@
       app
     >
       <v-list dense>
-        <template v-for="item in items">
-          <v-row
-            v-if="item.heading"
-            :key="item.heading"
-            align="center"
-          >
-            <v-col cols="6">
-              <v-subheader v-if="item.heading">
-                {{ item.heading }}
-              </v-subheader>
-            </v-col>
-            <v-col
-              cols="6"
-              class="text-center"
-            >
-              <a
-                href="#!"
-                class="body-2 black--text"
-              >EDIT</a>
-            </v-col>
-          </v-row>
-          <v-list-group
-            v-else-if="item.children"
-            :key="item.text"
-            v-model="item.model"
-            :prepend-icon="item.model ? item.icon : item['icon-alt']"
-            append-icon=""
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ item.text }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </template>
-            <v-list-item
-              v-for="(child, i) in item.children"
-              :key="i"
-              link
-            >
-              <v-list-item-action v-if="child.icon">
-                <v-icon>{{ child.icon }}</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ child.text }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-group>
+        <v-list-item
+          @click="showTab(null)"
+          :class="{'v-list-item--active': activeTab === null}"
+          link
+        >
+          <v-list-item-action>
+            <v-icon>mdi-castle</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              Alle Anlagen
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+        >
+          <v-list-item-action>
+            <v-icon>mdi-cog</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              Einstellungen
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <v-divider v-if="haveTabs"></v-divider>
+      <v-subheader v-if="haveTabs">Anlagen-Übersicht</v-subheader>
+
+      <v-list dense>
+        <template v-for="(item, key) in tabs">
           <v-list-item
-            v-else
-            :key="item.text"
+            :key="item.id"
             link
+            :class="{'v-list-item--active': activeTab === item.id}"
+            @click="showTab(item.id)"
           >
             <v-list-item-action>
-              <v-icon>{{ item.icon }}</v-icon>
+              <v-icon>mdi-castle</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>
-                {{ item.text }}
+                {{item.anlagenname}}
               </v-list-item-title>
             </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn icon>
+                <v-icon color="grey lighten-1" v-on:click="closeTab(key)">mdi-close-circle</v-icon>
+              </v-btn>
+            </v-list-item-action>
           </v-list-item>
         </template>
       </v-list>
@@ -81,7 +71,7 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-avatar :tile="true" size="150px" item>
+      <v-avatar :tile="true" width="150px" item>
         <img :src="require('@/assets/logo.svg')" alt="Mova Logo">
       </v-avatar>
       <v-toolbar-title
@@ -125,16 +115,8 @@
       </v-tooltip>
     </v-app-bar>
     <v-main>
-      <br>
-      <v-data-table
-        :headers="headers"
-        :items="anlagen"
-        :search="searchText"
-        item-key="id"
-        class="elevation-1"
-        :items-per-page="25"
-      >
-      </v-data-table>
+      <AnlagenTable :filterText="searchText" :items="anlagen" v-on:item-clicked="openTab" v-if="activeTab === null" />
+      <AnlagenDetail v-if="activeTab !== null" :item="tabs[activeTab]" />
     </v-main>
     <Clippy v-if="!clippyDismissed" :showProbability="0.15"/>
   </div>
@@ -143,47 +125,39 @@
 <script>
   import {mapState} from 'vuex';
   import Clippy from '@/components/Clippy';
+  import AnlagenTable from '@/components/AnlagenTable';
+  import AnlagenDetail from '@/components/AnlagenDetail';
   import api from '@/lib/api.js';
 
   export default {
     name: "Main",
     components: {
-      Clippy
+      Clippy,
+      AnlagenTable,
+      AnlagenDetail
     },
     created() {
-      this.fetchData()
+      this.fetchAnlagen()
     },
     computed: {
       ...mapState({
         user: 'user',
         clippyDismissed: 'clippyDismissed'
-      })
+      }),
+      haveTabs() {
+        return Object.keys(this.tabs).length > 0
+      }
     },
     data: () => ({
       anlagen: [],
       searchText: "",
       drawer: null,
-      headers: [
-        {text: "Anlagenname", value: "anlagenname", filterable: true},
-        {text: "Beschreibung", value: "beschreibung", filterable: true},
-        {text: "Kontaktperson", value: "kontaktperson"},
-        {text: "Avanti", value: "avanti_link"},
-      ],
       items: [
-        {icon: 'mdi-contacts', text: 'Contacts'},
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: 'More',
-          model: false,
-          children: [
-            {text: 'Import'},
-            {text: 'Export'},
-            {text: 'Print'},
-          ],
-        },
-        {icon: 'mdi-cog', text: 'Settings'},
+        {icon: 'mdi-castle', text: 'Alle Anlagen'},
+        {icon: 'mdi-cog', text: 'Einstellungen'},
       ],
+      tabs: {},
+      activeTab: null
     }),
     methods: {
       logout() {
@@ -204,12 +178,27 @@
           throw err;
         }
       },
-      fetchData() {
+      fetchAnlagen() {
         this.apiFetch("/items/anlage")
           .then((data) => {
             this.anlagen = data;
           });
       },
+      openTab(anlage) {
+        if (anlage.id in this.tabs) {
+          return;
+        }
+        this.$set(this.tabs, anlage.id, anlage)
+        this.showTab(anlage.id)
+      },
+      closeTab(anlageId) {
+        this.$delete(this.tabs, anlageId)
+        // TODO show previous OR null
+        this.showTab(null)
+      },
+      showTab(id) {
+        this.activeTab = id
+      }
     },
   };
 </script>
