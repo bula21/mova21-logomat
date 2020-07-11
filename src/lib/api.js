@@ -58,7 +58,14 @@ export const login = async (email, password) => {
   }
 };
 
-export const apiAuthenticated = async (path) => {
+const refreshToken = async () => {
+  const response = await api.post("/auth/refresh", {
+    token: store.state.user._token,
+  });
+  store.commit("updateToken", response.data.data.token);
+};
+
+export const apiAuthenticated = async (path, tryRefresh = true) => {
   const config = {
     headers: {
       Authorization: `bearer ${store.state.user._token}`,
@@ -70,8 +77,12 @@ export const apiAuthenticated = async (path) => {
     return resp.data.data;
   } catch (err) {
     if (err.response.status === 401) {
-      // TODO refresh token
-      console.log("refresh token");
+      if (tryRefresh) {
+        await refreshToken();
+        return apiAuthenticated(path, false);
+      } else {
+        throw new ApiError(err);
+      }
     } else {
       throw new ApiError(err);
     }

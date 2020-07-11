@@ -23,6 +23,11 @@ export const store = new Vuex.Store({
     loginSucceeded(state, user) {
       state.user = user;
     },
+    updateToken(state, token) {
+      if (state.user !== null) {
+        state.user["_token"] = token;
+      }
+    },
     loginFailed(state) {
       state.user = null;
     },
