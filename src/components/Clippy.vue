@@ -13,11 +13,26 @@ export default {
       return;
     }
 
-    clippy.load("Clippy", (agent) => {
+    clippy.load("Clippy", (clippy) => this.clippyLoaded(clippy));
+  },
+  methods: {
+    clippyClicked() {
+      window.open("https://www.youtube.com/watch?v=xfr64zoBTAQ", "_blank");
+    },
+    clippyLoaded(clippy) {
       // disable sounds
-      agent._animator._playSound = () => {};
+      clippy._animator._playSound = () => {};
 
-      this.clippy = agent;
+      this.clippy = clippy;
+
+      // register click handlers
+      document
+        .querySelector("div.clippy")
+        .addEventListener("click", this.clippyClicked);
+      document
+        .querySelector("div.clippy-balloon")
+        .addEventListener("click", this.clippyClicked);
+
       setTimeout(() => {
         this.clippy.show();
         this.clippy.speak(
@@ -25,9 +40,7 @@ export default {
         );
       }, 0);
       setTimeout(() => this.clippyAnimateForever(), 10000);
-    });
-  },
-  methods: {
+    },
     clippyAnimateForever() {
       setTimeout(() => this.clippyAnimateForever(), 5000);
       if (this.clippy === undefined) {

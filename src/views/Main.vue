@@ -116,7 +116,7 @@
         v-if="activeTab === null"
       />
       <template v-for="(item, i) in tabs">
-        <AnlagenDetail
+        <Anlage
           v-bind:key="item.id"
           :hidden="activeTab !== i"
           :anlage="item"
@@ -142,7 +142,7 @@
 import { mapState } from "vuex";
 import Clippy from "@/components/Clippy";
 import AnlagenTable from "@/components/AnlagenTable";
-import AnlagenDetail from "@/components/AnlagenDetail";
+import Anlage from "@/components/Anlage";
 import { apiAuthenticated, ApiError } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
 
@@ -151,7 +151,7 @@ export default {
   components: {
     Clippy,
     AnlagenTable,
-    AnlagenDetail,
+    Anlage,
   },
   computed: {
     ...mapState({
@@ -193,7 +193,6 @@ export default {
         const anlagen = await apiAuthenticated("/items/anlage");
         const users = await apiAuthenticated("/users");
         joinInPlace(anlagen, users, "kontaktperson");
-        joinInPlace(anlagen, users, "owner");
         this.users = Object.freeze(users);
         this.anlagen = Object.freeze(anlagen);
       } catch (err) {

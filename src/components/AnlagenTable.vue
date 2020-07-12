@@ -19,20 +19,10 @@
           {{ item.beschreibung }}
         </td>
         <td>
-          <span v-if="item.kontaktperson"
-            >{{ item.kontaktperson.first_name }}
-            {{ item.kontaktperson.last_name }}</span
-          >
+          <Person :item="item.kontaktperson" />
         </td>
         <td>
-          <a
-            :href="item.avanti_link"
-            target="_blank"
-            v-if="item.avanti_link"
-            v-on:click.stop
-          >
-            Link zu Avanti
-          </a>
+          <AvantiLink :item="item.avanti_link" />
         </td>
       </tr>
     </template>
@@ -40,6 +30,9 @@
 </template>
 
 <script>
+import Person from "@/components/Person";
+import AvantiLink from "@/components/AvantiLink";
+
 export default {
   name: "AnlagenTable",
   props: {
@@ -51,6 +44,10 @@ export default {
       type: String,
       default: () => "",
     },
+  },
+  components: {
+    AvantiLink,
+    Person,
   },
 };
 </script>
