@@ -56,13 +56,24 @@
           </DescriptionTable>
         </v-card>
 
+        <br />
+        <hr />
+        <br />
+
         <div v-for="projekt in projekte" v-bind:key="projekt.id">
           <Projekt :projekt="projekt"></Projekt>
+
+          <br />
 
           <v-data-iterator
             :items="filterByProp(objekte, 'projekt', projekt.id)"
             hide-default-footer
           >
+            <template v-slot:no-data>
+              <v-alert color="#ffbbbb">
+                Keine Objekte
+              </v-alert>
+            </template>
             <template v-slot:default="props">
               <v-row>
                 <v-col
@@ -83,6 +94,11 @@
             :items="filterByProp(dienstleistungen, 'projekte', projekt.id)"
             hide-default-footer
           >
+            <template v-slot:no-data
+              ><v-alert color="#ffbbbb">
+                Keine Dienstleistungen
+              </v-alert></template
+            >
             <template v-slot:default="props">
               <v-row>
                 <v-col
@@ -98,6 +114,9 @@
               </v-row>
             </template>
           </v-data-iterator>
+
+          <hr />
+          <br />
         </div>
       </v-col>
     </v-row>
