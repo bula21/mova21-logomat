@@ -1,7 +1,29 @@
+<style>
+#container {
+  padding-top: 0;
+}
+
+.content.large {
+  margin-left: 30%;
+  padding-top: 20px;
+}
+
+.overview.large {
+  border-right: solid 1px #ccc;
+  height: 100%;
+  position: fixed;
+  width: 30%;
+}
+</style>
+
 <template>
-  <v-container fluid>
-    <v-row no-gutters>
-      <v-col :cols="3">
+  <v-container fluid id="container">
+    <v-row>
+      <v-col
+        :cols="12"
+        lg="3"
+        :class="{ large: $vuetify.breakpoint.lg, overview: true }"
+      >
         <v-list dense>
           <v-list-item>
             <v-list-item-icon>
@@ -41,7 +63,11 @@
         </v-list>
       </v-col>
 
-      <v-col :cols="9">
+      <v-col
+        :cols="12"
+        lg="9"
+        :class="{ large: $vuetify.breakpoint.lg, content: true }"
+      >
         <v-card>
           <DescriptionTable
             :item="anlage"
