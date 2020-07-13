@@ -17,6 +17,7 @@ export const store = new Vuex.Store({
     : [vuexLocalStorage.plugin],
   state: {
     user: null,
+    hideEmpty: false,
   },
   mutations: {
     loginSucceeded(state, user) {
