@@ -25,7 +25,7 @@
         :class="{ large: $vuetify.breakpoint.lg, overview: true }"
       >
         <v-list dense>
-          <v-list-item>
+          <v-list-item ripple style="cursor: pointer;" @click="scrollTo('top')">
             <v-list-item-icon>
               <v-icon>mdi-castle</v-icon>
             </v-list-item-icon>
@@ -36,27 +36,19 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item v-for="projekt in projekte" :key="projekt.id">
+          <v-list-item
+            v-for="projekt in projekte"
+            :key="projekt.id"
+            ripple
+            style="cursor: pointer;"
+            @click="scrollTo(`projekt-${projekt.id}`)"
+          >
             <v-list-item-icon>
               <v-icon>mdi-home-group</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title
                 v-text="projekt.projektname"
-              ></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item
-            v-for="dienstleistung in dienstleistungen"
-            :key="dienstleistung.id"
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-power-plug-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title
-                v-text="dienstleistung.name_dienstleistung"
               ></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -68,7 +60,7 @@
         lg="9"
         :class="{ large: $vuetify.breakpoint.lg, content: true }"
       >
-        <v-card>
+        <v-card ref="top">
           <DescriptionTable
             :item="anlage"
             :props="[
@@ -86,7 +78,11 @@
         <hr />
         <br />
 
-        <div v-for="projekt in projekte" v-bind:key="projekt.id">
+        <div
+          v-for="projekt in projekte"
+          v-bind:key="projekt.id"
+          :ref="`projekt-${projekt.id}`"
+        >
           <Projekt :projekt="projekt"></Projekt>
 
           <br />
@@ -175,6 +171,14 @@ export default {
     dienstleistungen: [],
   }),
   methods: {
+    scrollTo(selector) {
+      const target = this.$refs[selector];
+      if (Array.isArray(target)) {
+        this.$vuetify.goTo(target[0]);
+      } else {
+        this.$vuetify.goTo(target);
+      }
+    },
     filterByProp: (objects, propName, propValue) =>
       objects.filter((obj) => obj[propName] === propValue),
     async fetchData() {
