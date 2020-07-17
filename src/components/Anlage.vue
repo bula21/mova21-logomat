@@ -174,9 +174,9 @@ export default {
     scrollTo(selector) {
       const target = this.$refs[selector];
       if (Array.isArray(target)) {
-        this.$vuetify.goTo(target[0]);
+        this.$vuetify.goTo(target[0], {duration: 0});
       } else {
-        this.$vuetify.goTo(target);
+        this.$vuetify.goTo(target, {duration: 0});
       }
     },
     filterByProp: (objects, propName, propValue) =>
