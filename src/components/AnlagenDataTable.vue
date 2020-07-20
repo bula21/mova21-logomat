@@ -3,10 +3,10 @@
     :headers="[
       { text: 'Name', value: 'anlagenname', filterable: true },
       { text: 'Beschreibung', value: 'beschreibung', filterable: true },
-      { text: 'Kontaktperson', value: 'kontaktperson' },
-      { text: 'Link zu Avanti', value: 'avanti_link' },
+      { text: 'Kontaktperson', value: 'kontaktperson', filterable: false },
+      { text: 'Link zu Avanti', value: 'avanti_link', filterable: false },
     ]"
-    :items="items"
+    :items="itemsFilteredOnlyMine"
     :search="filterText"
     item-key="id"
     class="elevation-1"
@@ -32,6 +32,7 @@
 <script>
 import Person from "@/components/Person";
 import AvantiLink from "@/components/AvantiLink";
+import { mapState } from "vuex";
 
 export default {
   name: "AnlagenDataTable",
@@ -43,6 +44,32 @@ export default {
     filterText: {
       type: String,
       default: () => "",
+    },
+    filterOnlyMine: {
+      type: Boolean,
+      default: () => false,
+    },
+  },
+  computed: {
+    itemsFilteredOnlyMine() {
+      if (!this.filterOnlyMine) {
+        return this.items;
+      }
+      return this.items.filter((item) => item.id === this.user.id);
+    },
+    ...mapState({
+      user: "user",
+    }),
+  },
+  methods: {
+    filterByKontaktperson(person, search) {
+      if (person === null || search.length === 0) {
+        return true;
+      }
+      const name = `${person.first_name} ${person.last_name}`.toLowerCase();
+      const found = name.indexOf(search.toLowerCase()) >= 0;
+      console.log(name, search, found);
+      return found;
     },
   },
   components: {

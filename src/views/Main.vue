@@ -84,6 +84,13 @@
         class="hidden-sm-and-down"
         v-model="searchText"
       ></v-text-field>
+      <v-checkbox
+        v-model="searchOnlyMine"
+        flat
+        solo-inverted
+        hide-details
+        label="Nur Meine"
+      />
       <v-spacer></v-spacer>
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -111,6 +118,7 @@
     <v-main>
       <AnlagenDataTable
         :filterText="searchText"
+        :filterOnlyMine="searchOnlyMine"
         :items="anlagen"
         v-on:item-clicked="openTab"
         v-if="activeTab === null"
@@ -167,6 +175,7 @@ export default {
     users: [],
     fields: {},
     searchText: "",
+    searchOnlyMine: false,
     errorText: "",
     drawer: null,
     items: [
