@@ -6,6 +6,7 @@
     <DescriptionTable
       :item="projekt"
       :props="[
+        { prop: 'status' },
         { prop: 'beschreibung' },
         {
           prop: 'auftraggeber',
@@ -16,13 +17,13 @@
           prop: 'verantwortliche_person_betrieb',
           person: true,
         },
+        { prop: 'ressort_betrieb' },
         { prop: 'beginn_nutzung' },
+        { prop: 'beginn_nutzung_zeit' },
         { prop: 'ende_nutzung' },
+        { prop: 'ende_nutzung_zeit' },
         { prop: 'abnahmeart' },
         { prop: 'abnahmedatum' },
-        { prop: 'ressort_betrieb' },
-        { prop: 'beginn_nutzung_zeit' },
-        { prop: 'ende_nutzung_zeit' },
       ]"
     >
       <template v-slot:prop.avanti_seite="{ item }">

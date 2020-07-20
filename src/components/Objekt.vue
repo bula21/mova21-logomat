@@ -17,28 +17,34 @@
           title: 'Kontakt Nutzung',
           person: true,
         },
+        { prop: 'planung' },
+
         { prop: 'typisierung', title: 'Typ' },
-        { prop: 'masse' },
-        { prop: 'stunden_aufbau' },
-        { prop: 'stunden_abbau' },
-        { prop: 'datum_aufbau' },
-        { prop: 'datum_rueckbau' },
-        { prop: 'anzahl_helfende_aufbau' },
-        { prop: 'anzahl_helfende_abbau' },
+        { prop: 'bau_durch' },
         { prop: 'zelt_boden' },
+        { prop: 'masse' },
         { prop: 'zelt_rampe' },
         { prop: 'buehne_typ', title: 'Bühne Type' },
         { prop: 'zaun_typ' },
         { prop: 'bodenschutz_typ' },
-        { prop: 'bau_durch' },
-        { prop: 'avanti_seite' },
+        { prop: 'objektstatus' },
+
+        { prop: 'datum_aufbau' },
+        { prop: 'startzeitpunkt_aufbau' },
+        { prop: 'stunden_aufbau' },
+        { prop: 'anzahl_helfende_aufbau' },
+
+        { prop: 'datum_rueckbau' },
+        { prop: 'startzeitpunkt_abbau' },
+        { prop: 'stunden_abbau' },
+        { prop: 'anzahl_helfende_abbau' },
+
         { prop: 'name_lieferant' },
         { prop: 'kontakt_lieferant' },
+
         { prop: 'vum' },
-        { prop: 'startzeitpunkt_aufbau' },
-        { prop: 'startzeitpunkt_abbau' },
-        { prop: 'objektstatus' },
-        { prop: 'planung' },
+
+        { prop: 'avanti_seite' },
       ]"
     >
       <template v-slot:prop.avanti_seite="{ item }">

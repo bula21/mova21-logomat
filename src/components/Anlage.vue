@@ -69,8 +69,12 @@
                 person: true,
               },
               { prop: 'beschreibung' },
+              { prop: 'avanti_link', title: 'Link zu Avanti' },
             ]"
           >
+            <template v-slot:prop.avanti_link="{ item }">
+              <AvantiLink :item="item" />
+            </template>
           </DescriptionTable>
         </v-card>
 
@@ -152,6 +156,7 @@ import Dienstleistung from "@/components/Dienstleistung";
 import DescriptionTable from "@/components/DescriptionTable";
 import Objekt from "@/components/Objekt";
 import Projekt from "@/components/Projekt";
+import AvantiLink from "@/components/AvantiLink";
 
 export default {
   name: "Anlage",
@@ -160,6 +165,7 @@ export default {
     Projekt,
     DescriptionTable,
     Objekt,
+    AvantiLink,
   },
   props: {
     anlage: {
