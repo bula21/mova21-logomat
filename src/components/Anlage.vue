@@ -97,21 +97,39 @@
           >
             <template v-slot:no-data>
               <v-alert color="#ffbbbb">
-                Keine Objekte
+                Keine Objekte im Projekt
               </v-alert>
             </template>
             <template v-slot:default="props">
               <v-row>
                 <v-col
-                  v-for="item in props.items"
-                  :key="item.id"
+                  v-for="objekt in props.items"
+                  :key="objekt.id"
                   cols="12"
                   sm="12"
                   md="6"
                   lg="6"
                 >
-                  <Objekt :objekt="item"></Objekt>
+                  <Objekt :objekt="objekt"></Objekt>
                 </v-col>
+                <template v-for="objekt in props.items">
+                  <v-col
+                    v-for="dienstleistung in filterByProp(
+                      dienstleistungen,
+                      'objekte',
+                      objekt.id
+                    )"
+                    :key="dienstleistung.id"
+                    cols="12"
+                    sm="12"
+                    md="6"
+                    lg="6"
+                  >
+                    <Dienstleistung
+                      :dienstleistung="dienstleistung"
+                    ></Dienstleistung>
+                  </v-col>
+                </template>
               </v-row>
             </template>
           </v-data-iterator>
@@ -122,7 +140,7 @@
           >
             <template v-slot:no-data
               ><v-alert color="#ffbbbb">
-                Keine Dienstleistungen
+                Keine Dienstleistungen im Projekt
               </v-alert></template
             >
             <template v-slot:default="props">
@@ -213,6 +231,7 @@ export default {
     },
     async fetchData() {
       try {
+        // projekte
         const projekte = await apiAuthenticated(
           "/items/projekt",
           filter("anlage", "=", this.anlage.id)
@@ -224,6 +243,7 @@ export default {
 
         const projekteIds = projekte.map((p) => p.id);
 
+        // objekte
         const objekte = await apiAuthenticated(
           "/items/objekt",
           filter("projekt", "in", projekteIds)
@@ -233,15 +253,38 @@ export default {
         joinInPlace(objekte, this.users, "planung");
         this.addFieldsInPlace(objekte, "objekt");
         this.objekte = Object.freeze(objekte);
+        const objektIds = objekte.map((o) => o.id);
 
-        const dienstleistungen = await apiAuthenticated(
+        // dienstleistungen
+        const dienstleistungenProjekte = await apiAuthenticated(
           "/items/dienstleistung",
           filter("projekte", "in", projekteIds)
         );
-        joinInPlace(dienstleistungen, this.users, "kontaktperson_nutzung");
-        joinInPlace(dienstleistungen, this.users, "kontaktperson_auftraggeber");
-        this.addFieldsInPlace(dienstleistungen, "dienstleistung");
-        this.dienstleistungen = Object.freeze(dienstleistungen);
+        const dienstleistungenObjekte = await apiAuthenticated(
+          "/items/dienstleistung",
+          filter("objekte", "in", objektIds)
+        );
+        const dienstleistungenProjekteids = dienstleistungenProjekte.map(
+          (p) => p.id
+        );
+        // merge dienstleistungen from projekte
+        for (const d of dienstleistungenObjekte) {
+          if (dienstleistungenProjekteids.indexOf(d.id) === -1) {
+            dienstleistungenProjekte.push(d);
+          }
+        }
+        joinInPlace(
+          dienstleistungenProjekte,
+          this.users,
+          "kontaktperson_nutzung"
+        );
+        joinInPlace(
+          dienstleistungenProjekte,
+          this.users,
+          "kontaktperson_auftraggeber"
+        );
+        this.addFieldsInPlace(dienstleistungenProjekte, "dienstleistung");
+        this.dienstleistungen = Object.freeze(dienstleistungenProjekte);
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
