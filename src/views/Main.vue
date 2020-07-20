@@ -109,7 +109,7 @@
       </v-tooltip>
     </v-app-bar>
     <v-main>
-      <AnlagenTable
+      <AnlagenDataTable
         :filterText="searchText"
         :items="anlagen"
         v-on:item-clicked="openTab"
@@ -120,6 +120,7 @@
           v-bind:key="item.id"
           :hidden="activeTab !== i"
           :anlage="item"
+          :fields="fields"
           :users="users"
           v-on:api-error="showError"
         />
@@ -141,7 +142,7 @@
 <script>
 import { mapState } from "vuex";
 import Clippy from "@/components/Clippy";
-import AnlagenTable from "@/components/AnlagenTable";
+import AnlagenDataTable from "@/components/AnlagenDataTable";
 import Anlage from "@/components/Anlage";
 import { apiAuthenticated, ApiError } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
@@ -150,7 +151,7 @@ export default {
   name: "Main",
   components: {
     Clippy,
-    AnlagenTable,
+    AnlagenDataTable,
     Anlage,
   },
   computed: {
@@ -164,6 +165,7 @@ export default {
   data: () => ({
     anlagen: [],
     users: [],
+    fields: {},
     searchText: "",
     errorText: "",
     drawer: null,
@@ -188,6 +190,20 @@ export default {
       this.$store.commit("logOut");
       this.$router.push({ path: "/login" });
     },
+    async fetchFields() {
+      const fields = await apiAuthenticated("/fields");
+      const fieldsByCollection = fields.reduce((obj, field) => {
+        if (field.collection.startsWith("directus_")) {
+          return obj;
+        }
+        if (obj[field.collection] === undefined) {
+          obj[field.collection] = {};
+        }
+        obj[field.collection][field.field] = field;
+        return obj;
+      }, {});
+      this.fields = Object.freeze(fieldsByCollection);
+    },
     async fetchData() {
       try {
         const anlagen = await apiAuthenticated("/items/anlage");
@@ -195,6 +211,8 @@ export default {
         joinInPlace(anlagen, users, "kontaktperson");
         this.users = Object.freeze(users);
         this.anlagen = Object.freeze(anlagen);
+
+        await this.fetchFields();
       } catch (err) {
         if (err instanceof ApiError) {
           this.showError(err.userMessage());

@@ -162,8 +162,18 @@ export default {
     Objekt,
   },
   props: {
-    anlage: Object,
-    users: Array,
+    anlage: {
+      type: Object,
+      default: () => {},
+    },
+    fields: {
+      type: Object,
+      default: () => {},
+    },
+    users: {
+      type: Array,
+      default: () => [],
+    },
   },
   data: () => ({
     objekte: [],
@@ -174,13 +184,27 @@ export default {
     scrollTo(selector) {
       const target = this.$refs[selector];
       if (Array.isArray(target)) {
-        this.$vuetify.goTo(target[0], {duration: 0});
+        this.$vuetify.goTo(target[0], { duration: 0 });
       } else {
-        this.$vuetify.goTo(target, {duration: 0});
+        this.$vuetify.goTo(target, { duration: 0 });
       }
     },
     filterByProp: (objects, propName, propValue) =>
       objects.filter((obj) => obj[propName] === propValue),
+    addFieldsInPlace(items, collectionName) {
+      for (const item of items) {
+        for (const [fieldName, fieldValue] of Object.entries(item)) {
+          if (fieldValue === null) {
+            continue;
+          }
+          const choices = this.fields[collectionName][fieldName]?.options
+            ?.choices;
+          if (choices !== undefined && choices[fieldValue] !== undefined) {
+            item[fieldName] = choices[fieldValue];
+          }
+        }
+      }
+    },
     async fetchData() {
       try {
         const projekte = await apiAuthenticated(
@@ -189,6 +213,7 @@ export default {
         );
         joinInPlace(projekte, this.users, "auftraggeber");
         joinInPlace(projekte, this.users, "verantwortliche_person_betrieb");
+        this.addFieldsInPlace(projekte, "projekt");
         this.projekte = Object.freeze(projekte);
 
         const projekteIds = projekte.map((p) => p.id);
@@ -200,6 +225,7 @@ export default {
         joinInPlace(objekte, this.users, "kontaktperson_nutzung");
         joinInPlace(objekte, this.users, "kontaktperson_auftraggeber");
         joinInPlace(objekte, this.users, "planung");
+        this.addFieldsInPlace(objekte, "objekt");
         this.objekte = Object.freeze(objekte);
 
         const dienstleistungen = await apiAuthenticated(
@@ -208,6 +234,7 @@ export default {
         );
         joinInPlace(dienstleistungen, this.users, "kontaktperson_nutzung");
         joinInPlace(dienstleistungen, this.users, "kontaktperson_auftraggeber");
+        this.addFieldsInPlace(dienstleistungen, "dienstleistung");
         this.dienstleistungen = Object.freeze(dienstleistungen);
       } catch (err) {
         if (err instanceof ApiError) {

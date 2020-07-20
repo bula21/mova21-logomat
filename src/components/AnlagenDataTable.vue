@@ -34,7 +34,7 @@ import Person from "@/components/Person";
 import AvantiLink from "@/components/AvantiLink";
 
 export default {
-  name: "AnlagenTable",
+  name: "AnlagenDataTable",
   props: {
     items: {
       type: Array,
