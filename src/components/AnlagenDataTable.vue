@@ -55,22 +55,13 @@ export default {
       if (!this.filterOnlyMine) {
         return this.items;
       }
-      return this.items.filter((item) => item.id === this.user.id);
+      return this.items.filter((item) => {
+        return item?.kontaktperson?.id === parseInt(this.user.id);
+      });
     },
     ...mapState({
       user: "user",
     }),
-  },
-  methods: {
-    filterByKontaktperson(person, search) {
-      if (person === null || search.length === 0) {
-        return true;
-      }
-      const name = `${person.first_name} ${person.last_name}`.toLowerCase();
-      const found = name.indexOf(search.toLowerCase()) >= 0;
-      console.log(name, search, found);
-      return found;
-    },
   },
   components: {
     AvantiLink,
