@@ -58,18 +58,21 @@ export const login = async (email, password) => {
   }
 };
 
-const refreshToken = async () => {
+export const refreshTokenPeriodic = async () => {
+  setTimeout(refreshTokenPeriodic, 1000 * 60 * 5);
+
+  if (store.state.user === null) {
+    return;
+  }
+
   const response = await api.post("/auth/refresh", {
     token: store.state.user._token,
   });
   store.commit("updateToken", response.data.data.token);
 };
+setTimeout(refreshTokenPeriodic, 1000 * 60 * 5);
 
-export const apiAuthenticated = async (
-  path,
-  query = null,
-  tryRefresh = true
-) => {
+export const apiAuthenticated = async (path, query = null) => {
   const config = {
     headers: {
       Authorization: `bearer ${store.state.user._token}`,
@@ -84,16 +87,7 @@ export const apiAuthenticated = async (
     const resp = await api.get(path, config);
     return resp.data.data;
   } catch (err) {
-    if (err.response.status === 401) {
-      if (tryRefresh) {
-        await refreshToken();
-        return apiAuthenticated(path, query, false);
-      } else {
-        throw new ApiError(err);
-      }
-    } else {
-      throw new ApiError(err);
-    }
+    throw new ApiError(err);
   }
 };
 
