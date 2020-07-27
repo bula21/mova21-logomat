@@ -17,7 +17,10 @@ export const store = new Vuex.Store({
     : [vuexLocalStorage.plugin],
   state: {
     user: null,
-    hideEmpty: false,
+    settings: {
+      hideEmpty: false,
+      showAllFields: false,
+    },
   },
   mutations: {
     loginSucceeded(state, user) {
@@ -33,6 +36,10 @@ export const store = new Vuex.Store({
     },
     logOut(state) {
       state.user = null;
+    },
+    saveSettings(state, settings) {
+      state.settings.hideEmpty = settings.hideEmpty;
+      state.settings.showAllFields = settings.showAllFields;
     },
   },
 });

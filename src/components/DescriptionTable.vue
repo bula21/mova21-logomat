@@ -52,13 +52,13 @@ export default {
   },
   computed: {
     propsFiltered() {
-      if (!this.hideEmpty) {
+      if (!this.settings.hideEmpty) {
         return this.props;
       }
       return this.props.filter((prop) => !this.isEmpty(prop.prop));
     },
     ...mapState({
-      hideEmpty: "hideEmpty",
+      settings: "settings",
     }),
   },
   methods: {

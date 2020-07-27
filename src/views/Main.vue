@@ -20,16 +20,6 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-cog</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>
-              Einstellungen
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
       </v-list>
 
       <v-divider v-if="haveTabs"></v-divider>
@@ -92,6 +82,7 @@
         label="Nur Meine"
       />
       <v-spacer></v-spacer>
+      <Settings />
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -151,6 +142,7 @@
 import { mapState } from "vuex";
 import Clippy from "@/components/Clippy";
 import AnlagenDataTable from "@/components/AnlagenDataTable";
+import Settings from "@/components/Settings";
 import Anlage from "@/components/Anlage";
 import { apiAuthenticated, ApiError } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
@@ -161,6 +153,7 @@ export default {
     Clippy,
     AnlagenDataTable,
     Anlage,
+    Settings,
   },
   computed: {
     ...mapState({
@@ -178,10 +171,6 @@ export default {
     searchOnlyMine: false,
     errorText: "",
     drawer: null,
-    items: [
-      { icon: "mdi-castle", text: "Alle Anlagen" },
-      { icon: "mdi-cog", text: "Einstellungen" },
-    ],
     tabs: [],
     activeTab: null,
   }),
