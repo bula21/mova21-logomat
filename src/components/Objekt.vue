@@ -6,6 +6,8 @@
     <DescriptionTable
       :item="objekt"
       :props="[
+        { prop: 'objektstatus' },
+        { prop: 'typisierung', title: 'Typ' },
         { prop: 'beschreibung' },
         {
           prop: 'kontaktperson_auftraggeber',
@@ -17,34 +19,33 @@
           title: 'Kontakt Nutzung',
           person: true,
         },
-        { prop: 'planung' },
 
-        { prop: 'typisierung', title: 'Typ' },
-        { prop: 'bau_durch' },
-        { prop: 'zelt_boden' },
-        { prop: 'masse' },
-        { prop: 'zelt_rampe' },
-        { prop: 'buehne_typ', title: 'Bühne Type' },
-        { prop: 'zaun_typ' },
-        { prop: 'bodenschutz_typ' },
-        { prop: 'objektstatus' },
+        { prop: 'planung', default_hide: true },
 
-        { prop: 'datum_aufbau' },
-        { prop: 'startzeitpunkt_aufbau' },
-        { prop: 'stunden_aufbau' },
-        { prop: 'anzahl_helfende_aufbau' },
+        { prop: 'bau_durch', default_hide: true },
+        { prop: 'zelt_boden', default_hide: true },
+        { prop: 'masse', default_hide: true },
+        { prop: 'zelt_rampe', default_hide: true },
+        { prop: 'buehne_typ', title: 'Bühne Type', default_hide: true },
+        { prop: 'zaun_typ', default_hide: true },
+        { prop: 'bodenschutz_typ', default_hide: true },
 
-        { prop: 'datum_rueckbau' },
-        { prop: 'startzeitpunkt_abbau' },
-        { prop: 'stunden_abbau' },
-        { prop: 'anzahl_helfende_abbau' },
+        { prop: 'datum_aufbau', default_hide: true },
+        { prop: 'startzeitpunkt_aufbau', default_hide: true },
+        { prop: 'stunden_aufbau', default_hide: true },
+        { prop: 'anzahl_helfende_aufbau', default_hide: true },
 
-        { prop: 'name_lieferant' },
-        { prop: 'kontakt_lieferant' },
+        { prop: 'datum_rueckbau', default_hide: true },
+        { prop: 'startzeitpunkt_abbau', default_hide: true },
+        { prop: 'stunden_abbau', default_hide: true },
+        { prop: 'anzahl_helfende_abbau', default_hide: true },
 
-        { prop: 'vum' },
+        { prop: 'name_lieferant', default_hide: true },
+        { prop: 'kontakt_lieferant', default_hide: true },
 
-        { prop: 'avanti_seite' },
+        { prop: 'vum', default_hide: true },
+
+        { prop: 'avanti_seite', default_hide: true },
       ]"
     >
       <template v-slot:prop.avanti_seite="{ item }">

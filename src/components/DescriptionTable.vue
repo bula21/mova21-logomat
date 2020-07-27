@@ -3,6 +3,16 @@
     <v-simple-table dense v-if="propsFiltered.length > 0">
       <template v-slot:default>
         <tbody>
+          <tr v-show="hasHiddenFields">
+            <td>Mehr Felder anzeigen</td>
+            <td>
+              <v-switch
+                v-show="!settings.showAllFields"
+                v-model="showAllFields"
+              ></v-switch>
+            </td>
+          </tr>
+
           <tr v-for="(prop, key) in propsFiltered" :key="key">
             <!-- key -->
             <td class="description" v-if="prop.title">{{ prop.title }}:</td>
@@ -46,16 +56,36 @@ export default {
   components: {
     Person,
   },
+  data: () => ({
+    showAllFields: false,
+  }),
   props: {
     item: Object,
     props: Array,
   },
   computed: {
-    propsFiltered() {
-      if (!this.settings.hideEmpty) {
-        return this.props;
+    hasHiddenFields() {
+      for (const prop of this.props) {
+        if (prop.default_hide === true) {
+          return true;
+        }
       }
-      return this.props.filter((prop) => !this.isEmpty(prop.prop));
+      return false;
+    },
+    propsFiltered() {
+      return this.props.filter((prop) => {
+        if (this.settings.hideEmpty && this.isEmpty(prop.prop)) {
+          return false;
+        }
+        if (
+          !this.settings.showAllFields &&
+          !this.showAllFields &&
+          prop.default_hide === true
+        ) {
+          return false;
+        }
+        return true;
+      });
     },
     ...mapState({
       settings: "settings",

@@ -8,7 +8,6 @@
       :props="[
         { prop: 'kategorie' },
         { prop: 'beschreibung' },
-        { prop: 'bestellung' },
         {
           prop: 'kontaktperson_auftraggeber',
           title: 'Kontakt Auftraggeber',
@@ -19,9 +18,11 @@
           title: 'Kontakt Nutzung',
           person: true,
         },
-        { prop: 'lieferdatum_aufbau' },
-        { prop: 'lieferdatum_rueckbau' },
-        { prop: 'anzahl_helfende' },
+
+        { prop: 'bestellung', default_hide: true },
+        { prop: 'lieferdatum_aufbau', default_hide: true },
+        { prop: 'lieferdatum_rueckbau', default_hide: true },
+        { prop: 'anzahl_helfende', default_hide: true },
       ]"
     >
     </DescriptionTable>

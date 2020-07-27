@@ -9,11 +9,6 @@
         { prop: 'status' },
         { prop: 'beschreibung' },
         {
-          prop: 'auftraggeber',
-          title: 'Kontakt Auftraggeber',
-          person: true,
-        },
-        {
           prop: 'verantwortliche_person_betrieb',
           person: true,
         },
@@ -22,8 +17,15 @@
         { prop: 'beginn_nutzung_zeit' },
         { prop: 'ende_nutzung' },
         { prop: 'ende_nutzung_zeit' },
-        { prop: 'abnahmeart' },
-        { prop: 'abnahmedatum' },
+
+        {
+          prop: 'auftraggeber',
+          title: 'Kontakt Auftraggeber',
+          person: true,
+          default_hide: true,
+        },
+        { prop: 'abnahmeart', default_hide: true },
+        { prop: 'abnahmedatum', default_hide: true },
       ]"
     >
       <template v-slot:prop.avanti_seite="{ item }">
