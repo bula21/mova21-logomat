@@ -10,7 +10,7 @@ RUN yarn install
 
 COPY --chown=build:build . .
 RUN yarn build
-RUN /bin/sh write_git_version.sh
+RUN /bin/sh write_version.sh
 
 # prod image
 FROM nginx:1.19.0-alpine AS release
