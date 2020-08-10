@@ -13,6 +13,7 @@
     "capital-case": "^1.0.3",
     "clippyjs": "^0.0.3",
     "core-js": "^3.6.5",
+    "csv-writer": "^1.6.0",
     "jwt-decode": "^2.2.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

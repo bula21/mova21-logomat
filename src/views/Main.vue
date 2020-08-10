@@ -82,6 +82,7 @@
         label="Nur Meine"
       />
       <v-spacer></v-spacer>
+      <Export />
       <Settings />
       <v-btn
         icon
@@ -132,6 +133,7 @@ import { mapState } from "vuex";
 import Clippy from "@/components/Clippy";
 import AnlagenDataTable from "@/components/AnlagenDataTable";
 import Settings from "@/components/Settings";
+import Export from "@/components/Export";
 import Anlage from "@/components/Anlage";
 import { apiAuthenticated, ApiError } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
@@ -143,6 +145,7 @@ export default {
     AnlagenDataTable,
     Anlage,
     Settings,
+    Export,
   },
   computed: {
     ...mapState({
