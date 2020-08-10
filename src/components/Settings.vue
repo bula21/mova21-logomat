@@ -6,7 +6,13 @@
     offset-y
   >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on" @click="open()">
+      <v-btn
+        icon
+        v-bind="attrs"
+        v-on="on"
+        @click="open()"
+        title="Einstellungen"
+      >
         <v-icon>mdi-cog</v-icon>
       </v-btn>
     </template>

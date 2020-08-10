@@ -83,28 +83,17 @@
       />
       <v-spacer></v-spacer>
       <Settings />
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-            target="_blank"
-            href="https://github.com/jo-m/logomat-frontend"
-          >
-            <v-icon>mdi-github</v-icon>
-          </v-btn>
-        </template>
-        <span>View the source code</span>
-      </v-tooltip>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" v-on:click="logout">
-            <v-icon>mdi-logout</v-icon>
-          </v-btn>
-        </template>
-        <span>Log out {{ user.email }}</span>
-      </v-tooltip>
+      <v-btn
+        icon
+        title="Quellcode anschauen"
+        target="_blank"
+        href="https://github.com/jo-m/logomat-frontend"
+      >
+        <v-icon>mdi-github</v-icon>
+      </v-btn>
+      <v-btn icon v-on:click="logout" :title="`Log out ${user.email}`">
+        <v-icon>mdi-logout</v-icon>
+      </v-btn>
     </v-app-bar>
     <v-main>
       <AnlagenDataTable
