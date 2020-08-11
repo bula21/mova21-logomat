@@ -82,7 +82,7 @@
         label="Nur Meine"
       />
       <v-spacer></v-spacer>
-      <Export />
+      <Export :users="users" />
       <Settings />
       <v-btn
         icon

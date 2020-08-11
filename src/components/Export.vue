@@ -61,12 +61,19 @@
 <script>
 import { apiAuthenticated } from "@/lib/api.js";
 import { createObjectCsvStringifier } from "csv-writer";
+import { joinInPlace } from "@/lib/join.js";
 
 export default {
   name: "Export",
   data: () => ({
     show: false,
   }),
+  props: {
+    users: {
+      type: Array,
+      default: () => [],
+    },
+  },
   methods: {
     open() {
       this.show = true;
@@ -94,8 +101,23 @@ export default {
     },
     async export_(name) {
       const fields = await apiAuthenticated("/fields");
-      const items = await apiAuthenticated(`/items/${name}`);
       const collectionFields = fields.filter((x) => x.collection === name);
+      const fieldsToJoinUsers = collectionFields.filter(
+        // hack
+        (x) => x.options?.template === "{{first_name}} {{last_name}}"
+      );
+
+      // join users
+      const items = await apiAuthenticated(`/items/${name}`);
+      for (const field of fieldsToJoinUsers) {
+        joinInPlace(
+          items,
+          this.users,
+          field.field,
+          "id",
+          (user) => `${user.first_name} ${user.last_name} ${user.email}`
+        );
+      }
       const csv = this.createCsv(collectionFields, items);
       this.sendCsvDownload(`${name}.csv`, csv);
     },

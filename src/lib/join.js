@@ -2,10 +2,11 @@ export const joinInPlace = (
   left,
   right,
   leftPropName,
-  rightPropName = "id"
+  rightPropName = "id",
+  transformRight = (x) => x
 ) => {
   const rightLookup = right.reduce((obj, item) => {
-    obj[item[rightPropName]] = item;
+    obj[item[rightPropName]] = transformRight(item);
     return obj;
   }, {});
 
