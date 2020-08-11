@@ -83,7 +83,8 @@ export default {
       const link = document.createElement("a");
       link.setAttribute(
         "href",
-        "data:text/plain;charset=utf-8," + encodeURIComponent(content)
+        // add UTF-8 BOM so Excel doesn't hiccup
+        "data:text/plain;charset=utf-8,%EF%BB%BF" + encodeURIComponent(content)
       );
       link.setAttribute("download", name);
       link.style.display = "none";
