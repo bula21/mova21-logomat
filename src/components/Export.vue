@@ -101,7 +101,9 @@ export default {
     },
     async export_(name) {
       const fields = await apiAuthenticated("/fields");
-      const collectionFields = fields.filter((x) => x.collection === name);
+      const collectionFields = fields.filter(
+        (x) => x.collection === name && x.interface !== "one-to-many"
+      );
       const fieldsToJoinUsers = collectionFields.filter(
         // hack
         (x) => x.options?.template === "{{first_name}} {{last_name}}"
