@@ -6,9 +6,16 @@
     offset-y
   >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on" @click="open()" title="CSV-Export">
-        <v-icon>mdi-table-arrow-right</v-icon>
-      </v-btn>
+      <v-list-item v-bind="attrs" v-on="on" @click="open()" link>
+        <v-list-item-action>
+          <v-icon>mdi-table-arrow-right</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>
+            CSV-Export
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </template>
 
     <v-card>

@@ -20,6 +20,7 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <Export :users="users" />
       </v-list>
 
       <v-divider v-if="haveTabs"></v-divider>
@@ -82,7 +83,6 @@
         label="Nur Meine"
       />
       <v-spacer></v-spacer>
-      <Export :users="users" />
       <Settings />
       <v-btn
         icon
