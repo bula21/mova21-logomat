@@ -64,11 +64,14 @@
           <DescriptionTable
             :item="anlage"
             :props="[
+              { prop: 'anlagen_id' },
               {
                 prop: 'kontaktperson',
                 person: true,
               },
               { prop: 'beschreibung' },
+              { prop: 'standort' },
+              { prop: 'standortcode' },
               { prop: 'avanti_link', title: 'Link zu Avanti' },
             ]"
           >
