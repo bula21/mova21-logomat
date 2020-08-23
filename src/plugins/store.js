@@ -21,6 +21,7 @@ export const store = new Vuex.Store({
       hideEmpty: false,
       showAllFields: false,
       showInfoOnLoad: true,
+      hideClippy: false,
     },
   },
   mutations: {
@@ -42,6 +43,7 @@ export const store = new Vuex.Store({
       state.settings.hideEmpty = settings.hideEmpty;
       state.settings.showAllFields = settings.showAllFields;
       state.settings.showInfoOnLoad = settings.showInfoOnLoad;
+      state.settings.hideClippy = settings.hideClippy;
     },
     doNotShowInfoOnLoad(state) {
       state.settings.showInfoOnLoad = false;

@@ -5,15 +5,21 @@
 
 <script>
 import clippy from "clippyjs";
+import { mapState } from "vuex";
 
 export default {
   name: "Clippy",
   created() {
-    if (Math.random() >= this.showProbability) {
+    if (Math.random() >= this.showProbability || this.settings.hideClippy) {
       return;
     }
 
     clippy.load("Clippy", (clippy) => this.clippyLoaded(clippy));
+  },
+  computed: {
+    ...mapState({
+      settings: "settings",
+    }),
   },
   methods: {
     clippyClicked() {

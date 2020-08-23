@@ -41,6 +41,13 @@
             >Info-Dialog nach dem Login anzeigen</v-list-item-title
           >
         </v-list-item>
+
+        <v-list-item>
+          <v-list-item-action>
+            <v-switch v-model="settingsTemp.hideClippy"></v-switch>
+          </v-list-item-action>
+          <v-list-item-title>Clippy nicht mehr anzeigen</v-list-item-title>
+        </v-list-item>
       </v-list>
 
       <v-card-actions>
@@ -64,6 +71,7 @@ export default {
       hideEmpty: null,
       showAllFields: null,
       showInfoOnLoad: null,
+      hideClippy: null,
     },
   }),
   computed: {
@@ -76,6 +84,7 @@ export default {
       this.settingsTemp.hideEmpty = this.settings.hideEmpty;
       this.settingsTemp.showAllFields = this.settings.showAllFields;
       this.settingsTemp.showInfoOnLoad = this.settings.showInfoOnLoad;
+      this.settingsTemp.hideClippy = this.settings.hideClippy;
       this.show = true;
     },
     save() {
