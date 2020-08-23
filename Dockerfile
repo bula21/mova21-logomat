@@ -10,6 +10,10 @@ RUN yarn install
 
 COPY --chown=build:build . .
 RUN yarn build
+# checkout dockerignored files for clean diff
+RUN git checkout Dockerfile    \
+                 README.md     \
+                 .dockerignore
 RUN /bin/sh write_version.sh
 
 # prod image
