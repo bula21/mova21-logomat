@@ -32,6 +32,15 @@
           </v-list-item-action>
           <v-list-item-title>Immer alle Felder anzeigen</v-list-item-title>
         </v-list-item>
+
+        <v-list-item>
+          <v-list-item-action>
+            <v-switch v-model="settingsTemp.showInfoOnLoad"></v-switch>
+          </v-list-item-action>
+          <v-list-item-title
+            >Info-Dialog nach dem Login anzeigen</v-list-item-title
+          >
+        </v-list-item>
       </v-list>
 
       <v-card-actions>
@@ -54,6 +63,7 @@ export default {
     settingsTemp: {
       hideEmpty: null,
       showAllFields: null,
+      showInfoOnLoad: null,
     },
   }),
   computed: {
@@ -65,6 +75,7 @@ export default {
     open() {
       this.settingsTemp.hideEmpty = this.settings.hideEmpty;
       this.settingsTemp.showAllFields = this.settings.showAllFields;
+      this.settingsTemp.showInfoOnLoad = this.settings.showInfoOnLoad;
       this.show = true;
     },
     save() {

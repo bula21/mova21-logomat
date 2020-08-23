@@ -101,6 +101,7 @@
         <v-icon>mdi-cart</v-icon>
       </v-btn>
       <Settings />
+      <Info />
       <v-btn
         icon
         title="Quellcode anschauen"
@@ -152,6 +153,7 @@ import AnlagenDataTable from "@/components/AnlagenDataTable";
 import Settings from "@/components/Settings";
 import Export from "@/components/Export";
 import Anlage from "@/components/Anlage";
+import Info from "@/components/Info";
 import { apiAuthenticated, ApiError } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
 
@@ -163,6 +165,7 @@ export default {
     Anlage,
     Settings,
     Export,
+    Info,
   },
   computed: {
     ...mapState({
