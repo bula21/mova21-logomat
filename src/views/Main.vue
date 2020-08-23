@@ -84,6 +84,14 @@
         label="Nur Meine"
       />
       <v-spacer></v-spacer>
+      <v-btn
+        icon
+        title="Service Desk"
+        target="_blank"
+        href="https://voila.bula21.ch/servicedesk/customer/portal/8"
+      >
+        <v-icon>mdi-face-agent</v-icon>
+      </v-btn>
       <Settings />
       <v-btn
         icon
