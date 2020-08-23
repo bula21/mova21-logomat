@@ -76,6 +76,7 @@
         v-model="searchText"
       ></v-text-field>
       <v-checkbox
+        v-if="activeTab === null"
         v-model="searchOnlyMine"
         flat
         solo-inverted
