@@ -143,7 +143,15 @@
           >
             <template v-slot:no-data
               ><v-alert type="info">
-                Keine Dienstleistungen im Projekt
+                Keine Dienstleistungen im Projekt.
+                <a
+                  href="http://gizoogle.net/"
+                  target="_blank"
+                  style="color: white;"
+                >
+                  <v-icon>mdi-cart</v-icon>
+                  Dienstleistung bestellen
+                </a>
               </v-alert></template
             >
             <template v-slot:default="props">

@@ -92,6 +92,14 @@
       >
         <v-icon>mdi-face-agent</v-icon>
       </v-btn>
+      <v-btn
+        icon
+        title="Bestellformular Dienstleistungen"
+        target="_blank"
+        href="http://gizoogle.net/"
+      >
+        <v-icon>mdi-cart</v-icon>
+      </v-btn>
       <Settings />
       <v-btn
         icon
