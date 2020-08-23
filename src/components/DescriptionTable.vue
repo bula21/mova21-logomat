@@ -40,7 +40,7 @@
         </tbody>
       </template>
     </v-simple-table>
-    <v-alert v-else color="#ffbbbb">
+    <v-alert v-else type="info">
       Keine Elemente
     </v-alert>
   </div>

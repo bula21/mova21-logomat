@@ -96,7 +96,7 @@
             hide-default-footer
           >
             <template v-slot:no-data>
-              <v-alert color="#ffbbbb">
+              <v-alert type="info">
                 Keine Objekte im Projekt
               </v-alert>
             </template>
@@ -139,7 +139,7 @@
             hide-default-footer
           >
             <template v-slot:no-data
-              ><v-alert color="#ffbbbb">
+              ><v-alert type="info">
                 Keine Dienstleistungen im Projekt
               </v-alert></template
             >
