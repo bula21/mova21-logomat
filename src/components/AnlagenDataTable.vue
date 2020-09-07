@@ -1,10 +1,12 @@
 <template>
   <v-data-table
     :headers="[
+      { text: 'ID', value: 'id', filterable: true },
       { text: 'Name', value: 'anlagenname', filterable: true },
       { text: 'Beschreibung', value: 'beschreibung', filterable: true },
       { text: 'Kontaktperson', value: 'kontaktperson', filterable: false },
       { text: 'Link zu Avanti', value: 'avanti_link', filterable: false },
+      { text: 'Projekte', value: '_projektnamen', filterable: true },
     ]"
     :items="itemsFilteredOnlyMine"
     :search="filterText"
@@ -14,6 +16,7 @@
   >
     <template v-slot:item="{ item }">
       <tr @click="$emit('item-clicked', item)" style="cursor: pointer;">
+        <td>{{ item.id }}</td>
         <td>{{ item.anlagenname }}</td>
         <td class="truncate-ellipsis" :title="item.beschreibung">
           {{ item.beschreibung }}
@@ -23,6 +26,9 @@
         </td>
         <td>
           <AvantiLink :item="item.avanti_link" />
+        </td>
+        <td>
+          {{ item._projektnamen }}
         </td>
       </tr>
     </template>

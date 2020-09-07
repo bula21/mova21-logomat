@@ -214,12 +214,33 @@ export default {
       }, {});
       this.fields = Object.freeze(fieldsByCollection);
     },
+    addProjektNamesToAnlagen(anlagen, projekte) {
+      const anlagenById = anlagen.reduce((obj, anlage) => {
+        obj[anlage.id] = anlage;
+        return obj;
+      }, {});
+      for (const projekt of projekte) {
+        const anlage = anlagenById[projekt.anlage];
+        if (anlage === undefined) {
+          continue;
+        }
+        if (anlage._projektnamen === undefined) {
+          anlage._projektnamen = projekt.projektname;
+        } else {
+          anlage._projektnamen += `, ${projekt.projektname}`;
+        }
+      }
+    },
     async fetchData() {
       try {
-        const anlagen = await apiAuthenticated("/items/anlage");
-        const users = await apiAuthenticated("/users");
+        const [anlagen, users, projekte] = await Promise.all([
+          apiAuthenticated("/items/anlage"),
+          apiAuthenticated("/users"),
+          apiAuthenticated("/items/projekt"),
+        ]);
         joinInPlace(anlagen, users, "kontaktperson");
         this.users = Object.freeze(users);
+        this.addProjektNamesToAnlagen(anlagen, projekte);
         this.anlagen = Object.freeze(anlagen);
 
         await this.fetchFields();
