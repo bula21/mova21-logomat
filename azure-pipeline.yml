@@ -40,3 +40,13 @@ stages:
               DockerNamespace: "$(containerRegistry)"
               DockerRepository: "$(imageRepository)"
               DockerImageTag: "$(tag)"
+          - task: AzureAppServiceManage@0
+            inputs:
+              azureSubscription: 'Subscription'
+              Action: 'Stop Azure App Service'
+              WebAppName: 'mova-logomat-as'
+          - task: AzureAppServiceManage@0
+            inputs:
+              azureSubscription: 'Subscription'
+              Action: 'Start Azure App Service'
+              WebAppName: 'mova-logomat-as'
