@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="[
-      { text: 'ID', value: 'id', filterable: true },
+      { text: 'ID', value: 'anlagen_id', filterable: true },
       { text: 'Name', value: 'anlagenname', filterable: true },
       { text: 'Beschreibung', value: 'beschreibung', filterable: true },
       { text: 'Kontaktperson', value: 'kontaktperson', filterable: false },
