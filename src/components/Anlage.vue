@@ -145,7 +145,7 @@
               ><v-alert type="info">
                 Keine Dienstleistungen im Projekt.
                 <a
-                  href="http://gizoogle.net/"
+                  href="https://limesurvey.bula21.ch/index.php/141511?newtest=Y&lang=de-informal"
                   target="_blank"
                   style="color: white;"
                 >
