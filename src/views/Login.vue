@@ -5,7 +5,7 @@
         <v-col cols="12" sm="8" md="4">
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
-              <v-toolbar-title>Login</v-toolbar-title>
+              <v-toolbar-title>Logomat Login</v-toolbar-title>
             </v-toolbar>
             <v-alert type="error" v-if="errorMessage.length > 0">
               {{ errorMessage }}
@@ -13,7 +13,7 @@
             <v-card-text>
               <v-form>
                 <v-text-field
-                  label="Email"
+                  label="vorname.nachname@bula21.ch"
                   name="login"
                   prepend-icon="mdi-account"
                   type="text"
@@ -30,10 +30,53 @@
                 ></v-text-field>
               </v-form>
             </v-card-text>
-            <v-card-actions>
+            <v-card-actions class="justify-center">
               <v-spacer></v-spacer>
-              <v-btn color="primary" v-on:click="login">Login</v-btn>
+              <v-btn text color="primary" v-on:click="showHelp = !showHelp"
+                >Hilfe</v-btn
+              >
+              <v-btn text color="primary" v-on:click="login">Login</v-btn>
             </v-card-actions>
+
+            <v-expand-transition>
+              <div v-show="showHelp">
+                <v-divider></v-divider>
+
+                <v-card-title>
+                  Hilfe zum Login
+                </v-card-title>
+
+                <v-card-text>
+                  Für den Login auf dem Logomat muss zuerst ein Passwort
+                  erstellt werden:
+                  <br /><br />
+                  <ol>
+                    <li>
+                      <a
+                        href="https://log.bula21.ch/admin/#/login"
+                        target="_blank"
+                        >Diesen Link</a
+                      >
+                      öffnen
+                    </li>
+                    <li>
+                      Unten links auf das Mova-Logo klicken, dann "Mova-Crew"
+                      auswählen
+                    </li>
+                    <li>Mit normalem Mova Email-Passwort einloggen</li>
+                    <li>Ganz unten links auf das User-Icon klicken</li>
+                    <li>
+                      Ein Passwort setzen (kann auch das gleiche sein wie fürs
+                      Mova Email-Login)
+                    </li>
+                    <li>Zum Speichern oben rechts auf Häkchen klicken</li>
+                  </ol>
+                  <br />
+                  Dann hier mit der Email und dem gerade gesetzen Passwort
+                  einloggen.
+                </v-card-text>
+              </div>
+            </v-expand-transition>
           </v-card>
         </v-col>
       </v-row>
@@ -50,6 +93,7 @@ export default {
       errorMessage: "",
       email: "",
       password: "",
+      showHelp: false,
     };
   },
   methods: {
