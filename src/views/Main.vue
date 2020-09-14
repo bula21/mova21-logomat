@@ -96,7 +96,7 @@
         icon
         title="Bestellformular Dienstleistungen"
         target="_blank"
-        href="http://gizoogle.net/"
+        href="https://limesurvey.bula21.ch/index.php/141511?newtest=Y&lang=de-informal"
       >
         <v-icon>mdi-cart</v-icon>
       </v-btn>
