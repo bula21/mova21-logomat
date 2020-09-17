@@ -32,8 +32,11 @@
             </v-card-text>
             <v-card-actions class="justify-center">
               <v-spacer></v-spacer>
-              <v-btn text color="primary" v-on:click="showHelp = !showHelp"
-                >Hilfe</v-btn
+              <v-btn
+                :text="!showHelp"
+                color="primary"
+                v-on:click="showHelp = !showHelp"
+                >Registrieren</v-btn
               >
               <v-btn text color="primary" v-on:click="login">Login</v-btn>
             </v-card-actions>
@@ -43,10 +46,10 @@
                 <v-divider></v-divider>
 
                 <v-card-title>
-                  Hilfe zum Login
+                  Wie bekomme ich ein Passwort für den Logomat?
                 </v-card-title>
 
-                <v-card-text>
+                <v-card-text style="font-size: medium;">
                   Für den Login auf dem Logomat muss zuerst ein Passwort
                   erstellt werden:
                   <br /><br />
@@ -60,19 +63,21 @@
                       öffnen
                     </li>
                     <li>
-                      Unten links auf das Mova-Logo klicken, dann "Mova-Crew"
-                      auswählen
+                      Unten links auf das kleine runde Mova-Logo klicken
                     </li>
-                    <li>Mit normalem Mova Email-Passwort einloggen</li>
+                    <li>
+                      Rechts "Mova-Crew" auswählen
+                    </li>
+                    <li>Mit normalem Mova Email und Passwort einloggen</li>
                     <li>Ganz unten links auf das User-Icon klicken</li>
                     <li>
                       Ein Passwort setzen (kann auch das gleiche sein wie fürs
                       Mova Email-Login)
                     </li>
-                    <li>Zum Speichern oben rechts auf Häkchen klicken</li>
+                    <li>Zum Speichern oben rechts auf das Häkchen klicken</li>
                   </ol>
                   <br />
-                  Dann hier mit der Email und dem gerade gesetzen Passwort
+                  Dann hier mit der Mova-Email und dem gerade gesetzen Passwort
                   einloggen.
                 </v-card-text>
               </div>
