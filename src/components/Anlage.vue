@@ -242,11 +242,15 @@ export default {
     },
     async fetchData() {
       try {
-        // projekte
-        const projekte = await apiAuthenticated(
-          "/items/projekt",
-          filter("anlage", "=", this.anlage.id)
-        );
+        // ressorts, projekte
+        const [ressorts, projekte] = await Promise.all([
+          apiAuthenticated("/items/ressort"),
+          apiAuthenticated(
+            "/items/projekt",
+            filter("anlage", "=", this.anlage.id)
+          ),
+        ]);
+        joinInPlace(projekte, ressorts, "ressort_betrieb");
         joinInPlace(projekte, this.users, "auftraggeber");
         joinInPlace(projekte, this.users, "verantwortliche_person_betrieb");
         this.addFieldsInPlace(projekte, "projekt");

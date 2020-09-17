@@ -31,6 +31,9 @@
       <template v-slot:prop.avanti_seite="{ item }">
         <AvantiLink :item="item" />
       </template>
+      <template v-slot:prop.ressort_betrieb="{ item }">
+        {{ item.ressort_name }}
+      </template>
     </DescriptionTable>
   </v-card>
 </template>
