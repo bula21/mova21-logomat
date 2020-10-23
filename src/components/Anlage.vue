@@ -57,7 +57,7 @@
 
       <v-col
         :cols="12"
-        lg="9"
+        lg="8"
         :class="{ large: $vuetify.breakpoint.lg, content: true }"
       >
         <v-card ref="top">
