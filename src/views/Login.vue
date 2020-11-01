@@ -5,7 +5,7 @@
         <v-col cols="12" sm="8" md="4">
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
-              <v-toolbar-title>Logomat Login</v-toolbar-title>
+              <v-toolbar-title>LOGomat Login</v-toolbar-title>
             </v-toolbar>
             <v-alert type="error" v-if="errorMessage.length > 0">
               {{ errorMessage }}
@@ -46,11 +46,15 @@
                 <v-divider></v-divider>
 
                 <v-card-title>
-                  Wie bekomme ich ein Passwort für den Logomat?
+                  Wie bekomme ich ein Passwort für den LOGomat?
                 </v-card-title>
 
                 <v-card-text style="font-size: medium;">
-                  Für den Login auf dem Logomat muss zuerst ein Passwort
+                  Leider kannst du dich hier nicht direkt mit dem mova-Login
+                  einloggen.
+                  Aber mit einem kleinen Umweg gehts trotzdem...
+                  <br>
+                  Für den Login auf dem LOGomat muss zuerst ein Passwort
                   erstellt werden:
                   <br /><br />
                   <ol>
@@ -63,22 +67,31 @@
                       öffnen
                     </li>
                     <li>
-                      Unten links auf das kleine runde Mova-Logo klicken
+                      Unten links auf das kleine runde mova-Logo klicken
                     </li>
                     <li>
-                      Rechts "Mova-Crew" auswählen
+                      Rechts "mova-Crew" auswählen
                     </li>
-                    <li>Mit normalem Mova Email und Passwort einloggen</li>
+                    <li>Mit normaler mova Email und Passwort einloggen</li>
                     <li>Ganz unten links auf das User-Icon klicken</li>
                     <li>
                       Ein Passwort setzen (kann auch das gleiche sein wie fürs
-                      Mova Email-Login)
+                      mova Email-Login)
                     </li>
                     <li>Zum Speichern oben rechts auf das Häkchen klicken</li>
                   </ol>
                   <br />
-                  Dann hier mit der Mova-Email und dem gerade gesetzen Passwort
-                  einloggen.
+                  Kehre zu dieser Website (logomat.mova.ch) zurück und logge dich hier
+                  mit der mova-Email und dem gerade gesetzen Passwort ein.
+                  <br>
+                  Wenn du noch Fragen hast oder Probleme beim Login, melde dich einfach
+                  via Slack unter
+                    <a
+                        href="https://bulacafe21.slack.com/archives/C014ZNQ510B"
+                        target="_blank"
+                      >
+                      #286_koord_aufabbau_request</a>
+                  .
                 </v-card-text>
               </div>
             </v-expand-transition>
