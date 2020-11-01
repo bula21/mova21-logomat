@@ -56,10 +56,12 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-avatar :tile="true" width="150px" item>
-        <img :src="require('@/assets/logo.svg')" alt="Mova Logo" />
+      <v-avatar :tile="true" width="140px">
+        <img :src="require('@/assets/logo.svg')" alt="mova Logo" />
       </v-avatar>
-      <img :src="require('@/assets/logomat-logo.svg')" alt="LOGomat Logo" width=4%/>
+      <v-avatar :tile="true">
+        <img :src="require('@/assets/logomat-logo.svg')" alt="LOGomat Logo" />
+      </v-avatar>
       <v-toolbar-title style="width: 300px;" class="ml-0 pl-4">
         <span class="hidden-sm-and-down">LOGomat</span>
         <span v-if="activeTab !== null" class="hidden-sm-and-down"

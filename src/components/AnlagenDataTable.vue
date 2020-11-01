@@ -17,7 +17,9 @@
     <template v-slot:item="{ item }">
       <tr @click="$emit('item-clicked', item)" style="cursor: pointer;">
         <td>{{ item.anlagen_id }}</td>
-        <td><b>{{ item.anlagenname }}</b></td>
+        <td>
+          <b>{{ item.anlagenname }}</b>
+        </td>
         <td class="truncate-ellipsis" :title="item.beschreibung">
           {{ item.beschreibung }}
         </td>

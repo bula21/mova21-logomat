@@ -15,14 +15,14 @@
         {
           prop: 'auftraggeber',
           title: 'Kontakt Auftraggeber',
-          person: true
+          person: true,
         },
         { prop: 'ressort_betrieb' },
         { prop: 'beginn_nutzung' },
         { prop: 'ende_nutzung' },
 
-        { prop: 'beginn_nutzung_zeit', default_hide: true},
-        { prop: 'ende_nutzung_zeit', default_hide: true},
+        { prop: 'beginn_nutzung_zeit', default_hide: true },
+        { prop: 'ende_nutzung_zeit', default_hide: true },
         { prop: 'abnahmeart', default_hide: true },
         { prop: 'abnahmedatum', default_hide: true },
       ]"

@@ -30,13 +30,13 @@
         { prop: 'zaun_typ', default_hide: true },
         { prop: 'bodenschutz_typ', default_hide: true },
 
-        { prop: 'benoetigt_von', default_hide: true},
+        { prop: 'benoetigt_von', default_hide: true },
         { prop: 'datum_aufbau', default_hide: true },
         { prop: 'startzeitpunkt_aufbau', default_hide: true },
         { prop: 'stunden_aufbau', default_hide: true },
         { prop: 'anzahl_helfende_aufbau', default_hide: true },
 
-        { prop: 'benoetigt_bis', default_hide: true},
+        { prop: 'benoetigt_bis', default_hide: true },
         { prop: 'datum_rueckbau', default_hide: true },
         { prop: 'startzeitpunkt_abbau', default_hide: true },
         { prop: 'stunden_abbau', default_hide: true },

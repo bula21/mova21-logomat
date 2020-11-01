@@ -51,9 +51,8 @@
 
                 <v-card-text style="font-size: medium;">
                   Leider kannst du dich hier nicht direkt mit dem mova-Login
-                  einloggen.
-                  Aber mit einem kleinen Umweg gehts trotzdem...
-                  <br>
+                  einloggen. Aber mit einem kleinen Umweg gehts trotzdem...
+                  <br />
                   Für den Login auf dem LOGomat muss zuerst ein Passwort
                   erstellt werden:
                   <br /><br />
@@ -81,16 +80,18 @@
                     <li>Zum Speichern oben rechts auf das Häkchen klicken</li>
                   </ol>
                   <br />
-                  Kehre zu dieser Website (logomat.mova.ch) zurück und logge dich hier
-                  mit der mova-Email und dem gerade gesetzen Passwort ein.
-                  <br>
-                  Wenn du noch Fragen hast oder Probleme beim Login, melde dich einfach
-                  via Slack unter
-                    <a
-                        href="https://bulacafe21.slack.com/archives/C014ZNQ510B"
-                        target="_blank"
-                      >
-                      #286_koord_aufabbau_request</a>
+                  Kehre zu dieser Website (logomat.mova.ch) zurück und logge
+                  dich hier mit der mova-Email und dem gerade gesetzen Passwort
+                  ein.
+                  <br />
+                  Wenn du noch Fragen hast oder Probleme beim Login, melde dich
+                  einfach via Slack unter
+                  <a
+                    href="https://bulacafe21.slack.com/archives/C014ZNQ510B"
+                    target="_blank"
+                  >
+                    #286_koord_aufabbau_request</a
+                  >
                   .
                 </v-card-text>
               </div>
