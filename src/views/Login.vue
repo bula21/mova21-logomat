@@ -11,6 +11,11 @@
               {{ errorMessage }}
             </v-alert>
             <v-card-text>
+              <b>
+                <a href="https://avanti.bula21.ch/x/ugrJAQ" target="_blank">
+                  Video-Anleitung für die erstmalige Anmeldung im LOGomat
+                </a>
+              </b>
               <v-form>
                 <v-text-field
                   label="vorname.nachname@bula21.ch"
