@@ -96,6 +96,7 @@
 
           <v-data-iterator
             :items="filterByProp(objekte, 'projekt', projekt.id)"
+            :disable-pagination="true"
             hide-default-footer
           >
             <template v-slot:no-data>
@@ -139,6 +140,7 @@
 
           <v-data-iterator
             :items="filterByProp(dienstleistungen, 'projekte', projekt.id)"
+            :disable-pagination="true"
             hide-default-footer
           >
             <template v-slot:no-data
