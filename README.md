@@ -16,12 +16,6 @@
     docker build -t test .
     docker run -it --rm -p 8080:80 test
 
-## Deployment
-
-    ./deploy.sh
-
-Check version deployed: <https://logomat.verteilt.com/version.txt>
-
 ## Hierarchie
 
 * Anlage
