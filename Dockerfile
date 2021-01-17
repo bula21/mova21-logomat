@@ -1,4 +1,4 @@
-FROM node:14.5.0-stretch AS build
+FROM node:15.5.1-buster AS build
 
 RUN adduser --no-create-home --disabled-password --gecos '' build
 RUN mkdir /build && chown build:build /build
