@@ -25,7 +25,7 @@
         :class="{ large: $vuetify.breakpoint.lg, overview: true }"
       >
         <v-list dense>
-          <v-list-item ripple style="cursor: pointer;" @click="scrollTo('top')">
+          <v-list-item ripple style="cursor: pointer" @click="scrollTo('top')">
             <v-list-item-icon>
               <v-icon>mdi-castle</v-icon>
             </v-list-item-icon>
@@ -40,7 +40,7 @@
             v-for="projekt in projekte"
             :key="projekt.id"
             ripple
-            style="cursor: pointer;"
+            style="cursor: pointer"
             @click="scrollTo(`projekt-${projekt.id}`)"
           >
             <v-list-item-icon>
@@ -100,9 +100,7 @@
             hide-default-footer
           >
             <template v-slot:no-data>
-              <v-alert type="info">
-                Keine Objekte im Projekt
-              </v-alert>
+              <v-alert type="info"> Keine Objekte im Projekt </v-alert>
             </template>
             <template v-slot:default="props">
               <v-row>
@@ -149,7 +147,7 @@
                 <a
                   href="https://limesurvey.bula21.ch/index.php/141511?newtest=Y&lang=de-informal"
                   target="_blank"
-                  style="color: white;"
+                  style="color: white"
                 >
                   <v-icon>mdi-cart</v-icon>
                   Dienstleistung bestellen

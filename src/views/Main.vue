@@ -15,9 +15,7 @@
             <v-icon>mdi-format-list-bulleted-type</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>
-              Alle Anlagen
-            </v-list-item-title>
+            <v-list-item-title> Alle Anlagen </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <Export :users="users" />
@@ -62,7 +60,7 @@
       <v-avatar :tile="true">
         <img :src="require('@/assets/logomat-logo.svg')" alt="LOGomat Logo" />
       </v-avatar>
-      <v-toolbar-title style="width: 300px;" class="ml-0 pl-4">
+      <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
         <span class="hidden-sm-and-down">LOGomat</span>
         <span v-if="activeTab !== null" class="hidden-sm-and-down"
           >: {{ tabs[activeTab].anlagenname }}</span
@@ -140,9 +138,7 @@
       {{ errorText }}
 
       <template v-slot:action="{ attrs }">
-        <v-btn v-bind="attrs" @click="dismissError()">
-          Schliessen
-        </v-btn>
+        <v-btn v-bind="attrs" @click="dismissError()"> Schliessen </v-btn>
       </template>
     </v-snackbar>
     <Clippy :showProbability="0.15" />
