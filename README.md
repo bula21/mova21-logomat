@@ -16,18 +16,17 @@
     docker build -t test .
     docker run -it --rm -p 8080:80 test
 
-## Deployment
-
-    ./deploy.sh
-
-Check version deployed: <https://logomat.verteilt.com/version.txt>
-
 ## Hierarchie
 
 * Anlage
   * Projekt
     * Objekt
     * Dienstleistung
+
+## CI
+
+There is a Github Actions setup, which builds the Docker Image but does not push it anywhere.
+Deployment happens through `azure-pipeline.yml`.
 
 ## To Do
 

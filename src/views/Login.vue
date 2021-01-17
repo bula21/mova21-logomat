@@ -54,7 +54,7 @@
                   Wie bekomme ich ein Passwort für den LOGomat?
                 </v-card-title>
 
-                <v-card-text style="font-size: medium;">
+                <v-card-text style="font-size: medium">
                   Leider kannst du dich hier nicht direkt mit dem mova-Login
                   einloggen. Aber mit einem kleinen Umweg gehts trotzdem...
                   <br />
@@ -70,12 +70,8 @@
                       >
                       öffnen
                     </li>
-                    <li>
-                      Unten links auf das kleine runde mova-Logo klicken
-                    </li>
-                    <li>
-                      Rechts "mova-Crew" auswählen
-                    </li>
+                    <li>Unten links auf das kleine runde mova-Logo klicken</li>
+                    <li>Rechts "mova-Crew" auswählen</li>
                     <li>Mit normaler mova Email und Passwort einloggen</li>
                     <li>Ganz unten links auf das User-Icon klicken</li>
                     <li>

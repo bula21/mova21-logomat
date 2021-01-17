@@ -1,4 +1,4 @@
-FROM node:14.5.0-stretch AS build
+FROM node:15.5.1-buster AS build
 
 RUN adduser --no-create-home --disabled-password --gecos '' build
 RUN mkdir /build && chown build:build /build
@@ -9,6 +9,7 @@ COPY --chown=build:build package.json yarn.lock /build/
 RUN yarn install
 
 COPY --chown=build:build . .
+RUN yarn lint
 RUN yarn build
 # checkout dockerignored files for clean diff
 RUN git checkout Dockerfile    \

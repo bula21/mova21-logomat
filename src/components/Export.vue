@@ -11,16 +11,14 @@
           <v-icon>mdi-table-arrow-right</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>
-            CSV-Export
-          </v-list-item-title>
+          <v-list-item-title> CSV-Export </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>
 
     <v-card>
       <v-list>
-        <v-list-item @click="export_('anlage')" style="cursor: pointer;" ripple>
+        <v-list-item @click="export_('anlage')" style="cursor: pointer" ripple>
           <v-list-item-icon>
             <v-icon>mdi-castle</v-icon>
           </v-list-item-icon>
@@ -28,11 +26,7 @@
             <v-list-item-title>Anlagen</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          @click="export_('projekt')"
-          style="cursor: pointer;"
-          ripple
-        >
+        <v-list-item @click="export_('projekt')" style="cursor: pointer" ripple>
           <v-list-item-icon>
             <v-icon>mdi-home-group</v-icon>
           </v-list-item-icon>
@@ -40,7 +34,7 @@
             <v-list-item-title>Projekte</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="export_('objekt')" style="cursor: pointer;" ripple>
+        <v-list-item @click="export_('objekt')" style="cursor: pointer" ripple>
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>
           </v-list-item-icon>
@@ -50,7 +44,7 @@
         </v-list-item>
         <v-list-item
           @click="export_('dienstleistung')"
-          style="cursor: pointer;"
+          style="cursor: pointer"
           ripple
         >
           <v-list-item-icon>

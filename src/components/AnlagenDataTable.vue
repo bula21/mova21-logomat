@@ -15,7 +15,7 @@
     :items-per-page="10"
   >
     <template v-slot:item="{ item }">
-      <tr @click="$emit('item-clicked', item)" style="cursor: pointer;">
+      <tr @click="$emit('item-clicked', item)" style="cursor: pointer">
         <td>{{ item.anlagen_id }}</td>
         <td>
           <b>{{ item.anlagenname }}</b>
