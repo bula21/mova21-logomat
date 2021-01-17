@@ -23,6 +23,11 @@
     * Objekt
     * Dienstleistung
 
+## CI
+
+There is a Github Actions setup, which builds the Docker Image but does not push it anywhere.
+Deployment happens through `azure-pipeline.yml`.
+
 ## To Do
 
 * CSV-Export: Für alle Tabellen, Export der Tabelle selber (ohne Verbindungen), gefiltert nach Suchfeld
