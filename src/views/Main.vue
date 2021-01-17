@@ -87,6 +87,14 @@
       <v-spacer></v-spacer>
       <v-btn
         icon
+        title="Material"
+        target="_blank"
+        href="https://avanti.bula21.ch/x/zwEUAQ"
+      >
+        <v-icon>mdi-death-star-variant</v-icon>
+      </v-btn>
+      <v-btn
+        icon
         title="Service Desk"
         target="_blank"
         href="https://voila.bula21.ch/servicedesk/customer/portal/8"
@@ -107,7 +115,7 @@
         icon
         title="Quellcode anschauen"
         target="_blank"
-        href="https://github.com/jo-m/logomat-frontend"
+        href="https://github.com/bula21/mova21-logomat"
       >
         <v-icon>mdi-github</v-icon>
       </v-btn>
