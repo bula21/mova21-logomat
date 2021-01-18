@@ -81,6 +81,8 @@ export const apiAuthenticated = async (path, query = null) => {
 
   if (query !== null) {
     config.params = query;
+  } else {
+    config.params = { limit: -1 };
   }
 
   try {

@@ -1,0 +1,88 @@
+<template>
+  <v-card>
+    <v-card-title>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Filter"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      dense
+      :headers="headers"
+      :items="orders"
+      :items-per-page="20"
+      :footer-props="{ 'items-per-page-options': [20, 50, -1] }"
+      :search="search"
+      class="elevation-1"
+      @click:row="handleClick"
+    ></v-data-table>
+  </v-card>
+</template>
+
+<script>
+import { apiAuthenticated, ApiError } from "@/lib/api.js";
+import { joinInPlace } from "@/lib/join.js";
+
+export default {
+  name: "OrderList",
+  components: {},
+  data: () => ({
+    search: "",
+    headers: [
+      { text: "Name", value: "name" },
+      { text: "Status", value: "state.name", width: "120px" },
+      { text: "Ressort", value: "client.departement.name", width: "160px" },
+      { text: "Kunde", value: "client.name" },
+      { text: "Bestellungstyp", value: "order_type.name" },
+      { text: "Ausführung", value: "delivery_type.name", width: "120px" },
+      { text: "Ausgabe", value: "delivery" },
+      { text: "Rücknahme", value: "return", width: "120px" },
+      { text: "Kommentar", value: "comment" },
+    ],
+    orders: [],
+    id: 0,
+  }),
+  methods: {
+    handleClick(item) {
+      this.$router.push({ path: "/material/order/" + item.id });
+    },
+    async fetchData() {
+      try {
+        const [
+          orders,
+          states,
+          clients,
+          departements,
+          order_types,
+          delivery_types,
+        ] = await Promise.all([
+          apiAuthenticated("/items/mat_order"),
+          apiAuthenticated("/items/mat_state"),
+          apiAuthenticated("/items/mat_client"),
+          apiAuthenticated("/items/mat_departement"),
+          apiAuthenticated("/items/mat_order_type"),
+          apiAuthenticated("/items/mat_delivery_type"),
+        ]);
+        joinInPlace(orders, states, "state");
+        joinInPlace(clients, departements, "departement");
+        joinInPlace(orders, clients, "client");
+        joinInPlace(orders, order_types, "order_type");
+        joinInPlace(orders, delivery_types, "delivery_type");
+        this.orders = Object.freeze(orders);
+      } catch (err) {
+        if (err instanceof ApiError) {
+          this.$emit("api-error", err.userMessage());
+        } else {
+          throw err;
+        }
+      }
+    },
+  },
+  created() {
+    this.fetchData();
+  },
+};
+</script>
