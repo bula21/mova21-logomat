@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { apiAuthenticated, ApiError, filter } from "@/lib/api.js";
+import { apiAuthenticated, ApiError, filter, limit } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
 
 export default {
@@ -100,7 +100,7 @@ export default {
             "/items/mat_order_item",
             filter("order", "=", this.orderId)
           ),
-          apiAuthenticated("/items/mat_item"),
+          apiAuthenticated("/items/mat_item", limit(-1)),
           apiAuthenticated("/items/mat_unit"),
           apiAuthenticated("/items/mat_catalog"),
         ]);
