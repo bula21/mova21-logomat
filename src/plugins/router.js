@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Login from "../views/Login.vue";
+import Material from "../views/Material.vue";
+import Order from "../views/Order.vue";
 import store from "./store";
 import jwt from "jwt-decode";
 
@@ -30,6 +32,16 @@ export default new Router({
       path: "/login",
       name: "login",
       component: Login,
+    },
+    {
+      path: "/material",
+      name: "material",
+      component: Material,
+    },
+    {
+      path: "/material/order/:id",
+      name: "order",
+      component: Order,
     },
     {
       path: "/",

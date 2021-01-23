@@ -91,7 +91,7 @@ export const apiAuthenticated = async (path, query = null) => {
   }
 };
 
-// https://docs.directus.io/api/query/filter.html
+// https://docs.directus.io/reference/api/query/filter.html
 export const filter = (fieldName, op, value) => {
   if (Array.isArray(value)) {
     value = value.join(",");
@@ -99,4 +99,9 @@ export const filter = (fieldName, op, value) => {
   return {
     [`filter[${fieldName}][${op}]`]: value,
   };
+};
+
+// https://docs.directus.io/reference/api/query/limit.html
+export const limit = (value) => {
+  return { limit: value };
 };

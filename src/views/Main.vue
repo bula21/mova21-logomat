@@ -85,12 +85,7 @@
         label="Nur meine Anlagen"
       />
       <v-spacer></v-spacer>
-      <v-btn
-        icon
-        title="Material"
-        target="_blank"
-        href="https://avanti.bula21.ch/x/zwEUAQ"
-      >
+      <v-btn icon title="Material" to="/material">
         <v-icon>mdi-death-star-variant</v-icon>
       </v-btn>
       <v-btn
