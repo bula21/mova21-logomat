@@ -9,6 +9,7 @@ COPY --chown=build:build package.json yarn.lock /build/
 RUN yarn install
 
 COPY --chown=build:build . .
+RUN yarn check-pretty
 RUN yarn lint
 RUN yarn build
 # checkout dockerignored files for clean diff
