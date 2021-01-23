@@ -12,7 +12,6 @@ variables:
 
 stages:
   - stage: Build
-    displayName: Build image
     jobs:
       - job: Build
         displayName: Build
@@ -25,7 +24,6 @@ stages:
               command: build
               dockerfile: $(dockerfilePath)
   - stage: Deploy
-    displayName: Build, push and deploy
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     jobs:
       - job: Build
