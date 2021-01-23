@@ -22,6 +22,7 @@ stages:
               command: build
               dockerfile: $(dockerfilePath)
   - stage: Deploy
+    dependsOn: []
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     jobs:
       - job: Deploy
