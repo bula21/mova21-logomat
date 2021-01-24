@@ -18,13 +18,21 @@
       :search="search"
       class="elevation-1"
       @click:row="handleClick"
-    ></v-data-table>
+    >
+        <template v-slot:item.delivery="{ item }">
+            <span>{{ shortDate(item.delivery) }}</span>
+        </template>
+        <template v-slot:item.return="{ item }">
+            <span>{{ shortDate(item.return) }}</span>
+        </template>
+    </v-data-table>
   </v-card>
 </template>
 
 <script>
 import { apiAuthenticated, ApiError } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
+import moment from 'moment';
 
 export default {
   name: "OrderList",
@@ -40,7 +48,6 @@ export default {
       { text: "Ausführung", value: "delivery_type.name", width: "120px" },
       { text: "Ausgabe", value: "delivery" },
       { text: "Rücknahme", value: "return", width: "120px" },
-      { text: "Kommentar", value: "comment" },
     ],
     orders: [],
     id: 0,
@@ -80,6 +87,13 @@ export default {
         }
       }
     },
+    shortDate(date) {
+        if (date) {
+            return moment(date, 'YYYY-MM-DD', true).format('DD.MM.YYYY');
+        } else {
+            return '';
+        }
+    }
   },
   created() {
     this.fetchData();
