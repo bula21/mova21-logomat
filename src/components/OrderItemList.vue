@@ -51,7 +51,7 @@
 <script>
 import { apiAuthenticated, ApiError, filter, limit } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
-import moment from 'moment';
+import moment from "moment";
 
 export default {
   name: "OrderItemList",
@@ -118,12 +118,14 @@ export default {
       }
     },
     longDate(date) {
-        if (date) {
-            return moment(date, 'YYYY-MM-DD', true).locale('de-ch').format('dddd, DD. MMMM YYYY');
-        } else {
-            return 'n/a';
-        }
-    }
+      if (date) {
+        return moment(date, "YYYY-MM-DD", true)
+          .locale("de-ch")
+          .format("dddd, DD. MMMM YYYY");
+      } else {
+        return "n/a";
+      }
+    },
   },
   created() {
     this.fetchData();

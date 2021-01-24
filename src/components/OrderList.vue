@@ -19,12 +19,12 @@
       class="elevation-1"
       @click:row="handleClick"
     >
-        <template v-slot:item.delivery="{ item }">
-            <span>{{ shortDate(item.delivery) }}</span>
-        </template>
-        <template v-slot:item.return="{ item }">
-            <span>{{ shortDate(item.return) }}</span>
-        </template>
+      <template v-slot:item.delivery="{ item }">
+        <span>{{ shortDate(item.delivery) }}</span>
+      </template>
+      <template v-slot:item.return="{ item }">
+        <span>{{ shortDate(item.return) }}</span>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -32,7 +32,7 @@
 <script>
 import { apiAuthenticated, ApiError } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
-import moment from 'moment';
+import moment from "moment";
 
 export default {
   name: "OrderList",
@@ -88,12 +88,12 @@ export default {
       }
     },
     shortDate(date) {
-        if (date) {
-            return moment(date, 'YYYY-MM-DD', true).format('DD.MM.YYYY');
-        } else {
-            return '';
-        }
-    }
+      if (date) {
+        return moment(date, "YYYY-MM-DD", true).format("DD.MM.YYYY");
+      } else {
+        return "";
+      }
+    },
   },
   created() {
     this.fetchData();
