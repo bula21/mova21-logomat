@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Login from "../views/Login.vue";
 import Material from "../views/Material.vue";
 import Order from "../views/Order.vue";
+import Sponsoring from "../views/Sponsoring.vue";
 import store from "./store";
 import jwt from "jwt-decode";
 
@@ -42,6 +43,11 @@ export default new Router({
       path: "/material/order/:id",
       name: "order",
       component: Order,
+    },
+    {
+      path: "/material/sponsoring",
+      name: "sponsoring",
+      component: Sponsoring,
     },
     {
       path: "/",

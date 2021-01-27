@@ -1,0 +1,155 @@
+<template>
+  <v-card>
+    <v-card-title>Sponsoring</v-card-title>
+    <v-data-table
+      dense
+      :headers="headers"
+      :items="orderItems"
+      :items-per-page="15"
+      :footer-props="{ 'items-per-page-options': [15, 45, -1] }"
+      class="elevation-1"
+    >
+      <template v-slot:item.von="{ item }">
+        <span>{{ shortDate(item.von) }}</span>
+      </template>
+      <template v-slot:item.bis="{ item }">
+        <span>{{ shortDate(item.bis) }}</span>
+      </template>
+    </v-data-table>
+    <v-card-text>
+      <v-btn v-on:click="download">download</v-btn>
+    </v-card-text>
+  </v-card>
+</template>
+
+<script>
+import { apiAuthenticated, ApiError, limit } from "@/lib/api.js";
+import { joinInPlace } from "@/lib/join.js";
+import moment from "moment";
+import XLSX from "xlsx";
+
+export default {
+  name: "SponsoringList",
+  components: {},
+  props: {
+    orderId: String,
+  },
+  data: () => ({
+    headers: [
+      { text: "Ressort", value: "ressort" },
+      { text: "Bereich", value: "bereich" },
+      { text: "Teilbereich", value: "teilbereich" },
+      { text: "Pfadiname", value: "pfadiname" },
+      { text: "Name + Vorname", value: "name_vorname" },
+      { text: "Detailierter Beschrieb der Sachleistung", value: "name" },
+      { text: "Mengeneinheit", value: "einheit" },
+      { text: "Anzahl", value: "anzahl" },
+      {
+        text: "mögliche Hersteller/Lieferanten/Artikelnummer",
+        value: "lieferant",
+      },
+      { text: "Benötigt von", value: "von" },
+      { text: "Benötigt bis", value: "bis" },
+      { text: "Sonstige Bemerkungen", value: "bemerkung" },
+    ],
+    orderItems: [],
+  }),
+  methods: {
+    async fetchData() {
+      try {
+        var [orders, orderItems, items, units] = await Promise.all([
+          apiAuthenticated("/items/mat_order"),
+          apiAuthenticated("/items/mat_order_item", limit(-1)),
+          apiAuthenticated("/items/mat_item", limit(-1)),
+          apiAuthenticated("/items/mat_unit"),
+        ]);
+        joinInPlace(orderItems, orders, "order");
+        joinInPlace(items, units, "unit");
+        joinInPlace(orderItems, items, "item");
+        orderItems = orderItems
+          .map((orderItem) => ({
+            ressort: "Logistik",
+            bereich: "Material",
+            teilbereich: null,
+            pfadiname: "Selva",
+            name_vorname: "Hotz Andreas",
+            name: orderItem.item.name,
+            einheit: orderItem.item.unit.name,
+            anzahl: orderItem.quantity,
+            lieferant: null,
+            von: orderItem.order.delivery
+              ? moment(orderItem.order.delivery, "YYYY-MM-DD", true)
+              : null,
+            bis: orderItem.order.return
+              ? moment(orderItem.order.return, "YYYY-MM-DD", true)
+              : null,
+            bemerkung: orderItem.item.description,
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+        orderItems = orderItems.reduce((acc, item) => {
+          const thing = acc.find((group) => group.name === item.name);
+          if (thing) {
+            thing.anzahl += item.anzahl;
+            if (thing.von) {
+              if (item.von) {
+                thing.von = moment.min(thing.von, item.von);
+              }
+            } else {
+              thing.von = item.von;
+            }
+            if (thing.bis) {
+              if (item.bis) {
+                thing.bis = moment.max(thing.bis, item.bis);
+              }
+            } else {
+              thing.bis = item.bis;
+            }
+          } else {
+            acc.push(item);
+          }
+          return acc;
+        }, []);
+        this.orderItems = Object.freeze(orderItems);
+      } catch (err) {
+        if (err instanceof ApiError) {
+          this.$emit("api-error", err.userMessage());
+        } else {
+          throw err;
+        }
+      }
+    },
+    shortDate(date) {
+      if (date) {
+        return date.format("DD.MM.YYYY");
+      } else {
+        return "n/a";
+      }
+    },
+    download: function () {
+      const mappedItems = this.orderItems.map((item) => {
+        return {
+          Ressort: item.ressort,
+          Bereich: item.bereich,
+          Teilbereich: item.teilbereich,
+          Pfadiname: item.pfadiname,
+          "Name + Vorname": item.name_vorname,
+          Name: item.name,
+          Mengeneinheit: item.einheit,
+          Anzahl: item.anzahl,
+          Lieferant: item.lieferant,
+          Von: this.shortDate(item.von),
+          Bis: this.shortDate(item.bis),
+          Bemerkung: item.bemerkung,
+        };
+      });
+      const data = XLSX.utils.json_to_sheet(mappedItems);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, data, "data");
+      XLSX.writeFile(wb, "orders.xlsx");
+    },
+  },
+  created() {
+    this.fetchData();
+  },
+};
+</script>
