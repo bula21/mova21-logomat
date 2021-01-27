@@ -26,6 +26,9 @@
         <span>{{ shortDate(item.return) }}</span>
       </template>
     </v-data-table>
+    <v-card-text>
+      <v-btn v-on:click="download">download</v-btn>
+    </v-card-text>
   </v-card>
 </template>
 
@@ -33,6 +36,7 @@
 import { apiAuthenticated, ApiError } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
 import moment from "moment";
+import XLSX from "xlsx";
 
 export default {
   name: "OrderList",
@@ -93,6 +97,25 @@ export default {
       } else {
         return "";
       }
+    },
+    download: function () {
+      const mappedOrders = this.orders.map((item) => {
+        return {
+          Name: item.name,
+          Status: item.state.name,
+          Ressort: item.client.departement.name,
+          Kunde: item.client.name,
+          Bestellungstyp: item.order_type.name,
+          Ausführung: item.delivery_type.name,
+          Ausgabe: item.delivery,
+          Rücknahme: item.return,
+          Kommentar: item.comment,
+        };
+      });
+      const data = XLSX.utils.json_to_sheet(mappedOrders);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, data, "data");
+      XLSX.writeFile(wb, "orders.xlsx");
     },
   },
   created() {
