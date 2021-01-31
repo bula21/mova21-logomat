@@ -35,7 +35,7 @@
 <script>
 import { apiAuthenticated, ApiError } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
-import moment from "moment";
+import { DateTime } from "luxon";
 import XLSX from "xlsx";
 
 export default {
@@ -93,7 +93,9 @@ export default {
     },
     shortDate(date) {
       if (date) {
-        return moment(date, "YYYY-MM-DD", true).format("DD.MM.YYYY");
+        return DateTime.fromISO(date)
+          .setLocale("de-ch")
+          .toLocaleString(DateTime.DATE_SHORT);
       } else {
         return "";
       }

@@ -25,7 +25,7 @@
 <script>
 import { apiAuthenticated, ApiError, limit } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
-import moment from "moment";
+import { DateTime } from "luxon";
 import XLSX from "xlsx";
 
 export default {
@@ -78,10 +78,10 @@ export default {
             anzahl: orderItem.quantity,
             lieferant: null,
             von: orderItem.order.delivery
-              ? moment(orderItem.order.delivery, "YYYY-MM-DD", true)
+              ? DateTime.fromISO(orderItem.order.delivery)
               : null,
             bis: orderItem.order.return
-              ? moment(orderItem.order.return, "YYYY-MM-DD", true)
+              ? DateTime.fromISO(orderItem.order.return)
               : null,
             bemerkung: orderItem.item.description,
           }))
@@ -92,14 +92,14 @@ export default {
             thing.anzahl += item.anzahl;
             if (thing.von) {
               if (item.von) {
-                thing.von = moment.min(thing.von, item.von);
+                thing.von = DateTime.min(thing.von, item.von);
               }
             } else {
               thing.von = item.von;
             }
             if (thing.bis) {
               if (item.bis) {
-                thing.bis = moment.max(thing.bis, item.bis);
+                thing.bis = DateTime.max(thing.bis, item.bis);
               }
             } else {
               thing.bis = item.bis;
@@ -120,7 +120,7 @@ export default {
     },
     shortDate(date) {
       if (date) {
-        return date.format("DD.MM.YYYY");
+        return date.setLocale("de-ch").toLocaleString(DateTime.DATE_SHORT);
       } else {
         return "n/a";
       }
