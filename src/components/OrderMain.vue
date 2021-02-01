@@ -27,6 +27,9 @@
         <template v-slot:item.return="{ item }">
           <span>{{ shortDate(item.return) }}</span>
         </template>
+        <template v-slot:item.id>
+          <v-icon small> mdi-pencil </v-icon>
+        </template>
       </v-data-table>
     </v-card>
   </v-main>
@@ -51,6 +54,7 @@ export default {
       { text: "Ausführung", value: "delivery_type.name", width: "120px" },
       { text: "Ausgabe", value: "delivery" },
       { text: "Rücknahme", value: "return", width: "120px" },
+      { text: "", value: "id" },
     ],
     orders: [],
     id: 0,
