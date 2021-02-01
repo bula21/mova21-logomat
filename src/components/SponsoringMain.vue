@@ -1,25 +1,27 @@
 <template>
-  <v-card>
-    <v-card-title>Sponsoring</v-card-title>
-    <v-data-table
-      dense
-      :headers="headers"
-      :items="orderItems"
-      :items-per-page="15"
-      :footer-props="{ 'items-per-page-options': [15, 45, -1] }"
-      class="elevation-1"
-    >
-      <template v-slot:item.von="{ item }">
-        <span>{{ shortDate(item.von) }}</span>
-      </template>
-      <template v-slot:item.bis="{ item }">
-        <span>{{ shortDate(item.bis) }}</span>
-      </template>
-    </v-data-table>
-    <v-card-text>
-      <v-btn v-on:click="download">download</v-btn>
-    </v-card-text>
-  </v-card>
+  <v-main>
+    <v-card>
+      <v-card-title>Sponsoring</v-card-title>
+      <v-data-table
+        dense
+        :headers="headers"
+        :items="orderItems"
+        :items-per-page="15"
+        :footer-props="{ 'items-per-page-options': [15, 45, -1] }"
+        class="elevation-1"
+      >
+        <template v-slot:item.von="{ item }">
+          <span>{{ shortDate(item.von) }}</span>
+        </template>
+        <template v-slot:item.bis="{ item }">
+          <span>{{ shortDate(item.bis) }}</span>
+        </template>
+      </v-data-table>
+      <v-card-text>
+        <v-btn v-on:click="download">download</v-btn>
+      </v-card-text>
+    </v-card>
+  </v-main>
 </template>
 
 <script>
@@ -29,7 +31,7 @@ import { DateTime } from "luxon";
 import XLSX from "xlsx";
 
 export default {
-  name: "SponsoringList",
+  name: "SponsoringMain",
   components: {},
   props: {
     orderId: String,

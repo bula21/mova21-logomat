@@ -1,45 +1,44 @@
 <template>
-  <v-card>
-    <v-card-title>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Filter"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-data-table
-      dense
-      :headers="headers"
-      :items="orders"
-      :items-per-page="20"
-      :footer-props="{ 'items-per-page-options': [20, 50, -1] }"
-      :search="search"
-      class="elevation-1"
-      @click:row="handleClick"
-    >
-      <template v-slot:item.delivery="{ item }">
-        <span>{{ shortDate(item.delivery) }}</span>
-      </template>
-      <template v-slot:item.return="{ item }">
-        <span>{{ shortDate(item.return) }}</span>
-      </template>
-    </v-data-table>
-    <v-card-text>
-      <v-btn v-on:click="download">download</v-btn>
-    </v-card-text>
-  </v-card>
+  <v-main>
+    <v-card>
+      <v-card-title>Material</v-card-title>
+      <v-card-text>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Filter"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-text>
+      <v-data-table
+        dense
+        :headers="headers"
+        :items="orders"
+        :items-per-page="20"
+        :footer-props="{ 'items-per-page-options': [20, 50, -1] }"
+        :search="search"
+        class="elevation-1"
+        @click:row="handleClick"
+      >
+        <template v-slot:item.delivery="{ item }">
+          <span>{{ shortDate(item.delivery) }}</span>
+        </template>
+        <template v-slot:item.return="{ item }">
+          <span>{{ shortDate(item.return) }}</span>
+        </template>
+      </v-data-table>
+    </v-card>
+  </v-main>
 </template>
 
 <script>
 import { apiAuthenticated, ApiError } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
 import { DateTime } from "luxon";
-import XLSX from "xlsx";
 
 export default {
-  name: "OrderList",
+  name: "OrderMain",
   components: {},
   data: () => ({
     search: "",
@@ -99,25 +98,6 @@ export default {
       } else {
         return "";
       }
-    },
-    download: function () {
-      const mappedOrders = this.orders.map((item) => {
-        return {
-          Name: item.name,
-          Status: item.state.name,
-          Ressort: item.client.departement.name,
-          Kunde: item.client.name,
-          Bestellungstyp: item.order_type.name,
-          Ausführung: item.delivery_type.name,
-          Ausgabe: item.delivery,
-          Rücknahme: item.return,
-          Kommentar: item.comment,
-        };
-      });
-      const data = XLSX.utils.json_to_sheet(mappedOrders);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, data, "data");
-      XLSX.writeFile(wb, "orders.xlsx");
     },
   },
   created() {

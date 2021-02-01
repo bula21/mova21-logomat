@@ -1,51 +1,53 @@
 <template>
-  <v-card>
-    <v-card-title v-if="showOrder">{{ order.name }}</v-card-title>
-    <v-card-text v-if="showOrder">
-      <v-simple-table>
-        <tr>
-          <td>Status</td>
-          <td>{{ order.state.name }}</td>
-        </tr>
-        <tr>
-          <td>Ressort</td>
-          <td>{{ order.client.departement.name }}</td>
-        </tr>
-        <tr>
-          <td>Kunde</td>
-          <td>{{ order.client.name }}</td>
-        </tr>
-        <tr>
-          <td>Bestellungstyp</td>
-          <td>{{ order.order_type.name }}</td>
-        </tr>
-        <tr>
-          <td>Ausführung</td>
-          <td>{{ order.delivery_type.name }}</td>
-        </tr>
-        <tr>
-          <td>Ausgabe</td>
-          <td>{{ longDate(order.delivery) }}</td>
-        </tr>
-        <tr>
-          <td>Rücknahme</td>
-          <td>{{ longDate(order.return) }}</td>
-        </tr>
-        <tr>
-          <td>Kommentar</td>
-          <td>{{ order.comment }}</td>
-        </tr>
-      </v-simple-table>
-    </v-card-text>
-    <v-data-table
-      dense
-      :headers="headers"
-      :items="orderItems"
-      :items-per-page="15"
-      :footer-props="{ 'items-per-page-options': [15, 45, -1] }"
-      class="elevation-1"
-    ></v-data-table>
-  </v-card>
+  <v-main>
+    <v-card>
+      <v-card-title v-if="showOrder">{{ order.name }}</v-card-title>
+      <v-card-text v-if="showOrder">
+        <v-simple-table>
+          <tr>
+            <td>Status</td>
+            <td>{{ order.state.name }}</td>
+          </tr>
+          <tr>
+            <td>Ressort</td>
+            <td>{{ order.client.departement.name }}</td>
+          </tr>
+          <tr>
+            <td>Kunde</td>
+            <td>{{ order.client.name }}</td>
+          </tr>
+          <tr>
+            <td>Bestellungstyp</td>
+            <td>{{ order.order_type.name }}</td>
+          </tr>
+          <tr>
+            <td>Ausführung</td>
+            <td>{{ order.delivery_type.name }}</td>
+          </tr>
+          <tr>
+            <td>Ausgabe</td>
+            <td>{{ longDate(order.delivery) }}</td>
+          </tr>
+          <tr>
+            <td>Rücknahme</td>
+            <td>{{ longDate(order.return) }}</td>
+          </tr>
+          <tr>
+            <td>Kommentar</td>
+            <td>{{ order.comment }}</td>
+          </tr>
+        </v-simple-table>
+      </v-card-text>
+      <v-data-table
+        dense
+        :headers="headers"
+        :items="orderItems"
+        :items-per-page="15"
+        :footer-props="{ 'items-per-page-options': [15, 45, -1] }"
+        class="elevation-1"
+      ></v-data-table>
+    </v-card>
+  </v-main>
 </template>
 
 <script>
@@ -54,7 +56,7 @@ import { joinInPlace } from "@/lib/join.js";
 import { DateTime } from "luxon";
 
 export default {
-  name: "OrderItemList",
+  name: "OrderItemMain",
   components: {},
   props: {
     orderId: String,
