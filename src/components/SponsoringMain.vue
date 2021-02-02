@@ -124,7 +124,7 @@ export default {
       if (date) {
         return date.setLocale("de-ch").toLocaleString(DateTime.DATE_SHORT);
       } else {
-        return "n/a";
+        return null;
       }
     },
     download: function () {
@@ -135,13 +135,13 @@ export default {
           Teilbereich: item.teilbereich,
           Pfadiname: item.pfadiname,
           "Name + Vorname": item.name_vorname,
-          Name: item.name,
+          "Detailierter Beschrieb der Sachleistung": item.name,
           Mengeneinheit: item.einheit,
           Anzahl: item.anzahl,
-          Lieferant: item.lieferant,
-          Von: this.shortDate(item.von),
-          Bis: this.shortDate(item.bis),
-          Bemerkung: item.bemerkung,
+          "mögliche Hersteller/Lieferanten/Artikelnummer": item.lieferant,
+          "Benötigt von": this.shortDate(item.von),
+          "Benötigt bis": this.shortDate(item.bis),
+          "Sonstige Bemerkungen": item.bemerkung,
         };
       });
       const data = XLSX.utils.json_to_sheet(mappedItems);
