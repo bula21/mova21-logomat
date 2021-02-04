@@ -142,19 +142,20 @@
             :disable-pagination="true"
             hide-default-footer
           >
-            <template v-slot:no-data
-              ><v-alert type="info">
-                Keine Dienstleistungen im Projekt.
-                <a
-                  href="https://limesurvey.bula21.ch/index.php/141511?newtest=Y&lang=de-informal"
-                  target="_blank"
-                  style="color: white"
-                >
-                  <v-icon>mdi-cart</v-icon>
-                  Dienstleistung bestellen
-                </a>
-              </v-alert></template
-            >
+            <template v-slot:no-data>
+              <div></div>
+<!--              <v-alert type="info">-->
+<!--                Keine Dienstleistungen im Projekt.-->
+<!--                <a-->
+<!--                  href="https://limesurvey.bula21.ch/index.php/141511?newtest=Y&lang=de-informal"-->
+<!--                  target="_blank"-->
+<!--                  style="color: white"-->
+<!--                >-->
+<!--                  <v-icon>mdi-cart</v-icon>-->
+<!--                  Dienstleistung bestellen-->
+<!--                </a>-->
+<!--              </v-alert>-->
+            </template>
             <template v-slot:default="props">
               <v-row>
                 <v-col
@@ -269,38 +270,38 @@ export default {
         joinInPlace(objekte, this.users, "planung");
         this.addFieldsInPlace(objekte, "objekt");
         this.objekte = Object.freeze(objekte);
-        const objektIds = objekte.map((o) => o.id);
+        // const objektIds = objekte.map((o) => o.id);
 
-        // dienstleistungen
-        const dienstleistungenProjekte = await apiAuthenticated(
-          "/items/dienstleistung",
-          filter("projekte", "in", projekteIds)
-        );
-        const dienstleistungenObjekte = await apiAuthenticated(
-          "/items/dienstleistung",
-          filter("objekte", "in", objektIds)
-        );
-        const dienstleistungenProjekteids = dienstleistungenProjekte.map(
-          (p) => p.id
-        );
-        // merge dienstleistungen from projekte
-        for (const d of dienstleistungenObjekte) {
-          if (dienstleistungenProjekteids.indexOf(d.id) === -1) {
-            dienstleistungenProjekte.push(d);
-          }
-        }
-        joinInPlace(
-          dienstleistungenProjekte,
-          this.users,
-          "kontaktperson_nutzung"
-        );
-        joinInPlace(
-          dienstleistungenProjekte,
-          this.users,
-          "kontaktperson_auftraggeber"
-        );
-        this.addFieldsInPlace(dienstleistungenProjekte, "dienstleistung");
-        this.dienstleistungen = Object.freeze(dienstleistungenProjekte);
+        // // dienstleistungen
+        // const dienstleistungenProjekte = await apiAuthenticated(
+        //   "/items/dienstleistung",
+        //   filter("projekte", "in", projekteIds)
+        // );
+        // const dienstleistungenObjekte = await apiAuthenticated(
+        //   "/items/dienstleistung",
+        //   filter("objekte", "in", objektIds)
+        // );
+        // const dienstleistungenProjekteids = dienstleistungenProjekte.map(
+        //   (p) => p.id
+        // );
+        // // merge dienstleistungen from projekte
+        // for (const d of dienstleistungenObjekte) {
+        //   if (dienstleistungenProjekteids.indexOf(d.id) === -1) {
+        //     dienstleistungenProjekte.push(d);
+        //   }
+        // }
+        // joinInPlace(
+        //   dienstleistungenProjekte,
+        //   this.users,
+        //   "kontaktperson_nutzung"
+        // );
+        // joinInPlace(
+        //   dienstleistungenProjekte,
+        //   this.users,
+        //   "kontaktperson_auftraggeber"
+        // );
+        // this.addFieldsInPlace(dienstleistungenProjekte, "dienstleistung");
+        // this.dienstleistungen = Object.freeze(dienstleistungenProjekte);
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
