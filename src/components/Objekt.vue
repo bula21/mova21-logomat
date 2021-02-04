@@ -47,6 +47,10 @@
 
         { prop: 'vum', default_hide: true },
 
+        { prop: 'preis', default_hide: true },
+        { prop: 'kostenstelle', default_hide: true },
+        { prop: 'licht', default_hide: true },
+
         { prop: 'avanti_seite', default_hide: true },
       ]"
     >
