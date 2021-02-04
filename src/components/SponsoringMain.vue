@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import { apiAuthenticated, ApiError, limit } from "@/lib/api.js";
-import { joinInPlace } from "@/lib/join.js";
+import { apiAuthenticated, ApiError, limit } from "@/lib/api";
+import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
 import XLSX from "xlsx";
 

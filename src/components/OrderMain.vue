@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import { apiAuthenticated, ApiError } from "@/lib/api.js";
-import { joinInPlace } from "@/lib/join.js";
+import { apiAuthenticated, ApiError } from "@/lib/api";
+import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
 
 export default {

@@ -13,13 +13,13 @@
     <v-btn title="Material" icon disabled>
       <v-icon>mdi-death-star-variant</v-icon>
     </v-btn>
-    <v-btn title="Material" to="/material" v-if="$route.path != '/material'">
+    <v-btn title="Material" to="/material" v-if="$route.path !== '/material'">
       Material
     </v-btn>
     <v-btn
       title="Sponsoring"
       to="/material/sponsoring"
-      v-if="$route.path != '/material/sponsoring'"
+      v-if="$route.path !== '/material/sponsoring'"
     >
       Sponsoring
     </v-btn>

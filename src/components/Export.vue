@@ -60,9 +60,9 @@
 </template>
 
 <script>
-import { apiAuthenticated } from "@/lib/api.js";
+import { apiAuthenticated } from "@/lib/api";
 import { createObjectCsvStringifier } from "csv-writer";
-import { joinInPlace } from "@/lib/join.js";
+import { joinInPlace } from "@/lib/join";
 
 export default {
   name: "Export",

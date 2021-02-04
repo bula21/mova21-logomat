@@ -39,12 +39,13 @@
 
 <script>
 import DescriptionTable from "@/components/DescriptionTable";
+import AvantiLink from "@/components/AvantiLink";
 
 export default {
   name: "Projekt",
   props: {
     projekt: Object,
   },
-  components: { DescriptionTable },
+  components: { DescriptionTable, AvantiLink },
 };
 </script>

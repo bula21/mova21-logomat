@@ -1,3 +1,4 @@
+<!--suppress CssUnusedSymbol -->
 <style>
 #container {
   padding-top: 0;
@@ -179,8 +180,8 @@
 </template>
 
 <script>
-import { apiAuthenticated, ApiError, filter } from "@/lib/api.js";
-import { joinInPlace } from "@/lib/join.js";
+import { apiAuthenticated, ApiError, filter } from "@/lib/api";
+import { joinInPlace } from "@/lib/join";
 import Dienstleistung from "@/components/Dienstleistung";
 import DescriptionTable from "@/components/DescriptionTable";
 import Objekt from "@/components/Objekt";
