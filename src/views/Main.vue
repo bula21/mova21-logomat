@@ -89,6 +89,14 @@
         <v-icon>mdi-death-star-variant</v-icon>
       </v-btn>
       <v-btn
+          icon
+          title="Transporte"
+          target="_blank"
+          href="https://tramat.mova.ch/"
+      >
+        <v-icon>mdi-truck-fast</v-icon>
+      </v-btn>
+      <v-btn
         icon
         title="Service Desk"
         target="_blank"
