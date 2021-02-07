@@ -17,6 +17,13 @@
       Material
     </v-btn>
     <v-btn
+      title="Artikel"
+      to="/material/item"
+      v-if="$route.path !== '/material/item'"
+    >
+      Artikel
+    </v-btn>
+    <v-btn
       title="Sponsoring"
       to="/material/sponsoring"
       v-if="$route.path !== '/material/sponsoring'"
@@ -24,10 +31,10 @@
       Sponsoring
     </v-btn>
     <v-btn
-        icon
-        title="Transporte"
-        target="_blank"
-        href="https://tramat.mova.ch/"
+      icon
+      title="Transporte"
+      target="_blank"
+      href="https://tramat.mova.ch/"
     >
       <v-icon>mdi-truck-fast</v-icon>
     </v-btn>
