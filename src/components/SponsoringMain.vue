@@ -7,7 +7,10 @@
         :headers="headers"
         :items="orderItems"
         :items-per-page="15"
-        :footer-props="{ 'items-per-page-options': [15, 45, -1] }"
+        :footer-props="{
+          'items-per-page-options': [20, 50, -1],
+          showFirstLastPage: true,
+        }"
         class="elevation-1"
       >
         <template v-slot:item.von="{ item }">

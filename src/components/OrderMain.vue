@@ -16,7 +16,10 @@
         :headers="headers"
         :items="orders"
         :items-per-page="20"
-        :footer-props="{ 'items-per-page-options': [20, 50, -1] }"
+        :footer-props="{
+          'items-per-page-options': [20, 50, -1],
+          showFirstLastPage: true,
+        }"
         :search="search"
         class="elevation-1"
         @click:row="handleClick"
