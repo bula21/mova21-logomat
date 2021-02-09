@@ -57,7 +57,7 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: "Anzahl", value: "quantity" },
+      { text: "Anzahl", value: "quantity", align: "right" },
       { text: "Name", value: "order.name" },
       { text: "Status", value: "order.state.name", width: "120px" },
       {
@@ -68,8 +68,13 @@ export default {
       { text: "Kunde", value: "order.client.name" },
       { text: "Bestellungstyp", value: "order.order_type.name" },
       { text: "Ausführung", value: "order.delivery_type.name", width: "120px" },
-      { text: "Ausgabe", value: "order.delivery" },
-      { text: "Rücknahme", value: "order.return", width: "120px" },
+      { text: "Ausgabe", value: "order.delivery", align: "right" },
+      {
+        text: "Rücknahme",
+        value: "order.return",
+        width: "120px",
+        align: "right",
+      },
     ],
     itemOrders: [],
     item: {},

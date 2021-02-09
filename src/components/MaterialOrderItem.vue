@@ -70,7 +70,7 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: "Anzahl", value: "quantity" },
+      { text: "Anzahl", value: "quantity", align: "right" },
       { text: "Einheit", value: "item.unit.name" },
       { text: "Artikel", value: "item.name" },
       { text: "Beschreibung", value: "item.description" },
