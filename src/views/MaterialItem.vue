@@ -1,19 +1,19 @@
 <template>
   <div>
     <MaterialNavigation />
-    <SponsoringMain />
+    <MaterialItemList />
   </div>
 </template>
 
 <script>
 import MaterialNavigation from "@/components/MaterialNavigation";
-import SponsoringMain from "@/components/SponsoringMain";
+import MaterialItemList from "@/components/MaterialItemList";
 
 export default {
-  name: "Sponsoring",
+  name: "MaterialItem",
   components: {
     MaterialNavigation,
-    SponsoringMain,
+    MaterialItemList,
   },
 };
 </script>

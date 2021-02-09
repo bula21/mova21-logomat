@@ -48,7 +48,11 @@
           showFirstLastPage: true,
         }"
         class="elevation-1"
-      ></v-data-table>
+      >
+        <template v-slot:item.item.price="{ item }">
+          <span>{{ item.item.price.toFixed(2) }}</span>
+        </template></v-data-table
+      >
     </v-card>
   </v-main>
 </template>
@@ -59,7 +63,7 @@ import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
 
 export default {
-  name: "OrderItemMain",
+  name: "MaterialOrderItem",
   components: {},
   props: {
     orderId: String,
@@ -71,6 +75,7 @@ export default {
       { text: "Artikel", value: "item.name" },
       { text: "Beschreibung", value: "item.description" },
       { text: "Katalog", value: "item.catalog.name" },
+      { text: "Richtpreis", value: "item.price", align: "right" },
     ],
     orderItems: [],
     order: {},

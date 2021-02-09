@@ -1,40 +1,70 @@
 <template>
   <v-main>
-    <v-card>
-      <v-card-title>Material</v-card-title>
-      <v-card-text>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Filter"
-          single-line
-          hide-details
-        ></v-text-field>
-      </v-card-text>
-      <v-data-table
-        dense
-        :headers="headers"
-        :items="orders"
-        :items-per-page="20"
-        :footer-props="{
-          'items-per-page-options': [20, 50, -1],
-          showFirstLastPage: true,
-        }"
-        :search="search"
-        class="elevation-1"
-        @click:row="handleClick"
-      >
-        <template v-slot:item.delivery="{ item }">
-          <span>{{ shortDate(item.delivery) }}</span>
-        </template>
-        <template v-slot:item.return="{ item }">
-          <span>{{ shortDate(item.return) }}</span>
-        </template>
-        <template v-slot:item.id>
-          <v-icon small> mdi-pencil </v-icon>
-        </template>
-      </v-data-table>
-    </v-card>
+    <v-container fluid>
+      <v-row>
+        <v-col>
+          <v-card>
+            <v-card-title>Material</v-card-title>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-btn block to="/material/order">Bestellung</v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn block disabled>Ressort</v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn block disabled>Kunde</v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn block disabled>Status</v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn block disabled>Bestellungstyp</v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn block disabled>Ausführung</v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-btn block to="/material/item">Artikel</v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn block disabled>Katalog</v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn block disabled>Einheit</v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn block to="/material/sponsoring">Sponsoring</v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-main>
 </template>
 
@@ -44,7 +74,7 @@ import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
 
 export default {
-  name: "OrderMain",
+  name: "MaterialDashboard",
   components: {},
   data: () => ({
     search: "",

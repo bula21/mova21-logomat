@@ -34,7 +34,7 @@ import { DateTime } from "luxon";
 import XLSX from "xlsx";
 
 export default {
-  name: "SponsoringMain",
+  name: "MaterialSponsoringList",
   components: {},
   props: {
     orderId: String,

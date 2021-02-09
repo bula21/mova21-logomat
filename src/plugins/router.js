@@ -2,9 +2,11 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "../views/Login.vue";
 import Material from "../views/Material.vue";
-import Order from "../views/Order.vue";
-import Item from "../views/Item.vue";
-import Sponsoring from "../views/Sponsoring.vue";
+import MaterialOrder from "../views/MaterialOrder.vue";
+import MaterialOrderDetail from "../views/MaterialOrderDetail.vue";
+import MaterialItem from "../views/MaterialItem.vue";
+import MaterialItemDetail from "../views/MaterialItemDetail.vue";
+import MaterialSponsoring from "../views/MaterialSponsoring.vue";
 import store from "./store";
 import jwt from "jwt-decode";
 
@@ -41,19 +43,29 @@ export default new Router({
       component: Material,
     },
     {
+      path: "/material/order",
+      name: "materialOrder",
+      component: MaterialOrder,
+    },
+    {
       path: "/material/order/:id",
-      name: "order",
-      component: Order,
+      name: "materialOrderDetail",
+      component: MaterialOrderDetail,
     },
     {
       path: "/material/item",
-      name: "item",
-      component: Item,
+      name: "materialItem",
+      component: MaterialItem,
+    },
+    {
+      path: "/material/item/:id",
+      name: "materialItemDetail",
+      component: MaterialItemDetail,
     },
     {
       path: "/material/sponsoring",
-      name: "sponsoring",
-      component: Sponsoring,
+      name: "materialSponsoring",
+      component: MaterialSponsoring,
     },
     {
       path: "/",

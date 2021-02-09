@@ -17,6 +17,13 @@
       Material
     </v-btn>
     <v-btn
+      title="Material"
+      to="/material/order"
+      v-if="$route.path !== '/material/order'"
+    >
+      Bestellung
+    </v-btn>
+    <v-btn
       title="Artikel"
       to="/material/item"
       v-if="$route.path !== '/material/item'"
