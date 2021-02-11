@@ -13,27 +13,31 @@
     <v-btn title="Material" icon disabled>
       <v-icon>mdi-death-star-variant</v-icon>
     </v-btn>
-    <v-btn title="Material" to="/material" v-if="$route.path !== '/material'">
+    <v-btn
+      title="Material"
+      to="/material"
+      :disabled="$route.path === '/material'"
+    >
       Material
     </v-btn>
     <v-btn
       title="Material"
       to="/material/order"
-      v-if="$route.path !== '/material/order'"
+      :disabled="$route.path === '/material/order'"
     >
       Bestellung
     </v-btn>
     <v-btn
       title="Artikel"
       to="/material/item"
-      v-if="$route.path !== '/material/item'"
+      :disabled="$route.path === '/material/item'"
     >
       Artikel
     </v-btn>
     <v-btn
       title="Sponsoring"
       to="/material/sponsoring"
-      v-if="$route.path !== '/material/sponsoring'"
+      :disabled="$route.path === '/material/sponsoring'"
     >
       Sponsoring
     </v-btn>

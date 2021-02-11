@@ -1,3 +1,8 @@
+<style>
+#orderList tr {
+  cursor: pointer;
+}
+</style>
 <template>
   <v-main>
     <v-card>
@@ -21,6 +26,7 @@
           showFirstLastPage: true,
         }"
         :search="search"
+        id="orderList"
         class="elevation-1"
         @click:row="handleClick"
       >

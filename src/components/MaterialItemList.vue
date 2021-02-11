@@ -1,3 +1,9 @@
+<style>
+#itemList tr {
+  cursor: pointer;
+}
+</style>
+
 <template>
   <v-main>
     <v-card>
@@ -21,6 +27,7 @@
           showFirstLastPage: true,
         }"
         :search="search"
+        id="itemList"
         class="elevation-1"
         @click:row="handleClick"
       >

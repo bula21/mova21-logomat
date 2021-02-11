@@ -60,9 +60,11 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
+        <v-col cols="3"></v-col>
+        <v-col cols="6">
           <v-btn block to="/material/sponsoring">Sponsoring</v-btn>
         </v-col>
+        <v-col cols="3"></v-col>
       </v-row>
     </v-container>
   </v-main>
