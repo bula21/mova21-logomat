@@ -41,31 +41,37 @@ export default new Router({
       path: "/material",
       name: "material",
       component: Material,
+      beforeEnter: ensureLoggedIn,
     },
     {
       path: "/material/order",
       name: "materialOrder",
       component: MaterialOrder,
+      beforeEnter: ensureLoggedIn,
     },
     {
       path: "/material/order/:id",
       name: "materialOrderDetail",
       component: MaterialOrderDetail,
+      beforeEnter: ensureLoggedIn,
     },
     {
       path: "/material/item",
       name: "materialItem",
       component: MaterialItem,
+      beforeEnter: ensureLoggedIn,
     },
     {
       path: "/material/item/:id",
       name: "materialItemDetail",
       component: MaterialItemDetail,
+      beforeEnter: ensureLoggedIn,
     },
     {
       path: "/material/sponsoring",
       name: "materialSponsoring",
       component: MaterialSponsoring,
+      beforeEnter: ensureLoggedIn,
     },
     {
       path: "/",
