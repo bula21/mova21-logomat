@@ -7,7 +7,10 @@
         :headers="headers"
         :items="orderItems"
         :items-per-page="15"
-        :footer-props="{ 'items-per-page-options': [15, 45, -1] }"
+        :footer-props="{
+          'items-per-page-options': [20, 50, -1],
+          showFirstLastPage: true,
+        }"
         class="elevation-1"
       >
         <template v-slot:item.von="{ item }">
@@ -31,7 +34,7 @@ import { DateTime } from "luxon";
 import XLSX from "xlsx";
 
 export default {
-  name: "SponsoringMain",
+  name: "MaterialSponsoringList",
   components: {},
   props: {
     orderId: String,
@@ -45,13 +48,13 @@ export default {
       { text: "Name + Vorname", value: "name_vorname" },
       { text: "Detailierter Beschrieb der Sachleistung", value: "name" },
       { text: "Mengeneinheit", value: "einheit" },
-      { text: "Anzahl", value: "anzahl" },
+      { text: "Anzahl", value: "anzahl", align: "right" },
       {
         text: "mögliche Hersteller/Lieferanten/Artikelnummer",
         value: "lieferant",
       },
-      { text: "Benötigt von", value: "von" },
-      { text: "Benötigt bis", value: "bis" },
+      { text: "Benötigt von", value: "von", align: "right" },
+      { text: "Benötigt bis", value: "bis", align: "right" },
       { text: "Sonstige Bemerkungen", value: "bemerkung" },
     ],
     orderItems: [],

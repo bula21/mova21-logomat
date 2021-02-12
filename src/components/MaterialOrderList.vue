@@ -1,7 +1,12 @@
+<style>
+#orderList tr {
+  cursor: pointer;
+}
+</style>
 <template>
   <v-main>
     <v-card>
-      <v-card-title>Material</v-card-title>
+      <v-card-title>Bestellung</v-card-title>
       <v-card-text>
         <v-text-field
           v-model="search"
@@ -16,8 +21,12 @@
         :headers="headers"
         :items="orders"
         :items-per-page="20"
-        :footer-props="{ 'items-per-page-options': [20, 50, -1] }"
+        :footer-props="{
+          'items-per-page-options': [20, 50, -1],
+          showFirstLastPage: true,
+        }"
         :search="search"
+        id="orderList"
         class="elevation-1"
         @click:row="handleClick"
       >
@@ -41,7 +50,7 @@ import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
 
 export default {
-  name: "OrderMain",
+  name: "MaterialOrderList",
   components: {},
   data: () => ({
     search: "",
@@ -52,8 +61,8 @@ export default {
       { text: "Kunde", value: "client.name" },
       { text: "Bestellungstyp", value: "order_type.name" },
       { text: "Ausführung", value: "delivery_type.name", width: "120px" },
-      { text: "Ausgabe", value: "delivery" },
-      { text: "Rücknahme", value: "return", width: "120px" },
+      { text: "Ausgabe", value: "delivery", align: "right" },
+      { text: "Rücknahme", value: "return", width: "120px", align: "right" },
       { text: "", value: "id" },
     ],
     orders: [],

@@ -1,19 +1,19 @@
 <template>
   <div>
     <MaterialNavigation />
-    <MaterialDashboard />
+    <MaterialItemOrder :itemId="$route.params.id" />
   </div>
 </template>
 
 <script>
 import MaterialNavigation from "@/components/MaterialNavigation";
-import MaterialDashboard from "@/components/MaterialDashboard";
+import MaterialItemOrder from "@/components/MaterialItemOrder";
 
 export default {
-  name: "Material",
+  name: "MaterialItemDetail",
   components: {
     MaterialNavigation,
-    MaterialDashboard,
+    MaterialItemOrder,
   },
 };
 </script>

@@ -1,19 +1,19 @@
 <template>
   <div>
     <MaterialNavigation />
-    <OrderItemMain :orderId="$route.params.id" />
+    <MaterialSponsoringList />
   </div>
 </template>
 
 <script>
 import MaterialNavigation from "@/components/MaterialNavigation";
-import OrderItemMain from "@/components/OrderItemMain";
+import MaterialSponsoringList from "@/components/MaterialSponsoringList";
 
 export default {
-  name: "Order",
+  name: "MaterialSponsoring",
   components: {
     MaterialNavigation,
-    OrderItemMain,
+    MaterialSponsoringList,
   },
 };
 </script>

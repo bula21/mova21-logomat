@@ -144,17 +144,17 @@
           >
             <template v-slot:no-data>
               <div></div>
-<!--              <v-alert type="info">-->
-<!--                Keine Dienstleistungen im Projekt.-->
-<!--                <a-->
-<!--                  href="https://limesurvey.bula21.ch/index.php/141511?newtest=Y&lang=de-informal"-->
-<!--                  target="_blank"-->
-<!--                  style="color: white"-->
-<!--                >-->
-<!--                  <v-icon>mdi-cart</v-icon>-->
-<!--                  Dienstleistung bestellen-->
-<!--                </a>-->
-<!--              </v-alert>-->
+              <!--              <v-alert type="info">-->
+              <!--                Keine Dienstleistungen im Projekt.-->
+              <!--                <a-->
+              <!--                  href="https://limesurvey.bula21.ch/index.php/141511?newtest=Y&lang=de-informal"-->
+              <!--                  target="_blank"-->
+              <!--                  style="color: white"-->
+              <!--                >-->
+              <!--                  <v-icon>mdi-cart</v-icon>-->
+              <!--                  Dienstleistung bestellen-->
+              <!--                </a>-->
+              <!--              </v-alert>-->
             </template>
             <template v-slot:default="props">
               <v-row>

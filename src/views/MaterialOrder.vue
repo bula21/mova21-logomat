@@ -1,19 +1,19 @@
 <template>
   <div>
     <MaterialNavigation />
-    <MaterialDashboard />
+    <MaterialOrderList />
   </div>
 </template>
 
 <script>
 import MaterialNavigation from "@/components/MaterialNavigation";
-import MaterialDashboard from "@/components/MaterialDashboard";
+import MaterialOrderList from "@/components/MaterialOrderList";
 
 export default {
-  name: "Material",
+  name: "MaterialOrder",
   components: {
     MaterialNavigation,
-    MaterialDashboard,
+    MaterialOrderList,
   },
 };
 </script>
