@@ -24,8 +24,26 @@
       </v-card-text>
       <v-data-table
         dense
-        :headers="headers"
+        :headers="orders"
         :items="itemOrders"
+        :items-per-page="15"
+        :footer-props="{
+          'items-per-page-options': [15, 45, -1],
+          showFirstLastPage: true,
+        }"
+        class="elevation-1"
+      >
+        <template v-slot:item.order.delivery="{ item }">
+          <span>{{ shortDate(item.order.delivery) }}</span>
+        </template>
+        <template v-slot:item.order.return="{ item }">
+          <span>{{ shortDate(item.order.return) }}</span>
+        </template>
+      </v-data-table>
+      <v-data-table
+        dense
+        :headers="suppliers"
+        :items="itemSuppliers"
         :items-per-page="15"
         :footer-props="{
           'items-per-page-options': [15, 45, -1],
@@ -56,7 +74,7 @@ export default {
     itemId: String,
   },
   data: () => ({
-    headers: [
+    orders: [
       { text: "Anzahl", value: "quantity", align: "right" },
       { text: "Name", value: "order.name" },
       { text: "Status", value: "order.state.name", width: "120px" },
@@ -77,6 +95,13 @@ export default {
       },
     ],
     itemOrders: [],
+    suppliers: [
+      { text: "Lieferant", value: "supplier.name" },
+      { text: "Nummer", value: "code" },
+      { text: "Name", value: "name" },
+      { text: "Preis", value: "price", align: "right" },
+    ],
+    itemSuppliers: [],
     item: {},
     showItem: false,
   }),
@@ -119,6 +144,18 @@ export default {
         joinInPlace(orders, delivery_types, "delivery_type");
         joinInPlace(itemOrders, orders, "order");
         this.itemOrders = Object.freeze(itemOrders);
+        const [
+          itemSuppliers,
+          suppliers,
+        ] = await Promise.all([
+          apiAuthenticated(
+            "/items/mat_supplier_item",
+            filter("item", "=", this.itemId)
+          ),
+          apiAuthenticated("/items/mat_supplier"),
+        ]);
+        joinInPlace(itemSuppliers, suppliers, "supplier");
+        this.itemSuppliers = Object.freeze(itemSuppliers);
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
