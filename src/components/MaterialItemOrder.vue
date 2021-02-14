@@ -44,18 +44,12 @@
         dense
         :headers="suppliers"
         :items="itemSuppliers"
-        :items-per-page="15"
-        :footer-props="{
-          'items-per-page-options': [15, 45, -1],
-          showFirstLastPage: true,
-        }"
+        :items-per-page="-1"
+        hide-default-footer
         class="elevation-1"
       >
-        <template v-slot:item.order.delivery="{ item }">
-          <span>{{ shortDate(item.order.delivery) }}</span>
-        </template>
-        <template v-slot:item.order.return="{ item }">
-          <span>{{ shortDate(item.order.return) }}</span>
+        <template v-slot:item.price="{ item }">
+          <span>{{ item.price.toFixed(2) }}</span>
         </template>
       </v-data-table>
     </v-card>
@@ -144,10 +138,7 @@ export default {
         joinInPlace(orders, delivery_types, "delivery_type");
         joinInPlace(itemOrders, orders, "order");
         this.itemOrders = Object.freeze(itemOrders);
-        const [
-          itemSuppliers,
-          suppliers,
-        ] = await Promise.all([
+        const [itemSuppliers, suppliers] = await Promise.all([
           apiAuthenticated(
             "/items/mat_supplier_item",
             filter("item", "=", this.itemId)
