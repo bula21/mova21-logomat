@@ -15,6 +15,7 @@
           label="Filter"
           single-line
           hide-details
+          clearable
         ></v-text-field>
       </v-card-text>
       <v-data-table
@@ -86,6 +87,20 @@ export default {
   },
   created() {
     this.fetchData();
+  },
+  mounted() {
+    if (localStorage.itemSearch) {
+      this.search = localStorage.itemSearch;
+    }
+  },
+  watch: {
+    search(itemSearch) {
+      if (itemSearch === null) {
+        this.search = "";
+      } else {
+        localStorage.itemSearch = itemSearch;
+      }
+    },
   },
 };
 </script>
