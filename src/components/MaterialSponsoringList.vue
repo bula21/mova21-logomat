@@ -21,7 +21,7 @@
         </template>
       </v-data-table>
       <v-card-text>
-        <v-btn v-on:click="download">download</v-btn>
+        <v-btn v-on:click="download">Export</v-btn>
       </v-card-text>
     </v-card>
   </v-main>
@@ -150,7 +150,7 @@ export default {
       const data = XLSX.utils.json_to_sheet(mappedItems);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, data, "data");
-      XLSX.writeFile(wb, "orders.xlsx");
+      XLSX.writeFile(wb, "sponsoring.xlsx");
     },
   },
   created() {

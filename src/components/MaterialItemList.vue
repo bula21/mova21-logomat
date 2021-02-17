@@ -39,6 +39,9 @@
           <v-icon small> mdi-pencil </v-icon>
         </template>
       </v-data-table>
+      <v-card-text>
+        <v-btn v-on:click="download">Export</v-btn>
+      </v-card-text>
     </v-card>
   </v-main>
 </template>
@@ -46,6 +49,7 @@
 <script>
 import { apiAuthenticated, ApiError, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
+import XLSX from "xlsx";
 
 export default {
   name: "MaterialItemList",
@@ -83,6 +87,21 @@ export default {
           throw err;
         }
       }
+    },
+    download: function () {
+      const mappedItems = this.items.map((item) => {
+        return {
+          Name: item.name,
+          Einheit: item.unit.name,
+          Beschreibung: item.description,
+          Katalog: item.catalog.name,
+          Richtpreis: item.price,
+        };
+      });
+      const data = XLSX.utils.json_to_sheet(mappedItems);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, data, "data");
+      XLSX.writeFile(wb, "artikel.xlsx");
     },
   },
   created() {
