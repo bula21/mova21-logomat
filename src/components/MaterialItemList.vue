@@ -15,6 +15,7 @@
           label="Filter"
           single-line
           hide-details
+          clearable
         ></v-text-field>
       </v-card-text>
       <v-data-table
@@ -38,6 +39,9 @@
           <v-icon small> mdi-pencil </v-icon>
         </template>
       </v-data-table>
+      <v-card-text>
+        <v-btn v-on:click="download">Export</v-btn>
+      </v-card-text>
     </v-card>
   </v-main>
 </template>
@@ -45,6 +49,7 @@
 <script>
 import { apiAuthenticated, ApiError, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
+import XLSX from "xlsx";
 
 export default {
   name: "MaterialItemList",
@@ -83,9 +88,38 @@ export default {
         }
       }
     },
+    download: function () {
+      const mappedItems = this.items.map((item) => {
+        return {
+          Name: item.name,
+          Einheit: item.unit.name,
+          Beschreibung: item.description,
+          Katalog: item.catalog.name,
+          Richtpreis: item.price,
+        };
+      });
+      const data = XLSX.utils.json_to_sheet(mappedItems);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, data, "data");
+      XLSX.writeFile(wb, "artikel.xlsx");
+    },
   },
   created() {
     this.fetchData();
+  },
+  mounted() {
+    if (localStorage.itemSearch) {
+      this.search = localStorage.itemSearch;
+    }
+  },
+  watch: {
+    search(itemSearch) {
+      if (itemSearch === null) {
+        this.search = "";
+      } else {
+        localStorage.itemSearch = itemSearch;
+      }
+    },
   },
 };
 </script>

@@ -57,6 +57,11 @@
               <v-btn block disabled>Einheit</v-btn>
             </v-col>
           </v-row>
+          <v-row>
+            <v-col>
+              <v-btn block disabled>Lieferant</v-btn>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
       <v-row>
