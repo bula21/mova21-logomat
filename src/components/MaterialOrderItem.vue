@@ -53,6 +53,9 @@
           <span>{{ item.item.price.toFixed(2) }}</span>
         </template>
       </v-data-table>
+      <v-card-text v-if="showTotal">
+        Total CHF {{ total.toFixed(2) }}
+      </v-card-text>
       <v-card-text>
         <v-btn v-on:click="download">Export</v-btn>
       </v-card-text>
@@ -84,6 +87,8 @@ export default {
     orderItems: [],
     order: {},
     showOrder: false,
+    total: null,
+    showTotal: false,
   }),
   methods: {
     async fetchData() {
@@ -123,6 +128,10 @@ export default {
         joinInPlace(items, catalogs, "catalog");
         joinInPlace(orderItems, items, "item");
         this.orderItems = Object.freeze(orderItems);
+        this.total = orderItems.reduce((acc, item) => {
+          return (acc += item.quantity * item.item.price);
+        }, 0);
+        this.showTotal = true;
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
