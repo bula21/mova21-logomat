@@ -51,8 +51,14 @@
       >
         <template v-slot:item.item.price="{ item }">
           <span>{{ item.item.price.toFixed(2) }}</span>
-        </template></v-data-table
-      >
+        </template>
+      </v-data-table>
+      <v-card-text v-if="showTotal">
+        Total CHF {{ total.toFixed(2) }}
+      </v-card-text>
+      <v-card-text>
+        <v-btn v-on:click="download">Export</v-btn>
+      </v-card-text>
     </v-card>
   </v-main>
 </template>
@@ -61,6 +67,7 @@
 import { apiAuthenticated, ApiError, filter, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
+import XLSX from "xlsx";
 
 export default {
   name: "MaterialOrderItem",
@@ -80,6 +87,8 @@ export default {
     orderItems: [],
     order: {},
     showOrder: false,
+    total: null,
+    showTotal: false,
   }),
   methods: {
     async fetchData() {
@@ -119,12 +128,25 @@ export default {
         joinInPlace(items, catalogs, "catalog");
         joinInPlace(orderItems, items, "item");
         this.orderItems = Object.freeze(orderItems);
+        this.total = orderItems.reduce((acc, item) => {
+          return (acc += item.quantity * item.item.price);
+        }, 0);
+        this.showTotal = true;
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
         } else {
           throw err;
         }
+      }
+    },
+    shortDate(date) {
+      if (date) {
+        return DateTime.fromISO(date)
+          .setLocale("de-ch")
+          .toLocaleString(DateTime.DATE_SHORT);
+      } else {
+        return "";
       }
     },
     longDate(date) {
@@ -135,6 +157,36 @@ export default {
       } else {
         return "n/a";
       }
+    },
+    download: function () {
+      const mappedOrder = [
+        { key: "Name", value: this.order.name },
+        { key: "Status", value: this.order.state.name },
+        { key: "Ressort", value: this.order.client.departement.name },
+        { key: "Kunde", value: this.order.client.name },
+        { key: "Bestellungstyp", value: this.order.order_type.name },
+        { key: "Ausführung", value: this.order.delivery_type.name },
+        { key: "Ausgabe", value: this.shortDate(this.order.delivery) },
+        { key: "Rücknahme", value: this.shortDate(this.order.return) },
+        { key: "Kommentar", value: this.order.comment },
+      ];
+      const mappedItems = this.orderItems.map((item) => {
+        return {
+          Anzahl: item.quantity,
+          Einheit: item.item.unit.name,
+          Artikel: item.item.name,
+          Beschreibung: item.item.description,
+          Katalog: item.item.catalog.name,
+          Richtpreis: item.item.price,
+        };
+      });
+      var data = XLSX.utils.json_to_sheet(mappedOrder, { skipHeader: true });
+      data = XLSX.utils.sheet_add_json(data, mappedItems, {
+        origin: { r: 10, c: 0 },
+      });
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, data, "data");
+      XLSX.writeFile(wb, "bestellung.xlsx");
     },
   },
   created() {

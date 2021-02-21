@@ -62,16 +62,44 @@ export default {
   methods: {
     async fetchData() {
       try {
-        var [orders, orderItems, items, units] = await Promise.all([
+        const [
+          orders,
+          orderItems,
+          items,
+          units,
+          supplierItems,
+          suppliers,
+        ] = await Promise.all([
           apiAuthenticated("/items/mat_order"),
           apiAuthenticated("/items/mat_order_item", limit(-1)),
           apiAuthenticated("/items/mat_item", limit(-1)),
           apiAuthenticated("/items/mat_unit"),
+          apiAuthenticated("/items/mat_supplier_item", limit(-1)),
+          apiAuthenticated("/items/mat_supplier"),
         ]);
         joinInPlace(orderItems, orders, "order");
         joinInPlace(items, units, "unit");
+        joinInPlace(supplierItems, suppliers, "supplier");
+        const supplierTexts = supplierItems.reduce((acc, item) => {
+          const thing = acc.find((group) => group.id === item.item);
+          const text =
+            item.supplier.name +
+            ", " +
+            item.name +
+            (item.code ? ", " + item.code : "");
+          if (thing) {
+            thing.text += "; " + text;
+          } else {
+            acc.push({ id: item.item, text: text });
+          }
+          return acc;
+        }, []);
+        items.forEach((item) => {
+          item.supplier = item.id;
+        });
+        joinInPlace(items, supplierTexts, "supplier");
         joinInPlace(orderItems, items, "item");
-        orderItems = orderItems
+        const mappedItems = orderItems
           .map((orderItem) => ({
             ressort: "Logistik",
             bereich: "Material",
@@ -81,7 +109,9 @@ export default {
             name: orderItem.item.name,
             einheit: orderItem.item.unit.name,
             anzahl: orderItem.quantity,
-            lieferant: null,
+            lieferant: orderItem.item.supplier
+              ? orderItem.item.supplier.text
+              : null,
             von: orderItem.order.delivery
               ? DateTime.fromISO(orderItem.order.delivery)
               : null,
@@ -91,7 +121,7 @@ export default {
             bemerkung: orderItem.item.description,
           }))
           .sort((a, b) => a.name.localeCompare(b.name));
-        orderItems = orderItems.reduce((acc, item) => {
+        const totalItems = mappedItems.reduce((acc, item) => {
           const thing = acc.find((group) => group.name === item.name);
           if (thing) {
             thing.anzahl += item.anzahl;
@@ -114,7 +144,7 @@ export default {
           }
           return acc;
         }, []);
-        this.orderItems = Object.freeze(orderItems);
+        this.orderItems = Object.freeze(totalItems);
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());

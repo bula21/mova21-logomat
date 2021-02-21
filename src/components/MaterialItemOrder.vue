@@ -40,6 +40,9 @@
           <span>{{ shortDate(item.order.return) }}</span>
         </template>
       </v-data-table>
+      <v-card-text v-if="showTotal">
+        Total {{ total }} {{ item.unit.name }}
+      </v-card-text>
       <v-data-table
         dense
         :headers="suppliers"
@@ -98,6 +101,8 @@ export default {
     itemSuppliers: [],
     item: {},
     showItem: false,
+    total: null,
+    showTotal: false,
   }),
   methods: {
     async fetchData() {
@@ -138,6 +143,10 @@ export default {
         joinInPlace(orders, delivery_types, "delivery_type");
         joinInPlace(itemOrders, orders, "order");
         this.itemOrders = Object.freeze(itemOrders);
+        this.total = itemOrders.reduce((acc, item) => {
+          return (acc += item.quantity);
+        }, 0);
+        this.showTotal = true;
         const [itemSuppliers, suppliers] = await Promise.all([
           apiAuthenticated(
             "/items/mat_supplier_item",

@@ -21,7 +21,7 @@
       <v-data-table
         dense
         :headers="headers"
-        :items="items"
+        :items="totalItems"
         :items-per-page="20"
         :footer-props="{
           'items-per-page-options': [20, 50, -1],
@@ -32,10 +32,10 @@
         class="elevation-1"
         @click:row="handleClick"
       >
-        <template v-slot:item.price="{ item }">
-          <span>{{ item.price.toFixed(2) }}</span>
+        <template v-slot:item.item.price="{ item }">
+          <span>{{ item.item.price.toFixed(2) }}</span>
         </template>
-        <template v-slot:item.id>
+        <template v-slot:item.item.id>
           <v-icon small> mdi-pencil </v-icon>
         </template>
       </v-data-table>
@@ -57,29 +57,41 @@ export default {
   data: () => ({
     search: "",
     headers: [
-      { text: "Name", value: "name" },
-      { text: "Einheit", value: "unit.name" },
-      { text: "Beschreibung", value: "description" },
-      { text: "Katalog", value: "catalog.name" },
-      { text: "Richtpreis", value: "price", align: "right" },
-      { text: "", value: "id" },
+      { text: "Anzahl", value: "quantity" },
+      { text: "Einheit", value: "item.unit.name" },
+      { text: "Name", value: "item.name" },
+      { text: "Beschreibung", value: "item.description" },
+      { text: "Katalog", value: "item.catalog.name" },
+      { text: "Richtpreis", value: "item.price", align: "right" },
+      { text: "", value: "item.id" },
     ],
-    items: [],
+    totalItems: [],
   }),
   methods: {
     handleClick(item) {
-      this.$router.push({ path: "/material/item/" + item.id });
+      this.$router.push({ path: "/material/item/" + item.item.id });
     },
     async fetchData() {
       try {
-        const [items, units, catalogs] = await Promise.all([
+        const [orderItems, items, units, catalogs] = await Promise.all([
+          apiAuthenticated("/items/mat_order_item", limit(-1)),
           apiAuthenticated("/items/mat_item", limit(-1)),
           apiAuthenticated("/items/mat_unit"),
           apiAuthenticated("/items/mat_catalog"),
         ]);
+        const totalItems = orderItems.reduce((acc, item) => {
+          const thing = acc.find((group) => group.item === item.item);
+          if (thing) {
+            thing.quantity += item.quantity;
+          } else {
+            acc.push({ item: item.item, quantity: item.quantity });
+          }
+          return acc;
+        }, []);
         joinInPlace(items, units, "unit");
         joinInPlace(items, catalogs, "catalog");
-        this.items = Object.freeze(items);
+        joinInPlace(totalItems, items, "item");
+        this.totalItems = Object.freeze(totalItems);
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
@@ -89,13 +101,14 @@ export default {
       }
     },
     download: function () {
-      const mappedItems = this.items.map((item) => {
+      const mappedItems = this.totalItems.map((item) => {
         return {
-          Name: item.name,
-          Einheit: item.unit.name,
-          Beschreibung: item.description,
-          Katalog: item.catalog.name,
-          Richtpreis: item.price,
+          Anzahl: item.quantity,
+          Einheit: item.item.unit.name,
+          Name: item.item.name,
+          Beschreibung: item.item.description,
+          Katalog: item.item.catalog.name,
+          Richtpreis: item.item.price,
         };
       });
       const data = XLSX.utils.json_to_sheet(mappedItems);
