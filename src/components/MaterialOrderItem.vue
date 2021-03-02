@@ -52,9 +52,12 @@
         <template v-slot:item.item.price="{ item }">
           <span>{{ item.item.price.toFixed(2) }}</span>
         </template>
+        <template v-slot:item.total="{ item }">
+          <span>{{ item.total.toFixed(2) }}</span>
+        </template>
       </v-data-table>
       <v-card-text v-if="showTotal">
-        Total CHF {{ total.toFixed(2) }}
+        Summe CHF {{ total.toFixed(2) }}
       </v-card-text>
       <v-card-text>
         <v-btn v-on:click="download">Export</v-btn>
@@ -83,6 +86,7 @@ export default {
       { text: "Beschreibung", value: "item.description" },
       { text: "Katalog", value: "item.catalog.name" },
       { text: "Richtpreis", value: "item.price", align: "right" },
+      { text: "Total", value: "total", align: "right" },
     ],
     orderItems: [],
     order: {},
@@ -127,6 +131,9 @@ export default {
         joinInPlace(items, units, "unit");
         joinInPlace(items, catalogs, "catalog");
         joinInPlace(orderItems, items, "item");
+        orderItems.forEach((element) => {
+          element.total = element.quantity * element.item.price;
+        });
         this.orderItems = Object.freeze(orderItems);
         this.total = orderItems.reduce((acc, item) => {
           return (acc += item.quantity * item.item.price);
