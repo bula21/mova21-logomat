@@ -21,7 +21,7 @@
       Material
     </v-btn>
     <v-btn
-      title="Material"
+      title="Bestellung"
       to="/material/order"
       :disabled="$route.path === '/material/order'"
     >
@@ -33,13 +33,6 @@
       :disabled="$route.path === '/material/item'"
     >
       Artikel
-    </v-btn>
-    <v-btn
-      title="Sponsoring"
-      to="/material/sponsoring"
-      :disabled="$route.path === '/material/sponsoring'"
-    >
-      Sponsoring
     </v-btn>
     <v-btn
       icon
