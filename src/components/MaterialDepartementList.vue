@@ -1,3 +1,8 @@
+<style>
+#clientList tr {
+  cursor: pointer;
+}
+</style>
 <template>
   <v-main>
     <v-card>
@@ -22,6 +27,7 @@
         }"
         id="clientList"
         class="elevation-1"
+        @click:row="handleClick"
       >
         <template v-slot:item.amount="{ item }">
           <span>{{
@@ -67,6 +73,10 @@ export default {
     total: null,
   }),
   methods: {
+    handleClick(item) {
+      localStorage.orderSearch = item.client;
+      this.$router.push({ path: "/material/order" });
+    },
     async handleChange(value) {
       try {
         const [clients, orders, orderItems, items] = await Promise.all([
@@ -156,15 +166,6 @@ export default {
   },
   created() {
     this.fetchData();
-  },
-  watch: {
-    search(orderSearch) {
-      if (orderSearch === null) {
-        this.search = "";
-      } else {
-        localStorage.orderSearch = orderSearch;
-      }
-    },
   },
 };
 </script>
