@@ -4,6 +4,7 @@ import Login from "../views/Login.vue";
 import Material from "../views/Material.vue";
 import MaterialOrder from "../views/MaterialOrder.vue";
 import MaterialOrderDetail from "../views/MaterialOrderDetail.vue";
+import MaterialDepartement from "../views/MaterialDepartement.vue";
 import MaterialItem from "../views/MaterialItem.vue";
 import MaterialItemDetail from "../views/MaterialItemDetail.vue";
 import MaterialSponsoring from "../views/MaterialSponsoring.vue";
@@ -53,6 +54,12 @@ export default new Router({
       path: "/material/order/:id",
       name: "materialOrderDetail",
       component: MaterialOrderDetail,
+      beforeEnter: ensureLoggedIn,
+    },
+    {
+      path: "/material/departement",
+      name: "materialDepartement",
+      component: MaterialDepartement,
       beforeEnter: ensureLoggedIn,
     },
     {
