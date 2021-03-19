@@ -20,15 +20,22 @@
 
 * Anlage
   * Projekt
-    * Objekt
     * Dienstleistung
+    * Objekt
+      * Dienstleistung
+
+Dienstleistung:
+* Strom
+* Wasser
+* Abfall
+* Abwasser
+* Telekom
 
 ## CI
 
-There is a Github Actions setup, which builds the Docker Image but does not push it anywhere.
 Deployment happens through `azure-pipeline.yml`.
+Build on every push, deployment on master.
 
-## To Do
+## Resources
 
-* CSV-Export: Für alle Tabellen, Export der Tabelle selber (ohne Verbindungen), gefiltert nach Suchfeld
 * Logomat Admin Page: <https://avanti.bula21.ch/display/0L/LOGomat+-+Admin>

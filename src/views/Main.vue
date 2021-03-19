@@ -6,16 +6,18 @@
       app
     >
       <v-list dense>
-        <v-list-item link :to="{ name: 'logomatAnlagen' }">
+        <v-list-item link :to="{ name: 'logomatAnlageList' }" exact>
           <v-list-item-action>
-            <v-icon>mdi-format-list-bulleted-type</v-icon>
+            <v-icon>mdi-castle</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Alle Anlagen</v-list-item-title>
+            <v-list-item-title>Anlagen</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/material">
+        <Export :users="users" />
+
+        <v-list-item link :to="{ name: 'materialDashboard' }" exact>
           <v-list-item-action>
             <v-icon>mdi-death-star-variant</v-icon>
           </v-list-item-action>
@@ -23,11 +25,9 @@
             <v-list-item-title>Material</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
-        <Export :users="users" />
       </v-list>
 
-      <portal-target name="sidenav-extended"> </portal-target>
+      <portal-target name="sidenav-extended"></portal-target>
     </v-navigation-drawer>
 
     <v-app-bar
@@ -37,14 +37,18 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-avatar :tile="true" width="140px">
-        <img :src="require('@/assets/logo.svg')" alt="mova Logo" />
-      </v-avatar>
-      <v-avatar :tile="true">
-        <img :src="require('@/assets/logomat-logo.svg')" alt="LOGomat Logo" />
-      </v-avatar>
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
-        <span class="hidden-sm-and-down">LOGomat</span>
+      <router-link :to="{ name: 'logomatAnlageList' }">
+        <v-avatar :tile="true" width="140px">
+          <img :src="require('@/assets/logo.svg')" alt="mova Logo" />
+        </v-avatar>
+      </router-link>
+      <router-link :to="{ name: 'logomatAnlageList' }">
+        <v-avatar :tile="true">
+          <img :src="require('@/assets/logomat-logo.svg')" alt="LOGomat Logo" />
+        </v-avatar>
+      </router-link>
+
+      <v-toolbar-title style="width: 500px" class="ml-0 pl-4">
         <portal-target
           tag="span"
           class="hidden-sm-and-down"
@@ -54,9 +58,7 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-btn icon title="Material" to="/material">
-        <v-icon>mdi-death-star-variant</v-icon>
-      </v-btn>
+
       <v-btn
         icon
         title="Transporte"
@@ -96,7 +98,15 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <router-view v-on:api-error="showError"></router-view>
+      <router-view
+        v-on:api-error="showError"
+        v-if="globalDataLoaded"
+      ></router-view>
+      <v-container v-else fluid>
+        <v-layout justify-center>
+          <v-progress-circular indeterminate size="64"></v-progress-circular>
+        </v-layout>
+      </v-container>
     </v-main>
     <v-snackbar :value="errorText.length > 0" color="error" :timeout="-1">
       {{ errorText }}
@@ -130,11 +140,12 @@ export default {
     ...mapState({
       user: "user",
       users: "users",
+      globalDataLoaded: "globalDataLoaded",
     }),
   },
   data: () => ({
     errorText: "",
-    drawer: null,
+    drawer: true,
   }),
   created() {
     this.fetchGlobalData();
@@ -144,11 +155,11 @@ export default {
       this.errorText = "";
     },
     showError(message) {
-      this.errorText = message;
+      this.errorText = `${message} - Neu laden oder Einloggen?`;
     },
     logout() {
       this.$store.commit("logOut");
-      this.$router.push({ path: "/login" });
+      this.$router.push({ name: "login" });
     },
     addProjektNamesToAnlagen(anlagen, projekte) {
       const anlagenById = anlagen.reduce((obj, anlage) => {

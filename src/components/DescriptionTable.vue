@@ -75,14 +75,11 @@ export default {
         if (this.settings.hideEmpty && this.isEmpty(prop.prop)) {
           return false;
         }
-        if (
+        return !(
           !this.settings.showAllFields &&
           !this.showAllFields &&
           prop.default_hide === true
-        ) {
-          return false;
-        }
-        return true;
+        );
       });
     },
     ...mapState({

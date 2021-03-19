@@ -1,18 +1,24 @@
 <template>
-  <v-container fluid id="container">
-    <portal to="topnav-title">: {{ anlage.anlagenname }}</portal>
+  <v-container fluid>
+    <portal to="topnav-title">Anlagen / {{ anlage.anlagenname }}</portal>
 
     <portal to="sidenav-extended">
       <v-divider></v-divider>
-      <v-subheader>Anlage</v-subheader>
 
       <v-list dense>
-        <v-list-item ripple style="cursor: pointer" @click="scrollTo('top')">
+        <v-list-item
+          ripple
+          style="cursor: pointer"
+          @click="scrollTo('top')"
+          class="v-list-item--active"
+        >
           <v-list-item-icon>
             <v-icon>mdi-castle</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title v-text="anlage.anlagenname"></v-list-item-title>
+            <v-list-item-title
+              >Anlage: {{ anlage.anlagenname }}</v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
 
@@ -163,7 +169,7 @@ import AvantiLink from "@/components/anlagen/AvantiLink";
 import { mapState } from "vuex";
 
 export default {
-  name: "Anlage",
+  name: "AnlageDetail",
   components: {
     Dienstleistung,
     Projekt,

@@ -5,55 +5,57 @@
 </style>
 
 <template>
-  <v-main>
-    <v-card>
-      <v-card-title>Artikel</v-card-title>
-      <v-card-text>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Filter"
-          single-line
-          hide-details
-          clearable
-        ></v-text-field>
-      </v-card-text>
-      <v-data-table
-        dense
-        :headers="headers"
-        :items="totalItems"
-        :items-per-page="20"
-        :footer-props="{
-          'items-per-page-options': [20, 50, -1],
-          showFirstLastPage: true,
-        }"
-        :search="search"
-        id="itemList"
-        class="elevation-1"
-        @click:row="handleClick"
-      >
-        <template v-slot:item.item.price="{ item }">
-          <span>{{ item.item.price.toFixed(2) }}</span>
-        </template>
-        <template v-slot:item.item.id>
-          <v-icon small> mdi-pencil </v-icon>
-        </template>
-      </v-data-table>
-      <v-card-text>
-        <v-btn v-on:click="download">Export</v-btn>
-      </v-card-text>
-    </v-card>
-  </v-main>
+  <v-card>
+    <portal to="topnav-title">Material / Artikel</portal>
+    <MaterialNavigation></MaterialNavigation>
+
+    <v-card-title>Artikel</v-card-title>
+    <v-card-text>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Filter"
+        single-line
+        hide-details
+        clearable
+      ></v-text-field>
+    </v-card-text>
+    <v-data-table
+      dense
+      :headers="headers"
+      :items="totalItems"
+      :items-per-page="20"
+      :footer-props="{
+        'items-per-page-options': [20, 50, -1],
+        showFirstLastPage: true,
+      }"
+      :search="search"
+      id="itemList"
+      class="elevation-1"
+      @click:row="handleClick"
+    >
+      <template v-slot:item.item.price="{ item }">
+        <span>{{ item.item.price.toFixed(2) }}</span>
+      </template>
+      <template v-slot:item.item.id>
+        <v-icon small> mdi-pencil </v-icon>
+      </template>
+    </v-data-table>
+    <v-card-text>
+      <v-btn v-on:click="download">Export</v-btn>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
 import { apiAuthenticated, ApiError, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import XLSX from "xlsx";
+import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {
   name: "MaterialItemList",
-  components: {},
+  components: { MaterialNavigation },
   data: () => ({
     search: "",
     headers: [
@@ -69,7 +71,10 @@ export default {
   }),
   methods: {
     handleClick(item) {
-      this.$router.push({ path: "/material/item/" + item.item.id });
+      this.$router.push({
+        name: "materialItemDetail",
+        params: { id: item.item.id },
+      });
     },
     async fetchData() {
       try {

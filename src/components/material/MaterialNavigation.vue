@@ -1,85 +1,49 @@
 <template>
-  <v-app-bar app color="blue-grey darken-3" dark>
-    <v-avatar :tile="true" width="140px">
-      <img :src="require('@/assets/logo.svg')" alt="mova Logo" />
-    </v-avatar>
-    <v-avatar :tile="true">
-      <img :src="require('@/assets/logomat-logo.svg')" alt="LOGomat Logo" />
-    </v-avatar>
-    <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
-      <span class="hidden-sm-and-down">LOGomat</span>
-    </v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-btn title="Material" icon disabled>
-      <v-icon>mdi-death-star-variant</v-icon>
-    </v-btn>
-    <v-btn
-      title="Material"
-      to="/material"
-      :disabled="$route.path === '/material'"
-    >
-      Material
-    </v-btn>
-    <v-btn
-      title="Bestellung"
-      to="/material/order"
-      :disabled="$route.path === '/material/order'"
-    >
-      Bestellung
-    </v-btn>
-    <v-btn
-      title="Artikel"
-      to="/material/item"
-      :disabled="$route.path === '/material/item'"
-    >
-      Artikel
-    </v-btn>
-    <v-btn
-      icon
-      title="Transporte"
-      target="_blank"
-      href="https://tramat.mova.ch/"
-    >
-      <v-icon>mdi-truck-fast</v-icon>
-    </v-btn>
-    <v-btn icon title="Logomat" to="/">
-      <v-icon>mdi-arrow-left</v-icon>
-    </v-btn>
-    <Settings />
-    <v-btn
-      icon
-      title="Quellcode anschauen"
-      target="_blank"
-      href="https://github.com/bula21/mova21-logomat"
-    >
-      <v-icon>mdi-github</v-icon>
-    </v-btn>
-    <v-btn icon v-on:click="logout" :title="`Log out ${user.email}`">
-      <v-icon>mdi-logout</v-icon>
-    </v-btn>
-  </v-app-bar>
+  <portal to="sidenav-extended">
+    <v-divider></v-divider>
+
+    <v-list dense>
+      <v-list-item link :to="{ name: 'materialOrderList' }">
+        <v-list-item-action>
+          <v-icon>mdi-cart-arrow-down</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Bestellungen</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item link :to="{ name: 'materialItemList' }">
+        <v-list-item-action>
+          <v-icon>mdi-package-variant-closed</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Artikel</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item link :to="{ name: 'materialDepartementList' }">
+        <v-list-item-action>
+          <v-icon>mdi-account-group</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Ressorts</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item link :to="{ name: 'materialSponsoringList' }">
+        <v-list-item-action>
+          <v-icon>mdi-cash-multiple</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Sponsoring</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </portal>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import Settings from "@/components/Settings";
-
 export default {
-  name: "MaterialNavigation",
-  components: {
-    Settings,
-  },
-  computed: {
-    ...mapState({
-      user: "user",
-    }),
-  },
-  data: () => ({}),
-  methods: {
-    logout() {
-      this.$store.commit("logOut");
-      this.$router.push({ path: "/login" });
-    },
-  },
+  name: "MaterialNavigation2",
 };
 </script>

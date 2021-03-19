@@ -17,7 +17,7 @@
     <template v-slot:item="{ item }">
       <router-link
         tag="tr"
-        :to="{ name: 'logomatAnlage', params: { id: item.anlagen_id } }"
+        :to="{ name: 'logomatAnlageDetail', params: { id: item.anlagen_id } }"
         style="cursor: pointer"
       >
         <td>{{ item.anlagen_id }}</td>
