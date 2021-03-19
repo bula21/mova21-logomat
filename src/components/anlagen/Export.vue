@@ -11,7 +11,7 @@
           <v-icon>mdi-table-arrow-right</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title> CSV-Export </v-list-item-title>
+          <v-list-item-title>Anlagen CSV-Export</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>

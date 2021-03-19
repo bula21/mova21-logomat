@@ -1,30 +1,31 @@
 <template>
-  <v-main>
-    <v-card>
-      <v-card-title>Sponsoring</v-card-title>
-      <v-data-table
-        dense
-        :headers="headers"
-        :items="orderItems"
-        :items-per-page="15"
-        :footer-props="{
-          'items-per-page-options': [20, 50, -1],
-          showFirstLastPage: true,
-        }"
-        class="elevation-1"
-      >
-        <template v-slot:item.von="{ item }">
-          <span>{{ shortDate(item.von) }}</span>
-        </template>
-        <template v-slot:item.bis="{ item }">
-          <span>{{ shortDate(item.bis) }}</span>
-        </template>
-      </v-data-table>
-      <v-card-text>
-        <v-btn v-on:click="download">Export</v-btn>
-      </v-card-text>
-    </v-card>
-  </v-main>
+  <v-card>
+    <portal to="topnav-title">Material / Sponsoring</portal>
+    <MaterialNavigation></MaterialNavigation>
+
+    <v-card-title>Sponsoring</v-card-title>
+    <v-data-table
+      dense
+      :headers="headers"
+      :items="orderItems"
+      :items-per-page="15"
+      :footer-props="{
+        'items-per-page-options': [20, 50, -1],
+        showFirstLastPage: true,
+      }"
+      class="elevation-1"
+    >
+      <template v-slot:item.von="{ item }">
+        <span>{{ shortDate(item.von) }}</span>
+      </template>
+      <template v-slot:item.bis="{ item }">
+        <span>{{ shortDate(item.bis) }}</span>
+      </template>
+    </v-data-table>
+    <v-card-text>
+      <v-btn v-on:click="download">Export</v-btn>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -32,10 +33,11 @@ import { apiAuthenticated, ApiError, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
 import XLSX from "xlsx";
+import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {
   name: "MaterialSponsoringList",
-  components: {},
+  components: { MaterialNavigation },
   props: {
     orderId: String,
   },
@@ -162,6 +164,7 @@ export default {
     },
     download: function () {
       const mappedItems = this.orderItems.map((item) => {
+        // noinspection JSNonASCIINames,NonAsciiCharacters
         return {
           Ressort: item.ressort,
           Bereich: item.bereich,

@@ -4,58 +4,60 @@
 }
 </style>
 <template>
-  <v-main>
-    <v-card>
-      <v-card-title>Bestellung</v-card-title>
-      <v-card-text>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Filter"
-          single-line
-          hide-details
-          clearable
-        ></v-text-field>
-      </v-card-text>
-      <v-data-table
-        dense
-        :headers="headers"
-        :items="orders"
-        :items-per-page="20"
-        :footer-props="{
-          'items-per-page-options': [20, 50, -1],
-          showFirstLastPage: true,
-        }"
-        :search="search"
-        id="orderList"
-        class="elevation-1"
-        @click:row="handleClick"
-      >
-        <template v-slot:item.delivery="{ item }">
-          <span>{{ shortDate(item.delivery) }}</span>
-        </template>
-        <template v-slot:item.return="{ item }">
-          <span>{{ shortDate(item.return) }}</span>
-        </template>
-        <template v-slot:item.total.amount="{ item }">
-          <span>{{ item.total.amount.toFixed(2) }}</span>
-        </template>
-        <template v-slot:item.id>
-          <v-icon small> mdi-pencil </v-icon>
-        </template>
-      </v-data-table>
-    </v-card>
-  </v-main>
+  <v-card>
+    <portal to="topnav-title">Material / Bestellungen</portal>
+    <MaterialNavigation></MaterialNavigation>
+
+    <v-card-title>Bestellung</v-card-title>
+    <v-card-text>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Filter"
+        single-line
+        hide-details
+        clearable
+      ></v-text-field>
+    </v-card-text>
+    <v-data-table
+      dense
+      :headers="headers"
+      :items="orders"
+      :items-per-page="20"
+      :footer-props="{
+        'items-per-page-options': [20, 50, -1],
+        showFirstLastPage: true,
+      }"
+      :search="search"
+      id="orderList"
+      class="elevation-1"
+      @click:row="handleClick"
+    >
+      <template v-slot:item.delivery="{ item }">
+        <span>{{ shortDate(item.delivery) }}</span>
+      </template>
+      <template v-slot:item.return="{ item }">
+        <span>{{ shortDate(item.return) }}</span>
+      </template>
+      <template v-slot:item.total.amount="{ item }">
+        <span>{{ item.total.amount.toFixed(2) }}</span>
+      </template>
+      <template v-slot:item.id>
+        <v-icon small> mdi-pencil </v-icon>
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
 import { apiAuthenticated, ApiError, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
+import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {
   name: "MaterialOrderList",
-  components: {},
+  components: { MaterialNavigation },
   data: () => ({
     search: "",
     headers: [
@@ -75,7 +77,7 @@ export default {
   }),
   methods: {
     handleClick(item) {
-      this.$router.push({ path: "/material/order/" + item.id });
+      this.$router.push({ name: 'materialOrderDetail', params: { id: item.id } });
     },
     async fetchData() {
       try {

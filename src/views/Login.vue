@@ -122,7 +122,7 @@ export default {
       this.errorMessage = "";
       try {
         await login(this.email, this.password);
-        await this.$router.push({ path: "/" });
+        await this.$router.push({ name: "root" });
       } catch (error) {
         this.errorMessage = error.userMessage();
       }

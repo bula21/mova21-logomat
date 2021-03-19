@@ -6,16 +6,18 @@
       app
     >
       <v-list dense>
-        <v-list-item link :to="{ name: 'logomatAnlagen' }">
+        <v-list-item link :to="{ name: 'logomatAnlageList' }" exact>
           <v-list-item-action>
-            <v-icon>mdi-format-list-bulleted-type</v-icon>
+            <v-icon>mdi-castle</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Alle Anlagen</v-list-item-title>
+            <v-list-item-title>Anlagen</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/material">
+        <Export :users="users" />
+
+        <v-list-item link :to="{ name: 'materialDashboard' }" exact>
           <v-list-item-action>
             <v-icon>mdi-death-star-variant</v-icon>
           </v-list-item-action>
@@ -23,11 +25,9 @@
             <v-list-item-title>Material</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
-        <Export :users="users" />
       </v-list>
 
-      <portal-target name="sidenav-extended"> </portal-target>
+      <portal-target name="sidenav-extended"></portal-target>
     </v-navigation-drawer>
 
     <v-app-bar
@@ -43,8 +43,7 @@
       <v-avatar :tile="true">
         <img :src="require('@/assets/logomat-logo.svg')" alt="LOGomat Logo" />
       </v-avatar>
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
-        <span class="hidden-sm-and-down">LOGomat</span>
+      <v-toolbar-title style="width: 500px" class="ml-0 pl-4">
         <portal-target
           tag="span"
           class="hidden-sm-and-down"
@@ -54,9 +53,7 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-btn icon title="Material" to="/material">
-        <v-icon>mdi-death-star-variant</v-icon>
-      </v-btn>
+
       <v-btn
         icon
         title="Transporte"
@@ -134,7 +131,7 @@ export default {
   },
   data: () => ({
     errorText: "",
-    drawer: null,
+    drawer: true,
   }),
   created() {
     this.fetchGlobalData();
@@ -148,7 +145,7 @@ export default {
     },
     logout() {
       this.$store.commit("logOut");
-      this.$router.push({ path: "/login" });
+      this.$router.push({ name: "login" });
     },
     addProjektNamesToAnlagen(anlagen, projekte) {
       const anlagenById = anlagen.reduce((obj, anlage) => {

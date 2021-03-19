@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <v-container fluid id="container">
+    <portal to="topnav-title">Anlagen</portal>
+
     <v-text-field
       flat
       hide-details
@@ -20,7 +22,7 @@
       :filterOnlyMine="searchOnlyMine"
       :items="anlagen"
     />
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -28,7 +30,7 @@ import { mapState } from "vuex";
 import AnlagenDataTable from "@/components/anlagen/AnlagenDataTable";
 
 export default {
-  name: "Main",
+  name: "AnlageList",
   components: {
     AnlagenDataTable,
   },

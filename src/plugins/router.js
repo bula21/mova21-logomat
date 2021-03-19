@@ -1,17 +1,21 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Login from "../views/Login.vue";
-import Anlagen from "../views/anlagen/Anlagen.vue";
-import Anlage from "../views/anlagen/Anlage.vue";
-import Material from "../views/material/Material.vue";
-import MaterialOrder from "../views/material/MaterialOrder.vue";
-import MaterialOrderDetail from "../views/material/MaterialOrderDetail.vue";
-import MaterialDepartement from "../views/material/MaterialDepartement.vue";
-import MaterialItem from "../views/material/MaterialItem.vue";
-import MaterialItemDetail from "../views/material/MaterialItemDetail.vue";
-import MaterialSponsoring from "../views/material/MaterialSponsoring.vue";
 import store from "./store";
 import jwt from "jwt-decode";
+
+import Login from "../views/Login";
+import Main from "../views/Main";
+
+import AnlageList from "../views/anlagen/AnlageList";
+import AnlageDetail from "../views/anlagen/AnlageDetail";
+
+import MaterialDashboard from "../views/material/MaterialDashboard";
+import MaterialDepartementList from "../views/material/MaterialDepartementList";
+import MaterialItemDetail from "../views/material/MaterialItemDetail";
+import MaterialItemList from "@/views/material/MaterialItemList";
+import MaterialOrderDetail from "../views/material/MaterialOrderDetail";
+import MaterialOrderList from "../views/material/MaterialOrderList";
+import MaterialSponsoringList from "@/views/material/MaterialSponsoringList";
 
 Vue.use(Router);
 
@@ -26,7 +30,7 @@ function loginValid(user) {
 
 function ensureLoggedIn(to, from, next) {
   if (store.state.user === null || !loginValid(store.state.user)) {
-    next("/login");
+    next({ name: "login" });
   } else {
     next();
   }
@@ -35,6 +39,7 @@ function ensureLoggedIn(to, from, next) {
 export default new Router({
   base: process.env.BASE_URL,
   routes: [
+    // login
     {
       path: "/login",
       name: "login",
@@ -42,62 +47,64 @@ export default new Router({
     },
     {
       path: "/material",
-      name: "material",
-      component: Material,
-      beforeEnter: ensureLoggedIn,
-    },
-    {
-      path: "/material/order",
-      name: "materialOrder",
-      component: MaterialOrder,
-      beforeEnter: ensureLoggedIn,
-    },
-    {
-      path: "/material/order/:id",
-      name: "materialOrderDetail",
-      component: MaterialOrderDetail,
-      beforeEnter: ensureLoggedIn,
-    },
-    {
-      path: "/material/departement",
-      name: "materialDepartement",
-      component: MaterialDepartement,
-      beforeEnter: ensureLoggedIn,
-    },
-    {
-      path: "/material/item",
-      name: "materialItem",
-      component: MaterialItem,
-      beforeEnter: ensureLoggedIn,
-    },
-    {
-      path: "/material/item/:id",
-      name: "materialItemDetail",
-      component: MaterialItemDetail,
-      beforeEnter: ensureLoggedIn,
-    },
-    {
-      path: "/material/sponsoring",
-      name: "materialSponsoring",
-      component: MaterialSponsoring,
-      beforeEnter: ensureLoggedIn,
-    },
-    {
-      path: "/",
-      component: () => import("../views/Main.vue"),
+      component: Main,
       beforeEnter: ensureLoggedIn,
       children: [
         {
           path: "",
-          name: "logomatAnlagen",
-          component: Anlagen,
+          name: "materialDashboard",
+          component: MaterialDashboard,
         },
         {
-          path: "anlage/:id",
-          name: "logomatAnlage",
-          component: Anlage,
+          path: "order",
+          name: "materialOrderList",
+          component: MaterialOrderList,
+        },
+        {
+          path: "order/:id",
+          name: "materialOrderDetail",
+          component: MaterialOrderDetail,
+        },
+        {
+          path: "departement",
+          name: "materialDepartementList",
+          component: MaterialDepartementList,
+        },
+        {
+          path: "item",
+          name: "materialItemList",
+          component: MaterialItemList,
+        },
+        {
+          path: "item/:id",
+          name: "materialItemDetail",
+          component: MaterialItemDetail,
+        },
+        {
+          path: "sponsoring",
+          name: "materialSponsoringList",
+          component: MaterialSponsoringList,
         },
       ],
     },
+    {
+      path: "/anlagen",
+      component: Main,
+      beforeEnter: ensureLoggedIn,
+      children: [
+        {
+          path: "",
+          name: "logomatAnlageList",
+          component: AnlageList,
+        },
+        {
+          path: ":id",
+          name: "logomatAnlageDetail",
+          component: AnlageDetail,
+        },
+      ],
+    },
+    // default redirect
+    { path: "*", name: "root", redirect: { name: "logomatAnlageList" } },
   ],
 });
