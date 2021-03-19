@@ -159,14 +159,13 @@
 </template>
 
 <script>
-import { apiAuthenticated, ApiError, filter } from "@/lib/api";
-import { joinInPlace } from "@/lib/join";
+import { ApiError } from "@/lib/api";
 import Dienstleistung from "@/components/anlagen/Dienstleistung";
 import DescriptionTable from "@/components/DescriptionTable";
 import Objekt from "@/components/anlagen/Objekt";
 import Projekt from "@/components/anlagen/Projekt";
 import AvantiLink from "@/components/anlagen/AvantiLink";
-import { mapState } from "vuex";
+import { loadAnlageData } from "@/lib/anlage";
 
 export default {
   name: "AnlageDetail",
@@ -176,13 +175,6 @@ export default {
     DescriptionTable,
     Objekt,
     AvantiLink,
-  },
-  computed: {
-    ...mapState({
-      anlagen: "anlagen",
-      users: "users",
-      fields: "fields",
-    }),
   },
   data: () => ({
     objekte: [],
@@ -205,80 +197,16 @@ export default {
     },
     filterByProp: (objects, propName, propValue) =>
       objects.filter((obj) => obj[propName] === propValue),
-    addFieldsInPlace(items, collectionName) {
-      for (const item of items) {
-        for (const [fieldName, fieldValue] of Object.entries(item)) {
-          if (fieldValue === null) {
-            continue;
-          }
-          const choices = this.fields[collectionName][fieldName]?.options
-            ?.choices;
-          if (choices !== undefined && choices[fieldValue] !== undefined) {
-            item[fieldName] = choices[fieldValue];
-          }
-        }
-      }
-    },
     async fetchData() {
       try {
-        // ressorts, projekte
-        const [ressorts, projekte] = await Promise.all([
-          apiAuthenticated("/items/ressort"),
-          apiAuthenticated(
-            "/items/projekt",
-            filter("anlage", "=", this.anlage.id)
-          ),
-        ]);
-        joinInPlace(projekte, ressorts, "ressort_betrieb");
-        joinInPlace(projekte, this.users, "auftraggeber");
-        joinInPlace(projekte, this.users, "verantwortliche_person_betrieb");
-        this.addFieldsInPlace(projekte, "projekt");
-        this.projekte = Object.freeze(projekte);
-
-        const projekteIds = projekte.map((p) => p.id);
-
-        // objekte
-        const objekte = await apiAuthenticated(
-          "/items/objekt",
-          filter("projekt", "in", projekteIds)
+        const { projekte, objekte, dienstleistungen } = loadAnlageData(
+          this.anlage.id,
+          this.$store.users,
+          this.$store.fields
         );
-        joinInPlace(objekte, this.users, "kontaktperson_nutzung");
-        joinInPlace(objekte, this.users, "kontaktperson_auftraggeber");
-        joinInPlace(objekte, this.users, "planung");
-        this.addFieldsInPlace(objekte, "objekt");
-        this.objekte = Object.freeze(objekte);
-        // const objektIds = objekte.map((o) => o.id);
-
-        // // dienstleistungen
-        // const dienstleistungenProjekte = await apiAuthenticated(
-        //   "/items/dienstleistung",
-        //   filter("projekte", "in", projekteIds)
-        // );
-        // const dienstleistungenObjekte = await apiAuthenticated(
-        //   "/items/dienstleistung",
-        //   filter("objekte", "in", objektIds)
-        // );
-        // const dienstleistungenProjekteids = dienstleistungenProjekte.map(
-        //   (p) => p.id
-        // );
-        // // merge dienstleistungen from projekte
-        // for (const d of dienstleistungenObjekte) {
-        //   if (dienstleistungenProjekteids.indexOf(d.id) === -1) {
-        //     dienstleistungenProjekte.push(d);
-        //   }
-        // }
-        // joinInPlace(
-        //   dienstleistungenProjekte,
-        //   this.users,
-        //   "kontaktperson_nutzung"
-        // );
-        // joinInPlace(
-        //   dienstleistungenProjekte,
-        //   this.users,
-        //   "kontaktperson_auftraggeber"
-        // );
-        // this.addFieldsInPlace(dienstleistungenProjekte, "dienstleistung");
-        // this.dienstleistungen = Object.freeze(dienstleistungenProjekte);
+        this.projekte = projekte;
+        this.objekte = objekte;
+        this.dienstleistungen = dienstleistungen;
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
