@@ -7,6 +7,8 @@
 import clippy from "clippyjs";
 import { mapState } from "vuex";
 
+window.CLIPPY_CDN = "/agents/";
+
 export default {
   name: "Clippy",
   created() {
