@@ -78,7 +78,7 @@ export default {
     handleClick(item) {
       // TODO replace this with store or URL component
       localStorage.orderSearch = item.client;
-      this.$router.push({ name: 'materialOrderList' });
+      this.$router.push({ name: "materialOrderList" });
     },
     async handleChange(value) {
       try {

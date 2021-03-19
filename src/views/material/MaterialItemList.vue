@@ -71,7 +71,10 @@ export default {
   }),
   methods: {
     handleClick(item) {
-      this.$router.push({ name: 'materialItemDetail', params: { id: item.item.id } });
+      this.$router.push({
+        name: "materialItemDetail",
+        params: { id: item.item.id },
+      });
     },
     async fetchData() {
       try {
