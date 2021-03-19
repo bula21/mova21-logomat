@@ -39,7 +39,7 @@
 
 <script>
 import DescriptionTable from "@/components/DescriptionTable";
-import AvantiLink from "@/components/AvantiLink";
+import AvantiLink from "@/components/anlagen/AvantiLink";
 
 export default {
   name: "Projekt",

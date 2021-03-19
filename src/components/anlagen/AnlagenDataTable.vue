@@ -15,7 +15,11 @@
     :items-per-page="10"
   >
     <template v-slot:item="{ item }">
-      <tr @click="$emit('item-clicked', item)" style="cursor: pointer">
+      <router-link
+        tag="tr"
+        :to="{ name: 'logomatAnlage', params: { id: item.anlagen_id } }"
+        style="cursor: pointer"
+      >
         <td>{{ item.anlagen_id }}</td>
         <td>
           <b>{{ item.anlagenname }}</b>
@@ -32,14 +36,14 @@
         <td>
           {{ item._projektnamen }}
         </td>
-      </tr>
+      </router-link>
     </template>
   </v-data-table>
 </template>
 
 <script>
-import Person from "@/components/Person";
-import AvantiLink from "@/components/AvantiLink";
+import Person from "@/components/anlagen/Person";
+import AvantiLink from "@/components/anlagen/AvantiLink";
 import { mapState } from "vuex";
 
 export default {

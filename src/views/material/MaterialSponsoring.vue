@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import MaterialNavigation from "@/components/MaterialNavigation";
-import MaterialSponsoringList from "@/components/MaterialSponsoringList";
+import MaterialNavigation from "@/components/material/MaterialNavigation";
+import MaterialSponsoringList from "@/components/material/MaterialSponsoringList";
 
 export default {
   name: "MaterialSponsoring",

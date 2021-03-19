@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import AvantiLink from "@/components/AvantiLink";
+import AvantiLink from "@/components/anlagen/AvantiLink";
 import DescriptionTable from "@/components/DescriptionTable";
 
 export default {

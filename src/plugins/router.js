@@ -1,13 +1,15 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Login from "../views/Login.vue";
-import Material from "../views/Material.vue";
-import MaterialOrder from "../views/MaterialOrder.vue";
-import MaterialOrderDetail from "../views/MaterialOrderDetail.vue";
-import MaterialDepartement from "../views/MaterialDepartement.vue";
-import MaterialItem from "../views/MaterialItem.vue";
-import MaterialItemDetail from "../views/MaterialItemDetail.vue";
-import MaterialSponsoring from "../views/MaterialSponsoring.vue";
+import Anlagen from "../views/anlagen/Anlagen.vue";
+import Anlage from "../views/anlagen/Anlage.vue";
+import Material from "../views/material/Material.vue";
+import MaterialOrder from "../views/material/MaterialOrder.vue";
+import MaterialOrderDetail from "../views/material/MaterialOrderDetail.vue";
+import MaterialDepartement from "../views/material/MaterialDepartement.vue";
+import MaterialItem from "../views/material/MaterialItem.vue";
+import MaterialItemDetail from "../views/material/MaterialItemDetail.vue";
+import MaterialSponsoring from "../views/material/MaterialSponsoring.vue";
 import store from "./store";
 import jwt from "jwt-decode";
 
@@ -82,9 +84,20 @@ export default new Router({
     },
     {
       path: "/",
-      name: "main",
       component: () => import("../views/Main.vue"),
       beforeEnter: ensureLoggedIn,
+      children: [
+        {
+          path: "",
+          name: "logomatAnlagen",
+          component: Anlagen,
+        },
+        {
+          path: "anlage/:id",
+          name: "logomatAnlage",
+          component: Anlage,
+        },
+      ],
     },
   ],
 });

@@ -6,6 +6,10 @@ Vue.use(Vuex);
 
 const vuexLocalStorage = new VuexPersist({
   storage: window.localStorage,
+  reducer: (state) => ({
+    user: state.user,
+    settings: state.settings,
+  }),
 });
 
 const debug = process.env.NODE_ENV !== "production";
@@ -23,8 +27,18 @@ export const store = new Vuex.Store({
       showInfoOnLoad: true,
       hideClippy: false,
     },
+
+    // global non-persisted state
+    anlagen: [],
+    users: [],
+    fields: {},
   },
   mutations: {
+    globalDataLoaded(state, { anlagen, users, fields }) {
+      state.anlagen = anlagen;
+      state.users = users;
+      state.fields = fields;
+    },
     loginSucceeded(state, user) {
       state.user = user;
     },

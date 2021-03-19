@@ -46,7 +46,7 @@
 
 <script>
 import { capitalCase } from "capital-case";
-import Person from "@/components/Person";
+import Person from "@/components/anlagen/Person";
 import { mapState } from "vuex";
 
 export default {
