@@ -33,8 +33,8 @@ Dienstleistung:
 
 ## CI
 
-There is a Github Actions setup, which builds the Docker Image but does not push it anywhere.
 Deployment happens through `azure-pipeline.yml`.
+Build on every push, deployment on master.
 
 ## Resources
 
