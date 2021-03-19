@@ -15,6 +15,40 @@ function addFieldsInPlace(items, collectionName, fields) {
   }
 }
 
+function addVariadicIdsInPlace(collections) {
+  for (const name of Object.keys(collections)) {
+    for (const item of collections[name]) {
+      item["id_"] = `${name}:${item.id}`;
+    }
+  }
+}
+
+async function loadDienstleistungen(filterQuery, fields) {
+  const [
+    abfallentsorgung,
+    abwasser,
+    strom,
+    telekom,
+    wasser,
+  ] = await Promise.all([
+    apiAuthenticated("/items/abfallentsorgung", filterQuery),
+    apiAuthenticated("/items/abwasser", filterQuery),
+    apiAuthenticated("/items/strom", filterQuery),
+    apiAuthenticated("/items/telekom", filterQuery),
+    apiAuthenticated("/items/wasser", filterQuery),
+  ]);
+
+  addFieldsInPlace(abfallentsorgung, "abfallentsorgung", fields);
+  addFieldsInPlace(abwasser, "abwasser", fields);
+  addFieldsInPlace(strom, "strom", fields);
+  addFieldsInPlace(telekom, "telekom", fields);
+  addFieldsInPlace(wasser, "wasser", fields);
+
+  addVariadicIdsInPlace({ abfallentsorgung, abwasser, strom, telekom, wasser });
+
+  return abfallentsorgung.concat(abwasser, strom, telekom, wasser);
+}
+
 export async function loadAnlageData(anlageId, users, fields) {
   // ressorts, projekte
   const [ressorts, projekte] = await Promise.all([
@@ -38,42 +72,33 @@ export async function loadAnlageData(anlageId, users, fields) {
   joinInPlace(objekte, users, "planung");
   addFieldsInPlace(objekte, "objekt", fields);
 
-  // const objektIds = objekte.map((o) => o.id);
+  // dienstleistungen
+  const objektIds = objekte.map((o) => o.id);
+  const dienstleistungenObjekte = await loadDienstleistungen(
+    filter("objekt", "in", objektIds),
+    fields
+  );
+  const dienstleistungenProjekte = await loadDienstleistungen(
+    filter("projekt", "in", projekteIds),
+    fields
+  );
 
-  // // dienstleistungen
-  // const dienstleistungenProjekte = await apiAuthenticated(
-  //   "/items/dienstleistung",
-  //   filter("projekte", "in", projekteIds)
-  // );
-  // const dienstleistungenObjekte = await apiAuthenticated(
-  //   "/items/dienstleistung",
-  //   filter("objekte", "in", objektIds)
-  // );
-  // const dienstleistungenProjekteids = dienstleistungenProjekte.map(
-  //   (p) => p.id
-  // );
-  // // merge dienstleistungen from projekte
-  // for (const d of dienstleistungenObjekte) {
-  //   if (dienstleistungenProjekteids.indexOf(d.id) === -1) {
-  //     dienstleistungenProjekte.push(d);
-  //   }
-  // }
-  // joinInPlace(
-  //   dienstleistungenProjekte,
-  //   this.users,
-  //   "kontaktperson_nutzung"
-  // );
-  // joinInPlace(
-  //   dienstleistungenProjekte,
-  //   this.users,
-  //   "kontaktperson_auftraggeber"
-  // );
-  // this.addFieldsInPlace(dienstleistungenProjekte, "dienstleistung");
-  // this.dienstleistungen = Object.freeze(dienstleistungenProjekte);
+  // merge dienstleistungen from projekte
+  const dienstleistungenProjekteids = dienstleistungenProjekte.map(
+    (p) => p.id_
+  );
+  for (const d of dienstleistungenObjekte) {
+    if (dienstleistungenProjekteids.indexOf(d.id_) === -1) {
+      dienstleistungenProjekte.push(d);
+    }
+  }
+
+  joinInPlace(dienstleistungenProjekte, users, "kontaktperson_nutzung");
+  joinInPlace(dienstleistungenProjekte, users, "kontaktperson_auftraggeber");
 
   return {
     objekte: Object.freeze(objekte),
     projekte: Object.freeze(projekte),
-    dienstleistungen: [],
+    dienstleistungen: Object.freeze(dienstleistungenProjekte),
   };
 }

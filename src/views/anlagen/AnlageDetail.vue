@@ -165,6 +165,7 @@ import DescriptionTable from "@/components/DescriptionTable";
 import Objekt from "@/components/anlagen/Objekt";
 import Projekt from "@/components/anlagen/Projekt";
 import AvantiLink from "@/components/anlagen/AvantiLink";
+import { mapState } from "vuex";
 import { loadAnlageData } from "@/lib/anlage";
 
 export default {
@@ -175,6 +176,13 @@ export default {
     DescriptionTable,
     Objekt,
     AvantiLink,
+  },
+  computed: {
+    ...mapState({
+      anlagen: "anlagen",
+      users: "users",
+      fields: "fields",
+    }),
   },
   data: () => ({
     objekte: [],
@@ -197,30 +205,30 @@ export default {
     },
     filterByProp: (objects, propName, propValue) =>
       objects.filter((obj) => obj[propName] === propValue),
-    async fetchData() {
-      try {
-        const { projekte, objekte, dienstleistungen } = loadAnlageData(
-          this.anlage.id,
-          this.$store.users,
-          this.$store.fields
-        );
-        this.projekte = projekte;
-        this.objekte = objekte;
-        this.dienstleistungen = dienstleistungen;
-      } catch (err) {
-        if (err instanceof ApiError) {
-          this.$emit("api-error", err.userMessage());
-        } else {
-          throw err;
-        }
-      }
-    },
   },
-  created() {
+  async created() {
+    // find anlage
     this.anlage = this.anlagen.find(
       (anlage) => anlage.anlagen_id === this.$route.params.id
     );
-    this.fetchData();
+
+    // get data
+    try {
+      const { projekte, objekte, dienstleistungen } = await loadAnlageData(
+        this.anlage.id,
+        this.users,
+        this.fields
+      );
+      this.projekte = projekte;
+      this.objekte = objekte;
+      this.dienstleistungen = dienstleistungen;
+    } catch (err) {
+      if (err instanceof ApiError) {
+        this.$emit("api-error", err.userMessage());
+      } else {
+        throw err;
+      }
+    }
   },
 };
 </script>
