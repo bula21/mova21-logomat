@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 const vuexLocalStorage = new VuexPersist({
   storage: window.localStorage,
+  // ignore data which does not have to be persisted
   reducer: (state) => ({
     user: state.user,
     settings: state.settings,
@@ -28,7 +29,8 @@ export const store = new Vuex.Store({
       hideClippy: false,
     },
 
-    // global non-persisted state
+    // global non-persisted data
+    globalDataLoaded: false,
     anlagen: [],
     users: [],
     fields: {},
@@ -38,6 +40,7 @@ export const store = new Vuex.Store({
       state.anlagen = anlagen;
       state.users = users;
       state.fields = fields;
+      state.globalDataLoaded = true;
     },
     loginSucceeded(state, user) {
       state.user = user;

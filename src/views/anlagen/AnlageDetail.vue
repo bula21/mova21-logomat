@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid id="container">
+  <v-container fluid>
     <portal to="topnav-title">Anlagen / {{ anlage.anlagenname }}</portal>
 
     <portal to="sidenav-extended">

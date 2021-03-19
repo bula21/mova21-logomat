@@ -93,7 +93,15 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <router-view v-on:api-error="showError"></router-view>
+      <router-view
+        v-on:api-error="showError"
+        v-if="globalDataLoaded"
+      ></router-view>
+      <v-container v-else fluid>
+        <v-layout justify-center>
+          <v-progress-circular indeterminate size="64"></v-progress-circular>
+        </v-layout>
+      </v-container>
     </v-main>
     <v-snackbar :value="errorText.length > 0" color="error" :timeout="-1">
       {{ errorText }}
@@ -127,6 +135,7 @@ export default {
     ...mapState({
       user: "user",
       users: "users",
+      globalDataLoaded: "globalDataLoaded",
     }),
   },
   data: () => ({
@@ -141,7 +150,7 @@ export default {
       this.errorText = "";
     },
     showError(message) {
-      this.errorText = message;
+      this.errorText = `${message} - Neu laden oder Einloggen?`;
     },
     logout() {
       this.$store.commit("logOut");
