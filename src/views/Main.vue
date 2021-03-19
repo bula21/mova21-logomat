@@ -37,12 +37,17 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-avatar :tile="true" width="140px">
-        <img :src="require('@/assets/logo.svg')" alt="mova Logo" />
-      </v-avatar>
-      <v-avatar :tile="true">
-        <img :src="require('@/assets/logomat-logo.svg')" alt="LOGomat Logo" />
-      </v-avatar>
+      <router-link :to="{ name: 'logomatAnlageList' }">
+        <v-avatar :tile="true" width="140px">
+          <img :src="require('@/assets/logo.svg')" alt="mova Logo" />
+        </v-avatar>
+      </router-link>
+      <router-link :to="{ name: 'logomatAnlageList' }">
+        <v-avatar :tile="true">
+          <img :src="require('@/assets/logomat-logo.svg')" alt="LOGomat Logo" />
+        </v-avatar>
+      </router-link>
+
       <v-toolbar-title style="width: 500px" class="ml-0 pl-4">
         <portal-target
           tag="span"

@@ -105,6 +105,6 @@ export default new Router({
       ],
     },
     // default redirect
-    { path: "*", name: "root", redirect: { name: "logomatAnlageList" } },
+    { path: "*", redirect: { name: "logomatAnlageList" } },
   ],
 });

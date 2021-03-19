@@ -122,7 +122,7 @@ export default {
       this.errorMessage = "";
       try {
         await login(this.email, this.password);
-        await this.$router.push({ name: "root" });
+        await this.$router.push({ name: "logomatAnlageList" });
       } catch (error) {
         this.errorMessage = error.userMessage();
       }
