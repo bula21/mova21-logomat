@@ -171,11 +171,10 @@ export default {
         if (anlage === undefined) {
           continue;
         }
-        if (anlage._projektnamen === undefined) {
-          anlage._projektnamen = projekt.projektname;
-        } else {
-          anlage._projektnamen += `, ${projekt.projektname}`;
+        if (anlage._projekte === undefined) {
+          anlage._projekte = [];
         }
+        anlage._projekte.push({ name: projekt.projektname, id: projekt.id });
       }
     },
     async getFields() {

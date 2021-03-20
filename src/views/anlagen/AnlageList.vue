@@ -60,7 +60,16 @@
               <AvantiLink :item="item.avanti_link" />
             </td>
             <td>
-              {{ item._projektnamen }}
+              <v-chip
+                v-for="projekt in item._projekte"
+                :key="projekt.id"
+                label
+                small
+                style="margin: 1px"
+                :input-value="true"
+              >
+                {{ stripTitle(projekt.name, item.anlagenname) }}
+              </v-chip>
             </td>
           </tr>
         </router-link>
@@ -73,6 +82,7 @@
 import Person from "@/components/anlagen/Person";
 import AvantiLink from "@/components/anlagen/AvantiLink";
 import { mapState } from "vuex";
+import { stripTitle } from "@/lib/util";
 
 export default {
   name: "AnlageList",
@@ -80,6 +90,9 @@ export default {
     filterText: "",
     filterOnlyMine: false,
   }),
+  methods: {
+    stripTitle,
+  },
   computed: {
     itemsFilteredOnlyMine() {
       if (!this.filterOnlyMine) {
