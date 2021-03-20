@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="headline"
-      >Dienstleistung: {{ capitalCase(dienstleistung.type_) }} #{{
+      >Dienstleistung: {{ nicifyTitle(dienstleistung.type_) }} #{{
         dienstleistung.id
       }}</v-card-title
     >
@@ -9,13 +9,14 @@
       :item="dienstleistung"
       :props="colsForType(dienstleistung.type_)"
     >
+      <template v-slot:prop.geraete="{ item }"> Der Gerät {{ item }} </template>
     </DescriptionTable>
   </v-card>
 </template>
 
 <script>
 import DescriptionTable from "@/components/DescriptionTable";
-import { capitalCase } from "capital-case";
+import { nicifyTitle } from "@/lib/util";
 
 export default {
   name: "Dienstleistung",
@@ -30,8 +31,8 @@ export default {
       { prop: "owner", title: "Besitzer", person: true },
       { prop: "created_on", title: "Erstellt", default_hide: true },
       { prop: "status" },
-      { prop: "benoetigt_von", title: "Benötigt von" },
-      { prop: "benoetigt_bis", title: "Benötigt bis" },
+      { prop: "benoetigt_von" },
+      { prop: "benoetigt_bis" },
       { prop: "bemerkung_bestellung" },
       { prop: "bemerkungen_lieferung" },
       { prop: "location", title: "Ort" },
@@ -98,7 +99,7 @@ export default {
     dienstleistung: Object,
   },
   methods: {
-    capitalCase,
+    nicifyTitle,
     colsForType(type) {
       const key = `${type}Cols`;
       return this.commonCols.concat(this[key]);

@@ -18,7 +18,7 @@
           <tr v-for="(prop, key) in propsFiltered" :key="key">
             <!-- key -->
             <td class="description" v-if="prop.title">{{ prop.title }}:</td>
-            <td class="description" v-else>{{ capitalCase(prop.prop) }}:</td>
+            <td class="description" v-else>{{ nicifyTitle(prop.prop) }}:</td>
 
             <!-- value -->
             <td>
@@ -47,9 +47,9 @@
 </template>
 
 <script>
-import { capitalCase } from "capital-case";
 import Person from "@/components/anlagen/Person";
 import { mapState } from "vuex";
+import { nicifyTitle } from "@/lib/util";
 
 export default {
   name: "DescriptionTable",
@@ -89,7 +89,7 @@ export default {
     }),
   },
   methods: {
-    capitalCase,
+    nicifyTitle,
     isEmpty(prop) {
       return (
         this.item[prop] === null ||
