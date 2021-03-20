@@ -2,7 +2,7 @@
   <v-card>
     <portal to="topnav-title">Anlagen</portal>
 
-    <v-card-title>
+    <v-card-title style="padding-top: 5px">
       <v-text-field
         flat
         hide-details
@@ -40,26 +40,29 @@
     >
       <template v-slot:item="{ item }">
         <router-link
-          tag="tr"
           :to="{ name: 'logomatAnlageDetail', params: { id: item.anlagen_id } }"
           style="cursor: pointer"
+          custom
+          v-slot="{ navigate }"
         >
-          <td>{{ item.anlagen_id }}</td>
-          <td>
-            <b>{{ item.anlagenname }}</b>
-          </td>
-          <td class="truncate-ellipsis" :title="item.beschreibung">
-            {{ item.beschreibung }}
-          </td>
-          <td>
-            <Person :item="item.kontaktperson" />
-          </td>
-          <td>
-            <AvantiLink :item="item.avanti_link" />
-          </td>
-          <td>
-            {{ item._projektnamen }}
-          </td>
+          <tr @click="navigate" role="link">
+            <td>{{ item.anlagen_id }}</td>
+            <td>
+              <b>{{ item.anlagenname }}</b>
+            </td>
+            <td class="truncate-ellipsis" :title="item.beschreibung">
+              {{ item.beschreibung }}
+            </td>
+            <td>
+              <Person :item="item.kontaktperson" />
+            </td>
+            <td>
+              <AvantiLink :item="item.avanti_link" />
+            </td>
+            <td>
+              {{ item._projektnamen }}
+            </td>
+          </tr>
         </router-link>
       </template>
     </v-data-table>
