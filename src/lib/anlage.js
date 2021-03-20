@@ -19,6 +19,7 @@ function addVariadicIdsInPlace(collections) {
   for (const name of Object.keys(collections)) {
     for (const item of collections[name]) {
       item["id_"] = `${name}:${item.id}`;
+      item["type_"] = name;
     }
   }
 }
@@ -93,8 +94,7 @@ export async function loadAnlageData(anlageId, users, fields) {
     }
   }
 
-  joinInPlace(dienstleistungenProjekte, users, "kontaktperson_nutzung");
-  joinInPlace(dienstleistungenProjekte, users, "kontaktperson_auftraggeber");
+  joinInPlace(dienstleistungenProjekte, users, "owner");
 
   return {
     objekte: Object.freeze(objekte),

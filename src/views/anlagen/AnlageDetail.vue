@@ -33,9 +33,9 @@
             <v-icon>mdi-home-group</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title
-              v-text="stripProjektTitle(projekt.projektname)"
-            ></v-list-item-title>
+            <v-list-item-title>
+              Projekt: {{ stripProjektTitle(projekt.projektname) }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -99,7 +99,7 @@
               <v-col
                 v-for="dienstleistung in filterByProp(
                   dienstleistungen,
-                  'objekte',
+                  'objekt',
                   objekt.id
                 )"
                 :key="dienstleistung.id"
@@ -118,29 +118,18 @@
       </v-data-iterator>
 
       <v-data-iterator
-        :items="filterByProp(dienstleistungen, 'projekte', projekt.id)"
+        :items="filterByProp(dienstleistungen, 'projekt', projekt.id)"
         :disable-pagination="true"
         hide-default-footer
       >
         <template v-slot:no-data>
           <div></div>
-          <!--              <v-alert type="info">-->
-          <!--                Keine Dienstleistungen im Projekt.-->
-          <!--                <a-->
-          <!--                  href="https://limesurvey.bula21.ch/index.php/141511?newtest=Y&lang=de-informal"-->
-          <!--                  target="_blank"-->
-          <!--                  style="color: white"-->
-          <!--                >-->
-          <!--                  <v-icon>mdi-cart</v-icon>-->
-          <!--                  Dienstleistung bestellen-->
-          <!--                </a>-->
-          <!--              </v-alert>-->
         </template>
         <template v-slot:default="props">
           <v-row>
             <v-col
               v-for="item in props.items"
-              :key="item.id"
+              :key="item.id_"
               cols="12"
               sm="12"
               md="6"

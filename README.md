@@ -36,6 +36,10 @@ Dienstleistung:
 Deployment happens through `azure-pipeline.yml`.
 Build on every push, deployment on master.
 
+## Info
+
+Token im User-Objekt via API erscheinen nur für Admins, für normale Benutzer nicht.
+
 ## Resources
 
-* Logomat Admin Page: <https://avanti.bula21.ch/display/0L/LOGomat+-+Admin>
+* Logomat Admin Page: <https://avanti.bula21.ch/display/0L/LOGdb+-+Admin>
