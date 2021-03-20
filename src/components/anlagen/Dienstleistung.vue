@@ -1,7 +1,9 @@
 <template>
   <v-card>
     <v-card-title class="headline"
-      >Dienstleistung: {{ capitalCase(dienstleistung.type_) }}</v-card-title
+      >Dienstleistung: {{ capitalCase(dienstleistung.type_) }} #{{
+        dienstleistung.id
+      }}</v-card-title
     >
     <DescriptionTable
       :item="dienstleistung"

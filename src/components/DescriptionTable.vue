@@ -3,13 +3,15 @@
     <v-simple-table dense v-if="propsFiltered.length > 0">
       <template v-slot:default>
         <tbody>
-          <tr v-show="hasHiddenFields">
+          <tr
+            v-show="hasHiddenFields"
+            v-if="!settings.showAllFields"
+            @click="showAllFields = !showAllFields"
+            style="cursor: pointer"
+          >
             <td>Mehr Felder anzeigen</td>
             <td>
-              <v-switch
-                v-show="!settings.showAllFields"
-                v-model="showAllFields"
-              ></v-switch>
+              <v-switch v-model="showAllFields" readonly dense></v-switch>
             </td>
           </tr>
 
