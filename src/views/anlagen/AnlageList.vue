@@ -2,26 +2,7 @@
   <v-container fluid>
     <portal to="topnav-title">Anlagen</portal>
 
-    <v-text-field
-      flat
-      hide-details
-      prepend-inner-icon="mdi-magnify"
-      label="Suche Anlagen oder Projekte"
-      class="hidden-sm-and-down"
-      v-model="searchText"
-    ></v-text-field>
-    <v-checkbox
-      v-model="searchOnlyMine"
-      flat
-      solo-inverted
-      hide-details
-      label="Nur meine Anlagen"
-    />
-    <AnlagenDataTable
-      :filterText="searchText"
-      :filterOnlyMine="searchOnlyMine"
-      :items="anlagen"
-    />
+    <AnlagenDataTable :items="anlagen" />
   </v-container>
 </template>
 
@@ -42,9 +23,5 @@ export default {
       fields: "fields",
     }),
   },
-  data: () => ({
-    searchText: "",
-    searchOnlyMine: false,
-  }),
 };
 </script>

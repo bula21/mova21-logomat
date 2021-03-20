@@ -1,8 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="headline"
-      >Projekt: {{ projekt.projektname }}</v-card-title
-    >
+    <v-card-title class="headline">Projekt: {{ title }}</v-card-title>
     <DescriptionTable
       :item="projekt"
       :props="[
@@ -45,6 +43,7 @@ export default {
   name: "Projekt",
   props: {
     projekt: Object,
+    title: String,
   },
   components: { DescriptionTable, AvantiLink },
 };

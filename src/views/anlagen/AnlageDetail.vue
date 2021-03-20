@@ -34,7 +34,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>
-              Projekt: {{ stripProjektTitle(projekt.projektname) }}
+              Projekt: {{ stripAnlageFromTitle(projekt.projektname) }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -62,16 +62,26 @@
       </DescriptionTable>
     </v-card>
 
-    <br />
-    <hr />
-    <br />
+    <div v-if="loaded">
+      <br />
+      <hr />
+      <br />
+    </div>
+    <v-layout justify-center v-else style="margin-top: 20px">
+      <br />
+      <br />
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-layout>
 
     <div
       v-for="projekt in projekte"
       v-bind:key="projekt.id"
       :ref="`projekt-${projekt.id}`"
     >
-      <Projekt :projekt="projekt"></Projekt>
+      <Projekt
+        :projekt="projekt"
+        :title="stripAnlageFromTitle(projekt.projektname)"
+      ></Projekt>
 
       <br />
 
@@ -149,13 +159,14 @@
 
 <script>
 import { ApiError } from "@/lib/api";
+import { mapState } from "vuex";
+import { loadAnlageData } from "@/lib/anlage";
+import { stripTitle } from "@/lib/util";
 import Dienstleistung from "@/components/anlagen/Dienstleistung";
 import DescriptionTable from "@/components/DescriptionTable";
 import Objekt from "@/components/anlagen/Objekt";
 import Projekt from "@/components/anlagen/Projekt";
 import AvantiLink from "@/components/anlagen/AvantiLink";
-import { mapState } from "vuex";
-import { loadAnlageData } from "@/lib/anlage";
 
 export default {
   name: "AnlageDetail",
@@ -178,11 +189,11 @@ export default {
     projekte: [],
     dienstleistungen: [],
     anlage: {},
+    loaded: false,
   }),
   methods: {
-    stripProjektTitle(name) {
-      const postFix = ` - ${this.anlage.anlagenname}`;
-      return name.replace(postFix, "");
+    stripAnlageFromTitle(title) {
+      return stripTitle(title, this.anlage.anlagenname);
     },
     scrollTo(selector) {
       const target = this.$refs[selector];
@@ -218,6 +229,8 @@ export default {
         throw err;
       }
     }
+
+    this.loaded = true;
   },
 };
 </script>
