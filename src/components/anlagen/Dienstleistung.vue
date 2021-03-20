@@ -9,7 +9,9 @@
       :item="dienstleistung"
       :props="colsForType(dienstleistung.type_)"
     >
-      <template v-slot:prop.geraete="{ item }"> Der Gerät {{ item }} </template>
+      <template v-slot:prop.geraete="{ item }">
+        <Geraet :geraete="item" />
+      </template>
     </DescriptionTable>
   </v-card>
 </template>
@@ -17,10 +19,12 @@
 <script>
 import DescriptionTable from "@/components/DescriptionTable";
 import { nicifyTitle } from "@/lib/util";
+import Geraet from "@/components/anlagen/Geraet";
 
 export default {
   name: "Dienstleistung",
   components: {
+    Geraet,
     DescriptionTable,
   },
   data: () => ({
