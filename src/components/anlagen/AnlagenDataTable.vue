@@ -31,6 +31,10 @@
       :search="filterText"
       item-key="id"
       :items-per-page="10"
+      :footer-props="{
+        'items-per-page-options': [10, 20, 50, -1],
+        showFirstLastPage: true,
+      }"
     >
       <template v-slot:item="{ item }">
         <router-link

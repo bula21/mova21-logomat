@@ -22,9 +22,9 @@
       dense
       :headers="headers"
       :items="clients"
-      :items-per-page="20"
+      :items-per-page="10"
       :footer-props="{
-        'items-per-page-options': [20, 50, -1],
+        'items-per-page-options': [10, 20, 50, -1],
         showFirstLastPage: true,
       }"
       id="clientList"

@@ -8,9 +8,9 @@
       dense
       :headers="headers"
       :items="orderItems"
-      :items-per-page="15"
+      :items-per-page="10"
       :footer-props="{
-        'items-per-page-options': [20, 50, -1],
+        'items-per-page-options': [10, 20, 50, -1],
         showFirstLastPage: true,
       }"
       class="elevation-1"
