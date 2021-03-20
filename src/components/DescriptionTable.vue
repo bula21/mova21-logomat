@@ -34,7 +34,9 @@
                   >
                   <template v-else><v-icon>mdi-close-outline</v-icon></template>
                 </template>
-                <template v-else>{{ item[prop.prop] }}</template>
+                <template v-else>
+                  <span v-html="renderNewlines(item[prop.prop])" />
+                </template>
               </slot>
               <Person v-else :item="item[prop.prop]" />
             </td>
@@ -90,6 +92,13 @@ export default {
   },
   methods: {
     nicifyTitle,
+    renderNewlines(text) {
+      if (!(typeof text === "string")) {
+        return text;
+      }
+      const withNewlines = text.replace(/(?:\r\n|\r|\n)/g, "<br />");
+      return this.$sanitize(withNewlines);
+    },
     isEmpty(prop) {
       return (
         this.item[prop] === null ||
