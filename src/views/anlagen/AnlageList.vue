@@ -9,8 +9,8 @@
         clearable
         prepend-inner-icon="mdi-magnify"
         label="Suche Anlagen oder Projekte"
-        class="hidden-sm-and-down"
         v-model="filterText"
+        style="max-width: 300px"
       />
       <v-checkbox
         v-model="filterOnlyMine"
