@@ -31,6 +31,17 @@ Dienstleistung:
 * Abwasser
 * Telekom
 
+To get column names:
+
+```sql
+SELECT Concat(table_name, '.', column_name)
+FROM   information_schema.columns
+WHERE  table_schema = 'directus'
+       AND table_name NOT LIKE 'directus_%'
+       AND table_name NOT LIKE 'mat_%'
+       AND table_name NOT LIKE 'trp_%';
+```
+
 ## CI
 
 Deployment happens through `azure-pipeline.yml`.
@@ -50,3 +61,4 @@ We host fonts and icons locally.
 ## Resources
 
 * Logomat Admin Page: <https://avanti.bula21.ch/x/oQTJAQ>
+* Test Anlagen: <http://localhost:8080/#/anlagen/9999>, <http://localhost:8080/#/anlagen/2805> 
