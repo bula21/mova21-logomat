@@ -40,13 +40,14 @@
       <router-link
         :to="{ name: 'logomatAnlageList' }"
         class="hidden-sm-and-down"
+        style="margin-right: 20px"
       >
         <v-avatar :tile="true" width="110px">
           <MovaLogo alt="mova Logo" />
         </v-avatar>
       </router-link>
       <router-link :to="{ name: 'logomatAnlageList' }">
-        <v-avatar :tile="true" style="margin-left: 20px">
+        <v-avatar :tile="true">
           <LogomatLogo alt="LOGomat Logo" />
         </v-avatar>
       </router-link>
@@ -66,6 +67,7 @@
         title="Transporte"
         target="_blank"
         href="https://tramat.mova.ch/"
+        class="hidden-xs-only"
       >
         <v-icon>mdi-truck-fast</v-icon>
       </v-btn>
@@ -90,6 +92,7 @@
       <v-btn
         icon
         title="Quellcode anschauen"
+        class="hidden-xs-only"
         target="_blank"
         href="https://github.com/bula21/mova21-logomat"
       >
