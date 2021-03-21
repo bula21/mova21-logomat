@@ -179,5 +179,6 @@ export default {
 <style>
 td.description {
   font-weight: bold;
+  width: 33%;
 }
 </style>
