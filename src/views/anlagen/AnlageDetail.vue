@@ -66,12 +66,18 @@
       </DescriptionTable>
     </v-card>
 
-    <!-- Loading Spinner -->
-    <v-layout justify-center v-if="!loaded" class="ma-4">
-      <br />
-      <br />
-      <v-progress-circular indeterminate size="64" />
-    </v-layout>
+    <!-- Loading Skeleton -->
+    <div v-if="!loaded">
+      <v-skeleton-loader
+        type="desc-table"
+        :types="{
+          projekt: 'desc-table',
+          'desc-table': 'card-heading, desc-table-row-divider@4',
+          'desc-table-row-divider': 'desc-table-row, divider',
+          'desc-table-row': 'table-cell@2',
+        }"
+      />
+    </div>
 
     <!-- Projekte -->
     <v-card
