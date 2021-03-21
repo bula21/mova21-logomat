@@ -42,18 +42,6 @@
             <v-list-item-title>Objekte</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <!--        <v-list-item-->
-        <!--          @click="export_('dienstleistung')"-->
-        <!--          style="cursor: pointer"-->
-        <!--          ripple-->
-        <!--        >-->
-        <!--          <v-list-item-icon>-->
-        <!--            <v-icon>mdi-power-plug</v-icon>-->
-        <!--          </v-list-item-icon>-->
-        <!--          <v-list-item-content>-->
-        <!--            <v-list-item-title>Dienstleistungen</v-list-item-title>-->
-        <!--          </v-list-item-content>-->
-        <!--        </v-list-item>-->
       </v-list>
     </v-card>
   </v-menu>
