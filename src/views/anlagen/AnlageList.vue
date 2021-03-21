@@ -1,25 +1,7 @@
 <template>
-  <v-card>
+  <div>
     <portal to="topnav-title">Anlagen</portal>
 
-    <v-card-title style="padding-top: 5px">
-      <v-text-field
-        flat
-        hide-details
-        clearable
-        prepend-inner-icon="mdi-magnify"
-        label="Suche Anlagen oder Projekte"
-        v-model="filterText"
-        style="max-width: 300px"
-      />
-      <v-checkbox
-        v-model="filterOnlyMine"
-        flat
-        solo-inverted
-        hide-details
-        label="Nur meine Anlagen anzeigen"
-      />
-    </v-card-title>
     <v-data-table
       :headers="[
         { text: 'ID', value: 'anlagen_id', filterable: true },
@@ -33,11 +15,42 @@
       :search="filterText"
       item-key="id"
       :items-per-page="10"
-      :footer-props="{
-        'items-per-page-options': [10, 20, 50, -1],
-        showFirstLastPage: true,
-      }"
+      hide-default-footer
     >
+      <template v-slot:top="{ pagination, options, updateOptions }">
+        <v-container fluid>
+          <v-row>
+            <v-col cols="12" sm="6" md="3">
+              <v-text-field
+                hide-details
+                clearable
+                prepend-inner-icon="mdi-magnify"
+                label="Suche Anlagen oder Projekte"
+                v-model="filterText"
+              />
+            </v-col>
+            <v-col cols="12" sm="6" md="3">
+              <v-checkbox
+                v-model="filterOnlyMine"
+                solo-inverted
+                hide-details
+                label="Nur meine Anlagen anzeigen"
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-data-footer
+                show-first-last-page
+                :items-per-page-options="[10, 20, 50, -1]"
+                style="border: none"
+                :pagination="pagination"
+                :options="options"
+                @update:options="updateOptions"
+                items-per-page-text="$vuetify.dataTable.itemsPerPageText"
+              />
+            </v-col>
+          </v-row>
+        </v-container>
+      </template>
       <template v-slot:item="{ item }">
         <router-link
           :to="{ name: 'logomatAnlageDetail', params: { id: item.anlagen_id } }"
@@ -75,7 +88,7 @@
         </router-link>
       </template>
     </v-data-table>
-  </v-card>
+  </div>
 </template>
 
 <script>
