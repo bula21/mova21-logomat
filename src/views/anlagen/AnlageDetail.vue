@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid style="padding-bottom: 0">
+  <div class="pa-4 pb-0">
     <portal to="topnav-title">Anlagen / {{ anlage.anlagenname }}</portal>
 
     <portal to="sidenav-extended">
@@ -42,10 +42,10 @@
     </portal>
 
     <!-- Anlage -->
-    <v-card elevation="6" style="margin-bottom: 15px">
+    <v-card elevation="6" class="mb-4">
       <v-card-title class="primary darken-1 white--text"
-        >Anlage: {{ anlage.anlagenname }}</v-card-title
-      >
+        >Anlage: {{ anlage.anlagenname }}
+      </v-card-title>
       <DescriptionTable
         :item="anlage"
         :props="[
@@ -67,7 +67,7 @@
     </v-card>
 
     <!-- Loading Spinner -->
-    <v-layout justify-center v-if="!loaded" style="margin-top: 20px">
+    <v-layout justify-center v-if="!loaded" class="ma-4">
       <br />
       <br />
       <v-progress-circular indeterminate size="64" />
@@ -79,7 +79,7 @@
       v-bind:key="projekt.id"
       :ref="`projekt-${projekt.id}`"
       elevation="6"
-      style="margin-bottom: 15px"
+      class="mb-4"
     >
       <!-- Projekt -->
       <Projekt
@@ -133,7 +133,9 @@
       <v-divider />
 
       <!-- Dienstleistungen -->
-      <v-card-text>
+      <v-card-text
+        v-if="filterByProp(dienstleistungen, 'projekt', projekt.id).length > 0"
+      >
         <v-data-iterator
           :items="filterByProp(dienstleistungen, 'projekt', projekt.id)"
           :disable-pagination="true"
@@ -159,7 +161,7 @@
         </v-data-iterator>
       </v-card-text>
     </v-card>
-  </v-container>
+  </div>
 </template>
 
 <script>
