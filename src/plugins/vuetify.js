@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuetify from "vuetify/lib";
+
 import de from "vuetify/es5/locale/de";
+import '@mdi/font/css/materialdesignicons.css'
 
 Vue.use(Vuetify);
 
