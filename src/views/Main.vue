@@ -37,14 +37,17 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <router-link :to="{ name: 'logomatAnlageList' }">
-        <v-avatar :tile="true" width="140px">
-          <img :src="require('@/assets/mova-logo-white.svg')" alt="mova Logo" />
+      <router-link
+        :to="{ name: 'logomatAnlageList' }"
+        class="hidden-sm-and-down"
+      >
+        <v-avatar :tile="true" width="110px">
+          <MovaLogo alt="mova Logo" />
         </v-avatar>
       </router-link>
       <router-link :to="{ name: 'logomatAnlageList' }">
-        <v-avatar :tile="true">
-          <img :src="require('@/assets/logomat-logo.svg')" alt="LOGomat Logo" />
+        <v-avatar :tile="true" style="margin-left: 20px">
+          <LogomatLogo alt="LOGomat Logo" />
         </v-avatar>
       </router-link>
 
@@ -124,6 +127,8 @@ import Clippy from "@/components/Clippy";
 import Settings from "@/components/Settings";
 import Export from "@/components/anlagen/Export";
 import Info from "@/components/Info";
+import MovaLogo from "@/assets/mova-logo-white.svg";
+import LogomatLogo from "@/assets/logomat-logo.svg";
 
 export default {
   name: "Main",
@@ -132,6 +137,8 @@ export default {
     Settings,
     Export,
     Info,
+    MovaLogo,
+    LogomatLogo,
   },
   computed: {
     ...mapState({
