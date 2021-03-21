@@ -27,6 +27,7 @@
     "xlsx": "^0.16.9"
   },
   "devDependencies": {
+    "@mdi/font": "^5.9.55",
     "@vue/cli-plugin-babel": "^4.4.0",
     "@vue/cli-plugin-eslint": "^4.4.0",
     "@vue/cli-plugin-router": "^4.4.0",
