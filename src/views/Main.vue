@@ -112,9 +112,7 @@
     <v-main>
       <v-container fluid class="pa-0">
         <router-view v-on:api-error="showError" v-if="globalDataLoaded" />
-        <v-layout v-else justify-center class="ma-4">
-          <v-progress-circular indeterminate size="64" />
-        </v-layout>
+        <v-skeleton-loader v-else class="ma-4" type="table" />
       </v-container>
     </v-main>
 
