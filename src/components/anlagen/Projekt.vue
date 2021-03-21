@@ -19,6 +19,7 @@
         { prop: 'beginn_nutzung' },
         { prop: 'ende_nutzung' },
 
+        { prop: 'prioritaet', default_hide: true },
         { prop: 'beginn_nutzung_zeit', default_hide: true },
         { prop: 'ende_nutzung_zeit', default_hide: true },
         { prop: 'abnahmeart', default_hide: true },
