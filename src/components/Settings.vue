@@ -18,6 +18,9 @@
     </template>
 
     <v-card>
+      <v-toolbar flat color="secondary">
+        <span class="headline">Einstellungen</span>
+      </v-toolbar>
       <v-list>
         <v-list-item>
           <v-list-item-action>
@@ -53,8 +56,8 @@
       <v-card-actions>
         <v-spacer />
 
-        <v-btn text @click="cancel()">Abbrechen</v-btn>
-        <v-btn color="primary" text @click="save()">Speichern</v-btn>
+        <v-btn color="primary" text @click="cancel()">Abbrechen</v-btn>
+        <v-btn color="primary" @click="save()">Speichern</v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>

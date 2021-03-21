@@ -7,25 +7,29 @@ import "@mdi/font/css/materialdesignicons.css";
 Vue.use(Vuetify);
 
 export default new Vuetify({
+  // see https://vuetifyjs.com/en/features/icon-fonts/#material-design-icons
   icons: {
-    // see https://vuetifyjs.com/en/features/icon-fonts/#material-design-icons
     iconfont: "mdi",
   },
   theme: {
     dark: false,
-  },
-  themes: {
-    light: {
-      primary: "#ffeb00",
-      secondary: "#55c0ff",
-      accent: "#8c9eff",
-      error: "#b71c1c",
-    },
-    dark: {
-      primary: "#ffeb00",
-      secondary: "#55c0ff",
-      accent: "#8c9eff",
-      error: "#b71c1c",
+    // see https://material.io/resources/color/#!/?view.left=0&view.right=1&primary.color=ffeb00&secondary.color=55c0ff
+    // and
+    // https://avanti.bula21.ch/x/mQEP
+    themes: {
+      // https://vuetifyjs.com/en/features/theme/#customizing
+      light: {
+        primary: "#1e88e5",
+        secondary: "#ffeb3b",
+        accent: "#e6500f",
+        anchor: "#000000",
+      },
+      dark: {
+        primary: "#005cb2",
+        secondary: "#c8b900",
+        accent: "#c6450d",
+        anchor: "#ffffff",
+      },
     },
   },
   lang: {
@@ -33,3 +37,6 @@ export default new Vuetify({
     current: "de",
   },
 });
+
+// rg color
+// rg dark
