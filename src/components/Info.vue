@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" width="600px">
+  <v-dialog v-model="show" max-width="600px" scrollable color="secondary">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         v-bind="attrs"
@@ -12,9 +12,10 @@
       </v-btn>
     </template>
     <v-card>
-      <v-card-title>
+      <v-toolbar flat color="secondary">
         <span class="headline">Herzlich Willkommen auf dem LOGomat!</span>
-      </v-card-title>
+      </v-toolbar>
+      <v-card-title> </v-card-title>
       <v-card-text>
         <b>Übersicht</b>
         <br />
@@ -131,13 +132,13 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          color="blue darken-1"
+          color="primary"
           text
           @click="hide(true)"
           v-if="settings.showInfoOnLoad"
           >Nicht mehr anzeigen</v-btn
         >
-        <v-btn color="blue darken-1" text @click="hide(false)">OK</v-btn>
+        <v-btn color="primary" @click="hide(false)">OK</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -177,7 +178,6 @@ export default {
 
 <style>
 td.description {
-  background-color: #eeeeee;
   font-weight: bold;
 }
 </style>

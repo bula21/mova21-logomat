@@ -114,7 +114,6 @@ export default {
 
 <style>
 td.description {
-  background-color: #eeeeee;
   font-weight: bold;
 }
 </style>

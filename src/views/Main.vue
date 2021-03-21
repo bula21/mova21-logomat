@@ -33,8 +33,8 @@
     <v-app-bar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
       app
-      color="blue-grey darken-3"
       dark
+      color="primary"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <router-link
@@ -156,7 +156,7 @@ export default {
   },
   data: () => ({
     errorText: "",
-    drawer: true,
+    drawer: null,
   }),
   created() {
     this.fetchGlobalData();
