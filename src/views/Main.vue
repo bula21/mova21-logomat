@@ -88,6 +88,10 @@
         <v-icon>mdi-cart</v-icon>
       </v-btn>
       <Settings />
+      <v-btn icon v-on:click="toggleDarkMode" title="Toggle Dark Mode">
+        <v-icon v-if="!$vuetify.theme.dark">mdi-weather-night</v-icon>
+        <v-icon v-else>mdi-weather-sunny</v-icon>
+      </v-btn>
       <Info />
       <v-btn
         icon
@@ -157,6 +161,18 @@ export default {
   created() {
     this.fetchGlobalData();
   },
+  mounted() {
+    const theme = localStorage.getItem("globalDarkMode");
+    if (theme) {
+      this.$vuetify.theme.dark = theme === "true";
+    } else if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      this.$vuetify.theme.dark = true;
+      localStorage.setItem("dark_theme", this.$vuetify.theme.dark.toString());
+    }
+  },
   methods: {
     dismissError() {
       this.errorText = "";
@@ -167,6 +183,13 @@ export default {
     logout() {
       this.$store.commit("logOut");
       this.$router.push({ name: "login" });
+    },
+    toggleDarkMode: function () {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      localStorage.setItem(
+        "globalDarkMode",
+        this.$vuetify.theme.dark.toString()
+      );
     },
     addProjektNamesToAnlagen(anlagen, projekte) {
       const anlagenById = anlagen.reduce((obj, anlage) => {
