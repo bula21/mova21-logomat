@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid style="padding-bottom: 0">
     <portal to="topnav-title">Anlagen / {{ anlage.anlagenname }}</portal>
 
     <portal to="sidenav-extended">
@@ -41,7 +41,11 @@
       </v-list>
     </portal>
 
-    <v-card ref="top">
+    <!-- Anlage -->
+    <v-card elevation="6" style="margin-bottom: 15px">
+      <v-card-title class="primary darken-1 white--text"
+        >Anlage: {{ anlage.anlagenname }}</v-card-title
+      >
       <DescriptionTable
         :item="anlage"
         :props="[
@@ -62,97 +66,99 @@
       </DescriptionTable>
     </v-card>
 
-    <div v-if="loaded">
-      <br />
-      <hr />
-      <br />
-    </div>
-    <v-layout justify-center v-else style="margin-top: 20px">
+    <!-- Loading Spinner -->
+    <v-layout justify-center v-if="!loaded" style="margin-top: 20px">
       <br />
       <br />
       <v-progress-circular indeterminate size="64" />
     </v-layout>
 
-    <div
+    <!-- Projekte -->
+    <v-card
       v-for="projekt in projekte"
       v-bind:key="projekt.id"
       :ref="`projekt-${projekt.id}`"
+      elevation="6"
+      style="margin-bottom: 15px"
     >
+      <!-- Projekt -->
       <Projekt
         :projekt="projekt"
         :title="stripAnlageFromTitle(projekt.projektname)"
-      ></Projekt>
+      />
+      <v-divider />
 
-      <br />
-
-      <v-data-iterator
-        :items="filterByProp(objekte, 'projekt', projekt.id)"
-        :disable-pagination="true"
-        hide-default-footer
-      >
-        <template v-slot:no-data>
-          <v-alert type="info"> Keine Objekte im Projekt </v-alert>
-        </template>
-        <template v-slot:default="props">
-          <v-row>
-            <v-col
-              v-for="objekt in props.items"
-              :key="objekt.id"
-              cols="12"
-              sm="12"
-              md="6"
-              lg="6"
-            >
-              <Objekt :objekt="objekt" />
-            </v-col>
-            <template v-for="objekt in props.items">
+      <!-- Objekte -->
+      <v-card-text>
+        <v-data-iterator
+          :items="filterByProp(objekte, 'projekt', projekt.id)"
+          :disable-pagination="true"
+          hide-default-footer
+        >
+          <template v-slot:no-data>
+            <v-alert type="warning">Keine Objekte im Projekt</v-alert>
+          </template>
+          <template v-slot:default="props">
+            <v-row>
               <v-col
-                v-for="dienstleistung in filterByProp(
-                  dienstleistungen,
-                  'objekt',
-                  objekt.id
-                )"
-                :key="dienstleistung.id"
+                v-for="objekt in props.items"
+                :key="objekt.id"
                 cols="12"
                 sm="12"
                 md="6"
                 lg="6"
               >
-                <Dienstleistung :dienstleistung="dienstleistung" />
+                <Objekt :objekt="objekt" />
               </v-col>
-            </template>
-          </v-row>
-        </template>
-      </v-data-iterator>
+              <template v-for="objekt in props.items">
+                <v-col
+                  v-for="dienstleistung in filterByProp(
+                    dienstleistungen,
+                    'objekt',
+                    objekt.id
+                  )"
+                  :key="dienstleistung.id"
+                  cols="12"
+                  sm="12"
+                  md="6"
+                  lg="6"
+                >
+                  <Dienstleistung :dienstleistung="dienstleistung" />
+                </v-col>
+              </template>
+            </v-row>
+          </template>
+        </v-data-iterator>
+      </v-card-text>
+      <v-divider />
 
-      <v-data-iterator
-        :items="filterByProp(dienstleistungen, 'projekt', projekt.id)"
-        :disable-pagination="true"
-        hide-default-footer
-      >
-        <template v-slot:no-data>
-          <div />
-        </template>
-        <template v-slot:default="props">
-          <v-row>
-            <v-col
-              v-for="item in props.items"
-              :key="item.id_"
-              cols="12"
-              sm="12"
-              md="6"
-              lg="6"
-            >
-              <Dienstleistung :dienstleistung="item" />
-            </v-col>
-          </v-row>
-        </template>
-      </v-data-iterator>
-
-      <br />
-      <hr />
-      <br />
-    </div>
+      <!-- Dienstleistungen -->
+      <v-card-text>
+        <v-data-iterator
+          :items="filterByProp(dienstleistungen, 'projekt', projekt.id)"
+          :disable-pagination="true"
+          hide-default-footer
+        >
+          <template v-slot:no-data>
+            <div />
+          </template>
+          <template v-slot:default="props">
+            <v-row>
+              <v-col
+                v-for="item in props.items"
+                :key="item.id_"
+                cols="12"
+                sm="12"
+                md="6"
+                lg="6"
+              >
+                <Dienstleistung :dienstleistung="item" />
+              </v-col>
+            </v-row>
+          </template>
+        </v-data-iterator>
+      </v-card-text>
+    </v-card>
   </v-container>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="headline"
+    <v-card-title class="headline accent white--text"
       >Dienstleistung: {{ nicifyTitle(dienstleistung.type_) }}
     </v-card-title>
     <DescriptionTable
