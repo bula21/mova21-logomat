@@ -1,7 +1,6 @@
 import Vue from "vue";
-import Router from "vue-router";
-import store from "./store";
-import jwt from "jwt-decode";
+import VueRouter from "vue-router";
+
 import Login from "../views/Login";
 import Main from "../views/Main";
 import AnlageDetail from "../views/anlagen/AnlageDetail";
@@ -14,7 +13,10 @@ import MaterialOrderList from "../views/material/MaterialOrderList";
 import MaterialSponsoringList from "@/views/material/MaterialSponsoringList";
 import AnlageList from "@/views/anlagen/AnlageList";
 
-Vue.use(Router);
+import store from "./store";
+import jwt from "jwt-decode";
+
+Vue.use(VueRouter);
 
 // important: this does not check the signature!
 function loginValid(user) {
@@ -33,7 +35,7 @@ function ensureLoggedIn(to, from, next) {
   }
 }
 
-export default new Router({
+export default new VueRouter({
   base: process.env.BASE_URL,
   routes: [
     // login

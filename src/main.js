@@ -1,13 +1,13 @@
 import Vue from "vue";
 import App from "./App.vue";
-import PortalVue from "portal-vue";
+
 import vuetify from "./plugins/vuetify";
 import router from "./plugins/router";
 import store from "./plugins/store";
 import "./plugins/sanitize";
+import "./plugins/portal";
 
 Vue.config.productionTip = false;
-Vue.use(PortalVue);
 
 new Vue({
   vuetify,

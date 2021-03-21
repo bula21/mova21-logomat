@@ -158,15 +158,16 @@
 </template>
 
 <script>
-import { ApiError } from "@/lib/api";
-import { mapState } from "vuex";
-import { loadAnlageData } from "@/lib/anlage";
-import { stripTitle } from "@/lib/util";
 import Dienstleistung from "@/components/anlagen/Dienstleistung";
 import DescriptionTable from "@/components/DescriptionTable";
 import Objekt from "@/components/anlagen/Objekt";
 import Projekt from "@/components/anlagen/Projekt";
 import AvantiLink from "@/components/anlagen/AvantiLink";
+
+import { ApiError } from "@/lib/api";
+import { mapState } from "vuex";
+import { loadAnlageData } from "@/lib/anlage";
+import { stripTitle } from "@/lib/util";
 
 export default {
   name: "AnlageDetail",

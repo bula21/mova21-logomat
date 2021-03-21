@@ -121,12 +121,13 @@
 
 <script>
 import { mapState } from "vuex";
+import { apiAuthenticated, ApiError } from "@/lib/api.js";
+import { joinInPlace } from "@/lib/join.js";
+
 import Clippy from "@/components/Clippy";
 import Settings from "@/components/Settings";
 import Export from "@/components/anlagen/Export";
 import Info from "@/components/Info";
-import { apiAuthenticated, ApiError } from "@/lib/api.js";
-import { joinInPlace } from "@/lib/join.js";
 
 export default {
   name: "Main",

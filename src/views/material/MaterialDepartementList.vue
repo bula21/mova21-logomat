@@ -54,9 +54,10 @@
 </template>
 
 <script>
+import MaterialNavigation from "@/components/material/MaterialNavigation";
+
 import { apiAuthenticated, ApiError, filter, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
-import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {
   name: "MaterialDepartementList",

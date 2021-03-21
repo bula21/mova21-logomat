@@ -81,6 +81,7 @@
 <script>
 import Person from "@/components/anlagen/Person";
 import AvantiLink from "@/components/anlagen/AvantiLink";
+
 import { mapState } from "vuex";
 import { stripTitle } from "@/lib/util";
 

@@ -63,10 +63,11 @@
 </template>
 
 <script>
+import MaterialNavigation from "@/components/material/MaterialNavigation";
+
 import { apiAuthenticated, ApiError, filter } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
-import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {
   name: "MaterialItemDetail",

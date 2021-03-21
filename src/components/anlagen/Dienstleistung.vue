@@ -20,9 +20,9 @@
 
 <script>
 import DescriptionTable from "@/components/DescriptionTable";
-import { nicifyTitle } from "@/lib/util";
 import Geraet from "@/components/anlagen/Geraet";
 import ZusaetzlichesMaterial from "@/components/anlagen/ZusaetzlichesMaterial";
+import { nicifyTitle } from "@/lib/util";
 
 export default {
   name: "Dienstleistung",
