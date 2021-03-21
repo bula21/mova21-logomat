@@ -21,7 +21,7 @@
           person: true,
         },
 
-        { prop: 'planung', default_hide: true, person: true},
+        { prop: 'planung', default_hide: true, person: true },
 
         { prop: 'bau_durch', default_hide: true },
         { prop: 'zelt_boden', default_hide: true },

@@ -2,8 +2,7 @@
   <v-card>
     <v-card-title class="headline"
       >Dienstleistung: {{ nicifyTitle(dienstleistung.type_) }}
-      </v-card-title
-    >
+    </v-card-title>
     <DescriptionTable
       :item="dienstleistung"
       :props="colsForType(dienstleistung.type_)"
@@ -34,7 +33,7 @@ export default {
   },
   data: () => ({
     commonCols: Object.freeze([
-      { prop: 'id' , title: "Bestellung ID"},
+      { prop: "id", title: "Bestellung ID" },
       // { prop: 'id_' },
       // { prop: 'type_' },
       // { prop: "owner", title: "Besitzer", person: true },
