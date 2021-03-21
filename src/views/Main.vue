@@ -34,7 +34,7 @@
       :clipped-left="$vuetify.breakpoint.lgAndUp"
       app
       dark
-      color="primary"
+      class="primary"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <router-link
