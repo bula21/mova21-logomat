@@ -1,6 +1,8 @@
 <template>
-  <v-card>
-    <v-card-title class="headline"> Projekt: {{ title }} </v-card-title>
+  <div>
+    <v-card-title class="headline secondary">
+      Projekt: {{ title }}
+    </v-card-title>
 
     <DescriptionTable
       :item="projekt"
@@ -34,7 +36,7 @@
         {{ item.ressort_name }}
       </template>
     </DescriptionTable>
-  </v-card>
+  </div>
 </template>
 
 <script>
