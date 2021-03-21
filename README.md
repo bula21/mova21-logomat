@@ -42,4 +42,4 @@ Token im User-Objekt via API erscheinen nur für Admins, für normale Benutzer n
 
 ## Resources
 
-* Logomat Admin Page: <https://avanti.bula21.ch/display/0L/LOGdb+-+Admin>
+* Logomat Admin Page: <https://avanti.bula21.ch/x/oQTJAQ>

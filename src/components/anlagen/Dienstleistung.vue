@@ -11,6 +11,10 @@
       <template v-slot:prop.geraete="{ item }">
         <Geraet :geraete="item" />
       </template>
+
+      <template v-slot:prop.zusaetzliches_material="{ item }">
+        <DienstleistungMaterial :zusaetzliches_material="item" />
+      </template>
     </DescriptionTable>
   </v-card>
 </template>
@@ -19,12 +23,14 @@
 import DescriptionTable from "@/components/DescriptionTable";
 import { nicifyTitle } from "@/lib/util";
 import Geraet from "@/components/anlagen/Geraet";
+import DienstleistungMaterial from "@/components/anlagen/DienstleistungMaterial";
 
 export default {
   name: "Dienstleistung",
   components: {
     Geraet,
     DescriptionTable,
+    DienstleistungMaterial,
   },
   data: () => ({
     commonCols: Object.freeze([
