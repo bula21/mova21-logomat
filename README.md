@@ -43,3 +43,4 @@ Token im User-Objekt via API erscheinen nur für Admins, für normale Benutzer n
 ## Resources
 
 * Logomat Admin Page: <https://avanti.bula21.ch/x/oQTJAQ>
+* Test Anlagen: <http://localhost:8080/#/anlagen/9999>, <http://localhost:8080/#/anlagen/2805> 
