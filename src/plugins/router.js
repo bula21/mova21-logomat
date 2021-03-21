@@ -88,7 +88,7 @@ export default new VueRouter({
     },
     {
       path: "/anlagen",
-      component: Main,
+      component: () => import("../views/Main.vue"),
       beforeEnter: ensureLoggedIn,
       children: [
         {
