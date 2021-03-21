@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-chip
-      v-for="material in zusaetzliches_material"
+      v-for="material in zusaetzlichesMaterial"
       :key="material['Material']"
       label
       small
@@ -16,6 +16,6 @@
 <script>
 export default {
   name: "ZusaetzlichesMaterial",
-  props: ["zusaetzliches_material"],
+  props: ["zusaetzlichesMaterial"],
 };
 </script>
