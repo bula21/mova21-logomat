@@ -6,7 +6,7 @@
 <template>
   <v-card>
     <portal to="topnav-title">Material / Bestellungen</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-card-title>Bestellung</v-card-title>
     <v-card-text>
@@ -17,7 +17,7 @@
         single-line
         hide-details
         clearable
-      ></v-text-field>
+      />
     </v-card-text>
     <v-data-table
       dense
@@ -43,7 +43,7 @@
         <span>{{ item.total.amount.toFixed(2) }}</span>
       </template>
       <template v-slot:item.id>
-        <v-icon small> mdi-pencil </v-icon>
+        <v-icon small>mdi-pencil</v-icon>
       </template>
     </v-data-table>
   </v-card>

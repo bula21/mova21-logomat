@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <portal to="topnav-title">Material / Bestellung / {{ order.name }}</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-card-title v-if="showOrder">{{ order.name }}</v-card-title>
     <v-card-text v-if="showOrder">

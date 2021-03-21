@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <portal to="topnav-title">Material</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-row>
       <v-col>

@@ -7,7 +7,7 @@
 <template>
   <v-card>
     <portal to="topnav-title">Material / Artikel</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-card-title>Artikel</v-card-title>
     <v-card-text>
@@ -38,7 +38,7 @@
         <span>{{ item.item.price.toFixed(2) }}</span>
       </template>
       <template v-slot:item.item.id>
-        <v-icon small> mdi-pencil </v-icon>
+        <v-icon small>mdi-pencil</v-icon>
       </template>
     </v-data-table>
     <v-card-text>

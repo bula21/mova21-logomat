@@ -1,8 +1,9 @@
 <template>
   <v-card>
-    <v-card-title class="headline"
-      >Objekt: {{ objekt.objektname }}</v-card-title
-    >
+    <v-card-title class="headline">
+      Objekt: {{ objekt.objektname }}
+    </v-card-title>
+
     <DescriptionTable
       :item="objekt"
       :props="[

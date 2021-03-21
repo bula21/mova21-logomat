@@ -1,6 +1,7 @@
 <template>
   <v-card>
-    <v-card-title class="headline">Projekt: {{ title }}</v-card-title>
+    <v-card-title class="headline"> Projekt: {{ title }} </v-card-title>
+
     <DescriptionTable
       :item="projekt"
       :props="[

@@ -1,6 +1,6 @@
 <!--suppress CssUnusedSymbol -->
 <template>
-  <div></div>
+  <div />
 </template>
 
 <script>

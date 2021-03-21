@@ -11,7 +11,7 @@
         label="Suche Anlagen oder Projekte"
         class="hidden-sm-and-down"
         v-model="filterText"
-      ></v-text-field>
+      />
       <v-checkbox
         v-model="filterOnlyMine"
         flat

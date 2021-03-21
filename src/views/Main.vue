@@ -27,7 +27,7 @@
         </v-list-item>
       </v-list>
 
-      <portal-target name="sidenav-extended"></portal-target>
+      <portal-target name="sidenav-extended" />
     </v-navigation-drawer>
 
     <v-app-bar
@@ -36,7 +36,7 @@
       color="blue-grey darken-3"
       dark
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <router-link :to="{ name: 'logomatAnlageList' }">
         <v-avatar :tile="true" width="140px">
           <img :src="require('@/assets/logo.svg')" alt="mova Logo" />
@@ -53,11 +53,10 @@
           tag="span"
           class="hidden-sm-and-down"
           name="topnav-title"
-        >
-        </portal-target>
+        />
       </v-toolbar-title>
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
       <v-btn
         icon
@@ -98,13 +97,10 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <router-view
-        v-on:api-error="showError"
-        v-if="globalDataLoaded"
-      ></router-view>
+      <router-view v-on:api-error="showError" v-if="globalDataLoaded" />
       <v-container v-else fluid>
         <v-layout justify-center>
-          <v-progress-circular indeterminate size="64"></v-progress-circular>
+          <v-progress-circular indeterminate size="64" />
         </v-layout>
       </v-container>
     </v-main>

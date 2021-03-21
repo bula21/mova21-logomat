@@ -21,21 +21,21 @@
       <v-list>
         <v-list-item>
           <v-list-item-action>
-            <v-switch v-model="settingsTemp.hideEmpty"></v-switch>
+            <v-switch v-model="settingsTemp.hideEmpty" />
           </v-list-item-action>
           <v-list-item-title>Leere Felder verstecken</v-list-item-title>
         </v-list-item>
 
         <v-list-item>
           <v-list-item-action>
-            <v-switch v-model="settingsTemp.showAllFields"></v-switch>
+            <v-switch v-model="settingsTemp.showAllFields" />
           </v-list-item-action>
           <v-list-item-title>Immer alle Felder anzeigen</v-list-item-title>
         </v-list-item>
 
         <v-list-item>
           <v-list-item-action>
-            <v-switch v-model="settingsTemp.showInfoOnLoad"></v-switch>
+            <v-switch v-model="settingsTemp.showInfoOnLoad" />
           </v-list-item-action>
           <v-list-item-title
             >Info-Dialog nach dem Login anzeigen</v-list-item-title
@@ -44,14 +44,14 @@
 
         <v-list-item>
           <v-list-item-action>
-            <v-switch v-model="settingsTemp.hideClippy"></v-switch>
+            <v-switch v-model="settingsTemp.hideClippy" />
           </v-list-item-action>
           <v-list-item-title>Clippy nicht mehr anzeigen</v-list-item-title>
         </v-list-item>
       </v-list>
 
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
 
         <v-btn text @click="cancel()">Abbrechen</v-btn>
         <v-btn color="primary" text @click="save()">Speichern</v-btn>

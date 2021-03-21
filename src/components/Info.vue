@@ -106,9 +106,9 @@
         <b>Wiki & Dokumentation</b>
         <br />
         LOGomat & LOGdb - Wiki & FAQ -
-        <a href="https://avanti.bula21.ch/x/ugrJAQ" target="_blank"
-          >https://avanti.bula21.ch/x/ugrJAQ</a
-        >
+        <a href="https://avanti.bula21.ch/x/ugrJAQ" target="_blank">
+          https://avanti.bula21.ch/x/ugrJAQ
+        </a>
 
         <br />
         <br />

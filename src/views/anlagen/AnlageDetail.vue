@@ -3,7 +3,7 @@
     <portal to="topnav-title">Anlagen / {{ anlage.anlagenname }}</portal>
 
     <portal to="sidenav-extended">
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-list dense>
         <v-list-item
@@ -16,9 +16,9 @@
             <v-icon>mdi-castle</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title
-              >Anlage: {{ anlage.anlagenname }}</v-list-item-title
-            >
+            <v-list-item-title>
+              Anlage: {{ anlage.anlagenname }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -70,7 +70,7 @@
     <v-layout justify-center v-else style="margin-top: 20px">
       <br />
       <br />
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
+      <v-progress-circular indeterminate size="64" />
     </v-layout>
 
     <div
@@ -103,7 +103,7 @@
               md="6"
               lg="6"
             >
-              <Objekt :objekt="objekt"></Objekt>
+              <Objekt :objekt="objekt" />
             </v-col>
             <template v-for="objekt in props.items">
               <v-col
@@ -118,9 +118,7 @@
                 md="6"
                 lg="6"
               >
-                <Dienstleistung
-                  :dienstleistung="dienstleistung"
-                ></Dienstleistung>
+                <Dienstleistung :dienstleistung="dienstleistung" />
               </v-col>
             </template>
           </v-row>
@@ -133,7 +131,7 @@
         hide-default-footer
       >
         <template v-slot:no-data>
-          <div></div>
+          <div />
         </template>
         <template v-slot:default="props">
           <v-row>
@@ -145,7 +143,7 @@
               md="6"
               lg="6"
             >
-              <Dienstleistung :dienstleistung="item"></Dienstleistung>
+              <Dienstleistung :dienstleistung="item" />
             </v-col>
           </v-row>
         </template>

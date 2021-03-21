@@ -6,7 +6,7 @@
 <template>
   <v-card>
     <portal to="topnav-title">Material / Ressorts</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-card-title>Ressort</v-card-title>
     <v-card-text>
@@ -16,7 +16,7 @@
         item-text="name"
         item-value="id"
         @change="handleChange"
-      ></v-select>
+      />
     </v-card-text>
     <v-data-table
       dense

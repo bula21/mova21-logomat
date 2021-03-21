@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <portal to="topnav-title">Material / Sponsoring</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-card-title>Sponsoring</v-card-title>
     <v-data-table

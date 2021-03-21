@@ -11,7 +11,7 @@
           >
             <td>Mehr Felder anzeigen</td>
             <td>
-              <v-switch v-model="showAllFields" readonly dense></v-switch>
+              <v-switch v-model="showAllFields" readonly dense />
             </td>
           </tr>
 
@@ -29,10 +29,12 @@
               >
                 <v-icon v-if="isEmpty(prop.prop)">mdi-diameter-variant</v-icon>
                 <template v-else-if="typeof item[prop.prop] === 'boolean'">
-                  <template v-if="item[prop.prop]"
-                    ><v-icon>mdi-check-outline</v-icon></template
-                  >
-                  <template v-else><v-icon>mdi-close-outline</v-icon></template>
+                  <template v-if="item[prop.prop]">
+                    <v-icon>mdi-check-outline</v-icon>
+                  </template>
+                  <template v-else>
+                    <v-icon>mdi-close-outline</v-icon>
+                  </template>
                 </template>
                 <template v-else>
                   <span v-html="renderNewlines(item[prop.prop])" />
@@ -44,7 +46,7 @@
         </tbody>
       </template>
     </v-simple-table>
-    <v-alert v-else type="info"> Keine Elemente </v-alert>
+    <v-alert v-else type="info">Keine Elemente</v-alert>
   </div>
 </template>
 
