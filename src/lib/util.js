@@ -6,9 +6,8 @@ import { capitalCase } from "capital-case";
  * @param topTitle "TopObject"
  * @returns "SubObject"
  */
-export function stripTitle(topTitle, fullTitle) {
-  const postFix = ` - ${fullTitle}`;
-  return topTitle.replace(postFix, "");
+export function stripTitle(fullTitle, topTitle) {
+  return fullTitle.replace(` - ${topTitle}`, "");
 }
 
 export function nicifyTitle(title) {
