@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <portal to="topnav-title">Material / Artikel / {{ item.name }}</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-card-title v-if="showItem">{{ item.name }}</v-card-title>
     <v-card-text v-if="showItem">
@@ -63,10 +63,11 @@
 </template>
 
 <script>
+import MaterialNavigation from "@/components/material/MaterialNavigation";
+
 import { apiAuthenticated, ApiError, filter } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
-import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {
   name: "MaterialItemDetail",

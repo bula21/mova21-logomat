@@ -6,7 +6,7 @@
 <template>
   <v-card>
     <portal to="topnav-title">Material / Bestellungen</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-card-title>Bestellung</v-card-title>
     <v-card-text>
@@ -17,15 +17,15 @@
         single-line
         hide-details
         clearable
-      ></v-text-field>
+      />
     </v-card-text>
     <v-data-table
       dense
       :headers="headers"
       :items="orders"
-      :items-per-page="20"
+      :items-per-page="10"
       :footer-props="{
-        'items-per-page-options': [20, 50, -1],
+        'items-per-page-options': [10, 20, 50, -1],
         showFirstLastPage: true,
       }"
       :search="search"
@@ -43,7 +43,7 @@
         <span>{{ item.total.amount.toFixed(2) }}</span>
       </template>
       <template v-slot:item.id>
-        <v-icon small> mdi-pencil </v-icon>
+        <v-icon small>mdi-pencil</v-icon>
       </template>
     </v-data-table>
   </v-card>
@@ -53,6 +53,7 @@
 import { apiAuthenticated, ApiError, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
+
 import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {

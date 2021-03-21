@@ -1,6 +1,6 @@
 <template>
   <portal to="sidenav-extended">
-    <v-divider></v-divider>
+    <v-divider />
 
     <v-list dense>
       <v-list-item link :to="{ name: 'materialOrderList' }">

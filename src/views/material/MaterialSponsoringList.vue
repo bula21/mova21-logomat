@@ -1,16 +1,16 @@
 <template>
   <v-card>
     <portal to="topnav-title">Material / Sponsoring</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-card-title>Sponsoring</v-card-title>
     <v-data-table
       dense
       :headers="headers"
       :items="orderItems"
-      :items-per-page="15"
+      :items-per-page="10"
       :footer-props="{
-        'items-per-page-options': [20, 50, -1],
+        'items-per-page-options': [10, 20, 50, -1],
         showFirstLastPage: true,
       }"
       class="elevation-1"
@@ -33,6 +33,7 @@ import { apiAuthenticated, ApiError, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
 import XLSX from "xlsx";
+
 import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {

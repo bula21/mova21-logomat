@@ -3,7 +3,7 @@
     <portal to="topnav-title">Anlagen / {{ anlage.anlagenname }}</portal>
 
     <portal to="sidenav-extended">
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-list dense>
         <v-list-item
@@ -16,9 +16,9 @@
             <v-icon>mdi-castle</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title
-              >Anlage: {{ anlage.anlagenname }}</v-list-item-title
-            >
+            <v-list-item-title>
+              Anlage: {{ anlage.anlagenname }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -33,9 +33,9 @@
             <v-icon>mdi-home-group</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title
-              v-text="stripProjektTitle(projekt.projektname)"
-            ></v-list-item-title>
+            <v-list-item-title>
+              Projekt: {{ stripAnlageFromTitle(projekt.projektname) }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -62,16 +62,26 @@
       </DescriptionTable>
     </v-card>
 
-    <br />
-    <hr />
-    <br />
+    <div v-if="loaded">
+      <br />
+      <hr />
+      <br />
+    </div>
+    <v-layout justify-center v-else style="margin-top: 20px">
+      <br />
+      <br />
+      <v-progress-circular indeterminate size="64" />
+    </v-layout>
 
     <div
       v-for="projekt in projekte"
       v-bind:key="projekt.id"
       :ref="`projekt-${projekt.id}`"
     >
-      <Projekt :projekt="projekt"></Projekt>
+      <Projekt
+        :projekt="projekt"
+        :title="stripAnlageFromTitle(projekt.projektname)"
+      ></Projekt>
 
       <br />
 
@@ -93,13 +103,13 @@
               md="6"
               lg="6"
             >
-              <Objekt :objekt="objekt"></Objekt>
+              <Objekt :objekt="objekt" />
             </v-col>
             <template v-for="objekt in props.items">
               <v-col
                 v-for="dienstleistung in filterByProp(
                   dienstleistungen,
-                  'objekte',
+                  'objekt',
                   objekt.id
                 )"
                 :key="dienstleistung.id"
@@ -108,9 +118,7 @@
                 md="6"
                 lg="6"
               >
-                <Dienstleistung
-                  :dienstleistung="dienstleistung"
-                ></Dienstleistung>
+                <Dienstleistung :dienstleistung="dienstleistung" />
               </v-col>
             </template>
           </v-row>
@@ -118,35 +126,24 @@
       </v-data-iterator>
 
       <v-data-iterator
-        :items="filterByProp(dienstleistungen, 'projekte', projekt.id)"
+        :items="filterByProp(dienstleistungen, 'projekt', projekt.id)"
         :disable-pagination="true"
         hide-default-footer
       >
         <template v-slot:no-data>
-          <div></div>
-          <!--              <v-alert type="info">-->
-          <!--                Keine Dienstleistungen im Projekt.-->
-          <!--                <a-->
-          <!--                  href="https://limesurvey.bula21.ch/index.php/141511?newtest=Y&lang=de-informal"-->
-          <!--                  target="_blank"-->
-          <!--                  style="color: white"-->
-          <!--                >-->
-          <!--                  <v-icon>mdi-cart</v-icon>-->
-          <!--                  Dienstleistung bestellen-->
-          <!--                </a>-->
-          <!--              </v-alert>-->
+          <div />
         </template>
         <template v-slot:default="props">
           <v-row>
             <v-col
               v-for="item in props.items"
-              :key="item.id"
+              :key="item.id_"
               cols="12"
               sm="12"
               md="6"
               lg="6"
             >
-              <Dienstleistung :dienstleistung="item"></Dienstleistung>
+              <Dienstleistung :dienstleistung="item" />
             </v-col>
           </v-row>
         </template>
@@ -159,14 +156,16 @@
 </template>
 
 <script>
-import { apiAuthenticated, ApiError, filter } from "@/lib/api";
-import { joinInPlace } from "@/lib/join";
 import Dienstleistung from "@/components/anlagen/Dienstleistung";
 import DescriptionTable from "@/components/DescriptionTable";
 import Objekt from "@/components/anlagen/Objekt";
 import Projekt from "@/components/anlagen/Projekt";
 import AvantiLink from "@/components/anlagen/AvantiLink";
+
+import { ApiError } from "@/lib/api";
 import { mapState } from "vuex";
+import { loadAnlageData } from "@/lib/anlage";
+import { stripTitle } from "@/lib/util";
 
 export default {
   name: "AnlageDetail",
@@ -189,11 +188,11 @@ export default {
     projekte: [],
     dienstleistungen: [],
     anlage: {},
+    loaded: false,
   }),
   methods: {
-    stripProjektTitle(name) {
-      const postFix = ` - ${this.anlage.anlagenname}`;
-      return name.replace(postFix, "");
+    stripAnlageFromTitle(title) {
+      return stripTitle(title, this.anlage.anlagenname);
     },
     scrollTo(selector) {
       const target = this.$refs[selector];
@@ -205,94 +204,32 @@ export default {
     },
     filterByProp: (objects, propName, propValue) =>
       objects.filter((obj) => obj[propName] === propValue),
-    addFieldsInPlace(items, collectionName) {
-      for (const item of items) {
-        for (const [fieldName, fieldValue] of Object.entries(item)) {
-          if (fieldValue === null) {
-            continue;
-          }
-          const choices = this.fields[collectionName][fieldName]?.options
-            ?.choices;
-          if (choices !== undefined && choices[fieldValue] !== undefined) {
-            item[fieldName] = choices[fieldValue];
-          }
-        }
-      }
-    },
-    async fetchData() {
-      try {
-        // ressorts, projekte
-        const [ressorts, projekte] = await Promise.all([
-          apiAuthenticated("/items/ressort"),
-          apiAuthenticated(
-            "/items/projekt",
-            filter("anlage", "=", this.anlage.id)
-          ),
-        ]);
-        joinInPlace(projekte, ressorts, "ressort_betrieb");
-        joinInPlace(projekte, this.users, "auftraggeber");
-        joinInPlace(projekte, this.users, "verantwortliche_person_betrieb");
-        this.addFieldsInPlace(projekte, "projekt");
-        this.projekte = Object.freeze(projekte);
-
-        const projekteIds = projekte.map((p) => p.id);
-
-        // objekte
-        const objekte = await apiAuthenticated(
-          "/items/objekt",
-          filter("projekt", "in", projekteIds)
-        );
-        joinInPlace(objekte, this.users, "kontaktperson_nutzung");
-        joinInPlace(objekte, this.users, "kontaktperson_auftraggeber");
-        joinInPlace(objekte, this.users, "planung");
-        this.addFieldsInPlace(objekte, "objekt");
-        this.objekte = Object.freeze(objekte);
-        // const objektIds = objekte.map((o) => o.id);
-
-        // // dienstleistungen
-        // const dienstleistungenProjekte = await apiAuthenticated(
-        //   "/items/dienstleistung",
-        //   filter("projekte", "in", projekteIds)
-        // );
-        // const dienstleistungenObjekte = await apiAuthenticated(
-        //   "/items/dienstleistung",
-        //   filter("objekte", "in", objektIds)
-        // );
-        // const dienstleistungenProjekteids = dienstleistungenProjekte.map(
-        //   (p) => p.id
-        // );
-        // // merge dienstleistungen from projekte
-        // for (const d of dienstleistungenObjekte) {
-        //   if (dienstleistungenProjekteids.indexOf(d.id) === -1) {
-        //     dienstleistungenProjekte.push(d);
-        //   }
-        // }
-        // joinInPlace(
-        //   dienstleistungenProjekte,
-        //   this.users,
-        //   "kontaktperson_nutzung"
-        // );
-        // joinInPlace(
-        //   dienstleistungenProjekte,
-        //   this.users,
-        //   "kontaktperson_auftraggeber"
-        // );
-        // this.addFieldsInPlace(dienstleistungenProjekte, "dienstleistung");
-        // this.dienstleistungen = Object.freeze(dienstleistungenProjekte);
-      } catch (err) {
-        if (err instanceof ApiError) {
-          this.$emit("api-error", err.userMessage());
-        } else {
-          throw err;
-        }
-      }
-    },
   },
-  created() {
+  async created() {
+    // find anlage
     this.anlage = this.anlagen.find(
       (anlage) => anlage.anlagen_id === this.$route.params.id
     );
-    this.fetchData();
+
+    // get data
+    try {
+      const { projekte, objekte, dienstleistungen } = await loadAnlageData(
+        this.anlage.id,
+        this.users,
+        this.fields
+      );
+      this.projekte = projekte;
+      this.objekte = objekte;
+      this.dienstleistungen = dienstleistungen;
+    } catch (err) {
+      if (err instanceof ApiError) {
+        this.$emit("api-error", err.userMessage());
+      } else {
+        throw err;
+      }
+    }
+
+    this.loaded = true;
   },
 };
 </script>

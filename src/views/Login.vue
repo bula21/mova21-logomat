@@ -23,7 +23,7 @@
                   prepend-icon="mdi-account"
                   type="text"
                   v-model="email"
-                ></v-text-field>
+                />
 
                 <v-text-field
                   id="password"
@@ -33,7 +33,7 @@
                   type="password"
                   v-model="password"
                   v-on:keyup.enter="login"
-                ></v-text-field>
+                />
               </v-form>
             </v-card-text>
             <v-card-actions class="justify-center">
@@ -49,7 +49,7 @@
 
             <v-expand-transition>
               <div v-show="showHelp">
-                <v-divider></v-divider>
+                <v-divider />
 
                 <v-card-title>
                   Wie bekomme ich ein Passwort für den LOGomat?

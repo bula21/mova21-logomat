@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <portal to="topnav-title">Material / Bestellung / {{ order.name }}</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-card-title v-if="showOrder">{{ order.name }}</v-card-title>
     <v-card-text v-if="showOrder">
@@ -72,6 +72,7 @@ import { apiAuthenticated, ApiError, filter, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
 import XLSX from "xlsx";
+
 import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {

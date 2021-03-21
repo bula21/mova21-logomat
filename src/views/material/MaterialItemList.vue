@@ -7,7 +7,7 @@
 <template>
   <v-card>
     <portal to="topnav-title">Material / Artikel</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-card-title>Artikel</v-card-title>
     <v-card-text>
@@ -24,9 +24,9 @@
       dense
       :headers="headers"
       :items="totalItems"
-      :items-per-page="20"
+      :items-per-page="10"
       :footer-props="{
-        'items-per-page-options': [20, 50, -1],
+        'items-per-page-options': [10, 20, 50, -1],
         showFirstLastPage: true,
       }"
       :search="search"
@@ -38,7 +38,7 @@
         <span>{{ item.item.price.toFixed(2) }}</span>
       </template>
       <template v-slot:item.item.id>
-        <v-icon small> mdi-pencil </v-icon>
+        <v-icon small>mdi-pencil</v-icon>
       </template>
     </v-data-table>
     <v-card-text>
@@ -51,6 +51,7 @@
 import { apiAuthenticated, ApiError, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import XLSX from "xlsx";
+
 import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {

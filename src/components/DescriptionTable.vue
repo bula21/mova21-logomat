@@ -3,20 +3,22 @@
     <v-simple-table dense v-if="propsFiltered.length > 0">
       <template v-slot:default>
         <tbody>
-          <tr v-show="hasHiddenFields">
+          <tr
+            v-show="hasHiddenFields"
+            v-if="!settings.showAllFields"
+            @click="showAllFields = !showAllFields"
+            style="cursor: pointer"
+          >
             <td>Mehr Felder anzeigen</td>
             <td>
-              <v-switch
-                v-show="!settings.showAllFields"
-                v-model="showAllFields"
-              ></v-switch>
+              <v-switch v-model="showAllFields" readonly dense />
             </td>
           </tr>
 
           <tr v-for="(prop, key) in propsFiltered" :key="key">
             <!-- key -->
             <td class="description" v-if="prop.title">{{ prop.title }}:</td>
-            <td class="description" v-else>{{ capitalCase(prop.prop) }}:</td>
+            <td class="description" v-else>{{ nicifyTitle(prop.prop) }}:</td>
 
             <!-- value -->
             <td>
@@ -27,12 +29,16 @@
               >
                 <v-icon v-if="isEmpty(prop.prop)">mdi-diameter-variant</v-icon>
                 <template v-else-if="typeof item[prop.prop] === 'boolean'">
-                  <template v-if="item[prop.prop]"
-                    ><v-icon>mdi-check-outline</v-icon></template
-                  >
-                  <template v-else><v-icon>mdi-close-outline</v-icon></template>
+                  <template v-if="item[prop.prop]">
+                    <v-icon>mdi-check-outline</v-icon>
+                  </template>
+                  <template v-else>
+                    <v-icon>mdi-close-outline</v-icon>
+                  </template>
                 </template>
-                <template v-else>{{ item[prop.prop] }}</template>
+                <template v-else>
+                  <span v-html="renderNewlines(item[prop.prop])" />
+                </template>
               </slot>
               <Person v-else :item="item[prop.prop]" />
             </td>
@@ -40,14 +46,14 @@
         </tbody>
       </template>
     </v-simple-table>
-    <v-alert v-else type="info"> Keine Elemente </v-alert>
+    <v-alert v-else type="info">Keine Elemente</v-alert>
   </div>
 </template>
 
 <script>
-import { capitalCase } from "capital-case";
 import Person from "@/components/anlagen/Person";
 import { mapState } from "vuex";
+import { nicifyTitle } from "@/lib/util";
 
 export default {
   name: "DescriptionTable",
@@ -87,7 +93,14 @@ export default {
     }),
   },
   methods: {
-    capitalCase,
+    nicifyTitle,
+    renderNewlines(text) {
+      if (!(typeof text === "string")) {
+        return text;
+      }
+      const withNewlines = text.replace(/(?:\r\n|\r|\n)/g, "<br />");
+      return this.$sanitize(withNewlines);
+    },
     isEmpty(prop) {
       return (
         this.item[prop] === null ||

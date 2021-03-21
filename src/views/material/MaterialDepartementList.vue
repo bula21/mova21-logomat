@@ -6,7 +6,7 @@
 <template>
   <v-card>
     <portal to="topnav-title">Material / Ressorts</portal>
-    <MaterialNavigation></MaterialNavigation>
+    <MaterialNavigation />
 
     <v-card-title>Ressort</v-card-title>
     <v-card-text>
@@ -16,15 +16,15 @@
         item-text="name"
         item-value="id"
         @change="handleChange"
-      ></v-select>
+      />
     </v-card-text>
     <v-data-table
       dense
       :headers="headers"
       :items="clients"
-      :items-per-page="20"
+      :items-per-page="10"
       :footer-props="{
-        'items-per-page-options': [20, 50, -1],
+        'items-per-page-options': [10, 20, 50, -1],
         showFirstLastPage: true,
       }"
       id="clientList"
@@ -54,9 +54,10 @@
 </template>
 
 <script>
+import MaterialNavigation from "@/components/material/MaterialNavigation";
+
 import { apiAuthenticated, ApiError, filter, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
-import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {
   name: "MaterialDepartementList",

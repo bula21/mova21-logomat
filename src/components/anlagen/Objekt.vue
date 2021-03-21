@@ -1,8 +1,9 @@
 <template>
   <v-card>
-    <v-card-title class="headline"
-      >Objekt: {{ objekt.objektname }}</v-card-title
-    >
+    <v-card-title class="headline">
+      Objekt: {{ objekt.objektname }}
+    </v-card-title>
+
     <DescriptionTable
       :item="objekt"
       :props="[
@@ -21,7 +22,7 @@
           person: true,
         },
 
-        { prop: 'planung', default_hide: true },
+        { prop: 'planung', default_hide: true, person: true },
 
         { prop: 'bau_durch', default_hide: true },
         { prop: 'zelt_boden', default_hide: true },
