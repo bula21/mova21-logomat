@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Side Nav -->
     <v-navigation-drawer
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
@@ -30,6 +31,7 @@
       <portal-target name="sidenav-extended" />
     </v-navigation-drawer>
 
+    <!-- Top Bar -->
     <v-app-bar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
       app
@@ -39,8 +41,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <router-link
         :to="{ name: 'logomatAnlageList' }"
-        class="hidden-sm-and-down"
-        style="margin-right: 20px"
+        class="hidden-sm-and-down mr-4"
       >
         <v-avatar :tile="true" width="110px">
           <MovaLogo alt="mova Logo" />
@@ -106,17 +107,20 @@
         <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
+
+    <!-- Content -->
     <v-main>
-      <router-view v-on:api-error="showError" v-if="globalDataLoaded" />
-      <v-container v-else fluid>
-        <v-layout justify-center>
+      <v-container fluid class="pa-0">
+        <router-view v-on:api-error="showError" v-if="globalDataLoaded" />
+        <v-layout v-else justify-center class="ma-4">
           <v-progress-circular indeterminate size="64" />
         </v-layout>
       </v-container>
     </v-main>
+
+    <!-- Error Display -->
     <v-snackbar :value="errorText.length > 0" color="error" :timeout="-1">
       {{ errorText }}
-
       <template v-slot:action="{ attrs }">
         <v-btn v-bind="attrs" @click="dismissError()"> Schliessen </v-btn>
       </template>
