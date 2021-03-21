@@ -39,7 +39,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <router-link :to="{ name: 'logomatAnlageList' }">
         <v-avatar :tile="true" width="140px">
-          <img :src="require('@/assets/logo.svg')" alt="mova Logo" />
+          <img :src="require('@/assets/mova-logo-white.svg')" alt="mova Logo" />
         </v-avatar>
       </router-link>
       <router-link :to="{ name: 'logomatAnlageList' }">
