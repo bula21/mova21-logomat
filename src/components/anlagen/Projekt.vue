@@ -1,8 +1,6 @@
 <template>
   <div>
-    <v-card-title class="headline secondary">
-      Projekt: {{ title }}
-    </v-card-title>
+    <v-card-title class="secondary"> Projekt: {{ title }} </v-card-title>
 
     <DescriptionTable
       :item="projekt"

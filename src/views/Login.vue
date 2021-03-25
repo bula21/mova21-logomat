@@ -4,7 +4,7 @@
       <v-row align="center" justify="center">
         <v-col cols="12" sm="8" md="4">
           <v-card class="elevation-12">
-            <v-toolbar color="primary">
+            <v-toolbar class="primary white--text">
               <v-toolbar-title>LOGomat Login</v-toolbar-title>
             </v-toolbar>
             <v-alert type="error" v-if="errorMessage.length > 0">

@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="headline primary white--text">
+    <v-card-title class="primary white--text">
       Objekt: {{ objekt.objektname }}
     </v-card-title>
 
