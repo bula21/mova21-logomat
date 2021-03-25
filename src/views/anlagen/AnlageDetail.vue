@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-4 pb-0">
+  <div class="pa-4 pb-0" ref="top">
     <portal to="topnav-title">Anlagen / {{ anlage.anlagenname }}</portal>
 
     <portal to="sidenav-extended">
