@@ -7,7 +7,7 @@
       app
     >
       <v-list dense>
-        <v-list-item link :to="{ name: 'logomatAnlageList' }" exact>
+        <v-list-item link :to="{ name: 'logomatAnlageList' }">
           <v-list-item-action>
             <v-icon>mdi-castle</v-icon>
           </v-list-item-action>
@@ -18,7 +18,7 @@
 
         <Export :users="users" />
 
-        <v-list-item link :to="{ name: 'materialDashboard' }" exact>
+        <v-list-item link :to="{ name: 'materialDashboard' }">
           <v-list-item-action>
             <v-icon>mdi-death-star-variant</v-icon>
           </v-list-item-action>
