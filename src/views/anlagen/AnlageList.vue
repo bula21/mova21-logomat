@@ -8,7 +8,7 @@
         { text: 'Name', value: 'anlagenname', filterable: true },
         { text: 'Beschreibung', value: 'beschreibung', filterable: true },
         { text: 'Kontaktperson', value: 'kontaktperson', filterable: false },
-        { text: 'Link zu Avanti', value: 'avanti_link', filterable: false },
+        { text: 'Dateiablage', value: 'ordner_link', filterable: false },
         { text: 'Projekte', value: '_projektnamen', filterable: true },
       ]"
       :items="itemsFilteredOnlyMine"
@@ -70,7 +70,7 @@
               <Person :item="item.kontaktperson" />
             </td>
             <td>
-              <AvantiLink :item="item.avanti_link" />
+              <OrdnerLink :item="item.ordner_link" />
             </td>
             <td>
               <v-chip
@@ -93,7 +93,7 @@
 
 <script>
 import Person from "@/components/anlagen/Person";
-import AvantiLink from "@/components/anlagen/AvantiLink";
+import OrdnerLink from "@/components/anlagen/OrdnerLink";
 
 import { mapState } from "vuex";
 import { stripTitle } from "@/lib/util";
@@ -122,7 +122,7 @@ export default {
     }),
   },
   components: {
-    AvantiLink,
+    OrdnerLink,
     Person,
   },
 };

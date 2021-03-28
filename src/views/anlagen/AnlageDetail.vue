@@ -57,11 +57,15 @@
           { prop: 'beschreibung' },
           { prop: 'standort' },
           { prop: 'standortcode' },
+          { prop: 'ordner_link', title: 'Dateiablage' },
           { prop: 'avanti_link', title: 'Link zu Avanti' },
         ]"
       >
         <template v-slot:prop.avanti_link="{ item }">
           <AvantiLink :item="item" />
+        </template>
+        <template v-slot:prop.ordner_link="{ item }">
+          <OrdnerLink :item="item" />
         </template>
       </DescriptionTable>
     </v-card>
@@ -176,6 +180,7 @@ import DescriptionTable from "@/components/DescriptionTable";
 import Objekt from "@/components/anlagen/Objekt";
 import Projekt from "@/components/anlagen/Projekt";
 import AvantiLink from "@/components/anlagen/AvantiLink";
+import OrdnerLink from "@/components/anlagen/OrdnerLink";
 
 import { ApiError } from "@/lib/api";
 import { mapState } from "vuex";
@@ -190,6 +195,7 @@ export default {
     DescriptionTable,
     Objekt,
     AvantiLink,
+    OrdnerLink,
   },
   computed: {
     ...mapState({
