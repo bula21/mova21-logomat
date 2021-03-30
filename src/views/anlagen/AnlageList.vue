@@ -4,11 +4,31 @@
 
     <v-data-table
       :headers="[
-        { text: 'ID', value: 'anlagen_id', filterable: true },
-        { text: 'Name', value: 'anlagenname', filterable: true },
-        { text: 'Beschreibung', value: 'beschreibung', filterable: true },
-        { text: 'Kontaktperson', value: 'kontaktperson', filterable: false },
-        { text: 'Dateiablage', value: 'ordner_link', filterable: false },
+        { text: 'ID', value: 'anlagen_id', filterable: true, width: '50px' },
+        {
+          text: 'Name',
+          value: 'anlagenname',
+          filterable: true,
+          width: '180px',
+        },
+        {
+          text: 'Beschreibung',
+          value: 'beschreibung',
+          filterable: true,
+          width: '200px',
+        },
+        {
+          text: 'Kontaktperson',
+          value: 'kontaktperson',
+          filterable: false,
+          width: '150px',
+        },
+        {
+          text: 'Dateiablage',
+          value: 'ordner_link',
+          filterable: false,
+          width: '50px',
+        },
         { text: 'Projekte', value: '_projektnamen', filterable: true },
       ]"
       :items="itemsFilteredOnlyMine"
@@ -63,7 +83,7 @@
             <td>
               <b>{{ item.anlagenname }}</b>
             </td>
-            <td class="truncate-ellipsis" :title="item.beschreibung">
+            <td :title="item.beschreibung">
               {{ item.beschreibung }}
             </td>
             <td>
@@ -127,12 +147,3 @@ export default {
   },
 };
 </script>
-
-<style>
-td.truncate-ellipsis {
-  max-width: 1px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-</style>
