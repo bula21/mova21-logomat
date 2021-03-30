@@ -176,7 +176,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 td.description {
   font-weight: bold;
   width: 33%;
