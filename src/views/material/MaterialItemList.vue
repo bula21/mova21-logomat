@@ -24,9 +24,9 @@
       dense
       :headers="headers"
       :items="totalItems"
-      :items-per-page="10"
+      :items-per-page="20"
       :footer-props="{
-        'items-per-page-options': [10, 20, 50, -1],
+        'items-per-page-options': [20, 50, -1],
         showFirstLastPage: true,
       }"
       :search="search"

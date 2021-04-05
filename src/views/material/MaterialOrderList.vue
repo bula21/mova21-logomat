@@ -23,9 +23,9 @@
       dense
       :headers="headers"
       :items="orders"
-      :items-per-page="10"
+      :items-per-page="20"
       :footer-props="{
-        'items-per-page-options': [10, 20, 50, -1],
+        'items-per-page-options': [20, 50, -1],
         showFirstLastPage: true,
       }"
       :search="search"
@@ -63,13 +63,13 @@ export default {
     search: "",
     headers: [
       { text: "Name", value: "name" },
-      { text: "Status", value: "state.name", width: "120px" },
-      { text: "Ressort", value: "client.departement.name", width: "160px" },
+      { text: "Status", value: "state.name", width: "150px" },
+      { text: "Ressort", value: "client.departement.name", width: "150px" },
       { text: "Kunde", value: "client.name" },
       { text: "Bestellungstyp", value: "order_type.name" },
-      { text: "Ausführung", value: "delivery_type.name", width: "120px" },
+      { text: "Ausführung", value: "delivery_type.name", width: "100px" },
       { text: "Ausgabe", value: "delivery", align: "right" },
-      { text: "Rücknahme", value: "return", width: "120px", align: "right" },
+      { text: "Rücknahme", value: "return", width: "100px", align: "right" },
       { text: "Summe", value: "total.amount", align: "right" },
       { text: "", value: "id" },
     ],
