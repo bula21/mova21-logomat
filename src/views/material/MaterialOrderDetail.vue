@@ -38,6 +38,10 @@
           <td>Kommentar</td>
           <td>{{ order.comment }}</td>
         </tr>
+        <tr>
+          <td>Projekt</td>
+          <td>{{ order.projekt }}</td>
+        </tr>
       </v-simple-table>
     </v-card-text>
     <v-data-table
@@ -103,7 +107,7 @@ export default {
     async fetchData() {
       try {
         const [
-          order,
+          orders,
           states,
           clients,
           departements,
@@ -117,12 +121,22 @@ export default {
           apiAuthenticated("/items/mat_order_type"),
           apiAuthenticated("/items/mat_delivery_type"),
         ]);
-        joinInPlace(order, states, "state");
+        joinInPlace(orders, states, "state");
         joinInPlace(clients, departements, "departement");
-        joinInPlace(order, clients, "client");
-        joinInPlace(order, order_types, "order_type");
-        joinInPlace(order, delivery_types, "delivery_type");
-        this.order = Object.freeze(order[0]);
+        joinInPlace(orders, clients, "client");
+        joinInPlace(orders, order_types, "order_type");
+        joinInPlace(orders, delivery_types, "delivery_type");
+        var order = orders[0];
+        if (order.projekt != null) {
+          const projekte = await apiAuthenticated(
+            "/items/projekt",
+            filter("id", order.projekt)
+          );
+          order.projekt = projekte[0].projektname;
+        } else {
+          order.projekt = "n/a";
+        }
+        this.order = Object.freeze(order);
         this.showOrder = true;
         const [orderItems, items, units, catalogs] = await Promise.all([
           apiAuthenticated(
