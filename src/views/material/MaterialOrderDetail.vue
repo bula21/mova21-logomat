@@ -42,6 +42,10 @@
           <td>Projekt</td>
           <td>{{ order.projekt }}</td>
         </tr>
+        <tr>
+          <td>Standort</td>
+          <td>{{ order.standort }}</td>
+        </tr>
       </v-simple-table>
     </v-card-text>
     <v-data-table
@@ -130,11 +134,27 @@ export default {
         if (order.projekt != null) {
           const projekte = await apiAuthenticated(
             "/items/projekt",
-            filter("id", order.projekt)
+            filter("id", "=", order.projekt)
           );
           order.projekt = projekte[0].projektname;
+          if (projekte[0].anlage != null) {
+            const anlagen = await apiAuthenticated(
+              "/items/anlage",
+              filter("id", "=", projekte[0].anlage)
+            );
+            order.standort = anlagen[0].anlagenname;
+            if (anlagen[0].standort) {
+              order.standort += ", " + anlagen[0].standort;
+            }
+            if (anlagen[0].standortcode) {
+              order.standort += ", " + anlagen[0].standortcode;
+            }
+          } else {
+            order.standort = "n/a";
+          }
         } else {
           order.projekt = "n/a";
+          order.standort = "n/a";
         }
         this.order = Object.freeze(order);
         this.showOrder = true;
