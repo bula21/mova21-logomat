@@ -28,9 +28,9 @@
       dense
       :headers="orders"
       :items="itemOrders"
-      :items-per-page="15"
+      :items-per-page="10"
       :footer-props="{
-        'items-per-page-options': [15, 45, -1],
+        'items-per-page-options': [10, 40, -1],
         showFirstLastPage: true,
       }"
       class="elevation-1"
@@ -81,20 +81,20 @@ export default {
     orders: [
       { text: "Anzahl", value: "quantity", align: "right" },
       { text: "Name", value: "order.name" },
-      { text: "Status", value: "order.state.name", width: "120px" },
+      { text: "Status", value: "order.state.name", width: "150px" },
       {
         text: "Ressort",
         value: "order.client.departement.name",
-        width: "160px",
+        width: "150px",
       },
       { text: "Kunde", value: "order.client.name" },
       { text: "Bestellungstyp", value: "order.order_type.name" },
-      { text: "Ausführung", value: "order.delivery_type.name", width: "120px" },
+      { text: "Ausführung", value: "order.delivery_type.name", width: "100px" },
       { text: "Ausgabe", value: "order.delivery", align: "right" },
       {
         text: "Rücknahme",
         value: "order.return",
-        width: "120px",
+        width: "100px",
         align: "right",
       },
     ],
