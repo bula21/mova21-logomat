@@ -36,6 +36,7 @@ export default {
       { prop: "id", title: "Bestellung ID" },
       { prop: "status" },
       { prop: "bemerkungen_lieferung" },
+      { prop: "kontakt", title: "Besteller*in", default_hide: true },
     ]),
     abfallentsorgungCols: Object.freeze([]),
     abwasserCols: Object.freeze([{ prop: "geraete", default_hide: true }]),
