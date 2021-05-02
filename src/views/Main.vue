@@ -89,10 +89,6 @@
         <v-icon>mdi-cart</v-icon>
       </v-btn>
       <Settings />
-      <v-btn icon v-on:click="toggleDarkMode" title="Toggle Dark Mode">
-        <v-icon v-if="!$vuetify.theme.dark">mdi-weather-night</v-icon>
-        <v-icon v-else>mdi-weather-sunny</v-icon>
-      </v-btn>
       <Info />
       <v-btn
         icon
@@ -106,6 +102,7 @@
       <v-btn icon v-on:click="logout" :title="`Log out ${user.email}`">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
+      <DarkModeSwitch v-model="$vuetify.theme.dark" />
     </v-app-bar>
 
     <!-- Content -->
@@ -138,10 +135,12 @@ import Export from "@/components/anlagen/Export";
 import Info from "@/components/Info";
 import MovaLogo from "@/assets/mova-logo-white.svg";
 import LogomatLogo from "@/assets/logomat-logo.svg";
+import DarkModeSwitch from "@/components/DarkModeSwitch";
 
 export default {
   name: "Main",
   components: {
+    DarkModeSwitch,
     Clippy,
     Settings,
     Export,
