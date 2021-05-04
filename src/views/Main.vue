@@ -185,13 +185,6 @@ export default {
       this.$store.commit("logOut");
       this.$router.push({ name: "login" });
     },
-    toggleDarkMode: function () {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-      localStorage.setItem(
-        "globalDarkMode",
-        this.$vuetify.theme.dark.toString()
-      );
-    },
     addProjektNamesToAnlagen(anlagen, projekte) {
       const anlagenById = anlagen.reduce((obj, anlage) => {
         obj[anlage.id] = anlage;
