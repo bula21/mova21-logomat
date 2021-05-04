@@ -200,6 +200,17 @@ export default {
         }
         anlage._projekte.push({ name: projekt.projektname, id: projekt.id });
       }
+
+      // concatenated for filtering/searching
+      for (const anlage of anlagen) {
+        if (anlage._projekte === undefined) {
+          anlage._projekte = [];
+        }
+        anlage._projektnamen = anlage._projekte.reduce(
+          (prev, curr) => prev + " " + curr.name,
+          ""
+        );
+      }
     },
     async getFields() {
       const fields = await apiAuthenticated("/fields");

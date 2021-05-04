@@ -29,6 +29,8 @@
           filterable: false,
           width: '50px',
         },
+        // this is for filtering/searching, _projektnamen is not actually rendered
+        // but a custom slot
         { text: 'Projekte', value: '_projektnamen', filterable: true },
       ]"
       :items="itemsFilteredOnlyMine"
