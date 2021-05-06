@@ -37,8 +37,9 @@
       <template v-slot:item.item.price="{ item }">
         <span>{{ item.item.price.toFixed(2) }}</span>
       </template>
-      <template v-slot:item.item.id>
+      <template v-slot:item.item.id="{ item }">
         <v-icon small>mdi-pencil</v-icon>
+        <span class="text--secondary">{{ item.item.id }}</span>
       </template>
     </v-data-table>
     <v-card-text>
