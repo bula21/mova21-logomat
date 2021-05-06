@@ -42,8 +42,9 @@
       <template v-slot:item.total.amount="{ item }">
         <span>{{ item.total.amount.toFixed(2) }}</span>
       </template>
-      <template v-slot:item.id>
+      <template v-slot:item.id="{ item }">
         <v-icon small>mdi-pencil</v-icon>
+        <span class="text--secondary">{{ item.id }}</span>
       </template>
     </v-data-table>
   </v-card>

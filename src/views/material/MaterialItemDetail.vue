@@ -15,8 +15,8 @@
           <td>{{ item.description }}</td>
         </tr>
         <tr>
-          <td>Katalog</td>
-          <td>{{ item.catalog.name }}</td>
+          <td>Katalog (Teilbereich)</td>
+          <td>{{ item.catalog.name }} ({{ item.catalog.section.name }})</td>
         </tr>
         <tr>
           <td>Richtpreis</td>
@@ -114,12 +114,14 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const [item, units, catalogs] = await Promise.all([
+        const [item, units, catalogs, sections] = await Promise.all([
           apiAuthenticated("/items/mat_item", filter("id", "=", this.itemId)),
           apiAuthenticated("/items/mat_unit"),
           apiAuthenticated("/items/mat_catalog"),
+          apiAuthenticated("/items/mat_section"),
         ]);
         joinInPlace(item, units, "unit");
+        joinInPlace(catalogs, sections, "section");
         joinInPlace(item, catalogs, "catalog");
         this.item = Object.freeze(item[0]);
         this.showItem = true;
