@@ -91,7 +91,7 @@ export const apiAuthenticated = async (path, query = null) => {
   }
 };
 
-// https://docs.directus.io/reference/api/query/filter.html
+// https://docs.directus.io/reference/api/query/#filter
 export const filter = (fieldName, op, value) => {
   if (Array.isArray(value)) {
     value = value.join(",");
@@ -101,7 +101,22 @@ export const filter = (fieldName, op, value) => {
   };
 };
 
-// https://docs.directus.io/reference/api/query/limit.html
+// https://docs.directus.io/reference/api/query/#limit
 export const limit = (value) => {
   return { limit: value };
+};
+
+// https://docs.directus.io/reference/api/items/#create-an-item
+export const apiAuthCreate = async (path, item) => {
+  const config = {
+    headers: {
+      Authorization: `bearer ${store.state.user._token}`,
+    },
+  };
+  try {
+    const resp = await api.post(path, item, config);
+    return resp.data.data;
+  } catch (err) {
+    throw new ApiError(err);
+  }
 };

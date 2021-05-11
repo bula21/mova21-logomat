@@ -72,14 +72,37 @@
     <v-card-text>
       <v-btn v-on:click="download">Export</v-btn>
     </v-card-text>
+    <v-card-title>Bestätigungen</v-card-title>
+    <v-data-table
+      dense
+      :headers="confirmationHeaders"
+      :items="confirmationItems"
+      :items-per-page="-1"
+      hide-default-footer
+      class="elevation-1"
+    >
+      <template v-slot:item.time="{ item }">
+        <span>{{ timestamp(item.time) }}</span>
+      </template>
+    </v-data-table>
+    <v-card-text>
+      <v-btn v-on:click="confirm">Bestätigen</v-btn>
+    </v-card-text>
   </v-card>
 </template>
 
 <script>
-import { apiAuthenticated, ApiError, filter, limit } from "@/lib/api";
+import {
+  apiAuthenticated,
+  ApiError,
+  filter,
+  limit,
+  apiAuthCreate,
+} from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
 import XLSX from "xlsx";
+import { mapState } from "vuex";
 
 import MaterialNavigation from "@/components/material/MaterialNavigation";
 
@@ -87,6 +110,9 @@ export default {
   name: "MaterialOrderDetail",
   components: { MaterialNavigation },
   computed: {
+    ...mapState({
+      user: "user",
+    }),
     orderId() {
       return this.$route.params.id;
     },
@@ -106,6 +132,11 @@ export default {
     showOrder: false,
     total: null,
     showTotal: false,
+    confirmationHeaders: [
+      { text: "Name", value: "name" },
+      { text: "Zeitpunkt", value: "time" },
+    ],
+    confirmationItems: [],
   }),
   methods: {
     async fetchData() {
@@ -178,6 +209,11 @@ export default {
           return acc + item.quantity * item.item.price;
         }, 0);
         this.showTotal = true;
+        const confirmations = await apiAuthenticated(
+          "/items/mat_order_confirmation",
+          filter("order", "=", this.orderId)
+        );
+        this.confirmationItems = Object.freeze(confirmations);
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
@@ -203,6 +239,15 @@ export default {
       } else {
         return "n/a";
       }
+    },
+    timestamp(time) {
+      const date = DateTime.fromSQL(time + " UTC").setLocale("de-ch");
+      //        .toLocal();
+      return (
+        date.toLocaleString(DateTime.DATE_HUGE) +
+        " " +
+        date.toLocaleString(DateTime.TIME_24_WITH_SECONDS)
+      );
     },
     download: function () {
       const mappedOrder = [
@@ -233,6 +278,13 @@ export default {
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, data, "data");
       XLSX.writeFile(wb, "bestellung.xlsx");
+    },
+    confirm: function () {
+      const confirmation = {
+        order: this.orderId,
+        name: this.user.email,
+      };
+      apiAuthCreate("/items/mat_order_confirmation", confirmation);
     },
   },
   created() {
