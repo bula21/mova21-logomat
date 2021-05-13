@@ -209,6 +209,16 @@ export default {
           return acc + item.quantity * item.item.price;
         }, 0);
         this.showTotal = true;
+      } catch (err) {
+        if (err instanceof ApiError) {
+          this.$emit("api-error", err.userMessage());
+        } else {
+          throw err;
+        }
+      }
+    },
+    async fetchConfirmation() {
+      try {
         const confirmations = await apiAuthenticated(
           "/items/mat_order_confirmation",
           filter("order", "=", this.orderId)
@@ -249,7 +259,7 @@ export default {
         date.toLocaleString(DateTime.TIME_24_WITH_SECONDS)
       );
     },
-    download: function () {
+    download() {
       const mappedOrder = [
         { key: "Name", value: this.order.name },
         { key: "Status", value: this.order.state.name },
@@ -279,16 +289,18 @@ export default {
       XLSX.utils.book_append_sheet(wb, data, "data");
       XLSX.writeFile(wb, "bestellung.xlsx");
     },
-    confirm: function () {
+    async confirm() {
       const confirmation = {
         order: this.orderId,
         name: this.user.email,
       };
-      apiAuthCreate("/items/mat_order_confirmation", confirmation);
+      await apiAuthCreate("/items/mat_order_confirmation", confirmation);
+      this.fetchConfirmation();
     },
   },
   created() {
     this.fetchData();
+    this.fetchConfirmation();
   },
 };
 </script>
