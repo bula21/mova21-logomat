@@ -33,6 +33,11 @@
       class="elevation-1"
       @click:row="handleClick"
     >
+      <template v-slot:item.state.name="{ item }">
+        <v-chip :color="getColor(item.state)" outlined>
+          {{ item.state.name }}
+        </v-chip>
+      </template>
       <template v-slot:item.delivery="{ item }">
         <span>{{ shortDate(item.delivery) }}</span>
       </template>
@@ -144,6 +149,13 @@ export default {
       } else {
         return "";
       }
+    },
+    getColor(state) {
+      if (state.id == 1) return "black";
+      else if (state.id == 2) return "orange";
+      else if (state.id == 3) return "blue";
+      else if (state.id == 4) return "green";
+      else return "red";
     },
   },
   created() {
