@@ -120,7 +120,7 @@
         <a
           href="https://bulacafe21.slack.com/archives/C014ZNQ510B"
           target="_blank"
-          >Slack #286_koord_aufabbau_request</a
+          >Slack #2010_log-koord_request</a
         >
         oder
         <a

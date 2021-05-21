@@ -92,7 +92,7 @@
                     href="https://bulacafe21.slack.com/archives/C014ZNQ510B"
                     target="_blank"
                   >
-                    #286_koord_aufabbau_request</a
+                    #2010_log-koord_request</a
                   >
                   .
                 </v-card-text>
