@@ -85,7 +85,7 @@
         <span>{{ timestamp(item.time) }}</span>
       </template>
     </v-data-table>
-    <v-card-text>
+    <v-card-text v-if="showConfirm">
       <v-btn v-on:click="confirm">Bestätigen</v-btn>
     </v-card-text>
   </v-card>
@@ -137,6 +137,7 @@ export default {
       { text: "Zeitpunkt", value: "time" },
     ],
     confirmationItems: [],
+    showConfirm: false,
   }),
   methods: {
     async fetchData() {
@@ -186,6 +187,9 @@ export default {
         } else {
           order.projekt = "n/a";
           order.standort = "n/a";
+        }
+        if (order.state.id == 2) {
+          this.showConfirm = true;
         }
         this.order = Object.freeze(order);
         this.showOrder = true;
@@ -294,6 +298,7 @@ export default {
         order: this.orderId,
         name: this.user.email,
       };
+      this.showConfirm = false;
       await apiAuthCreate("/items/mat_order_confirmation", confirmation);
       this.fetchConfirmation();
     },
