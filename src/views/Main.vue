@@ -80,14 +80,6 @@
       >
         <v-icon>mdi-face-agent</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        title="Bestellformular Dienstleistungen"
-        target="_blank"
-        href="https://limesurvey.bula21.ch/index.php/141511?newtest=Y&lang=de-informal"
-      >
-        <v-icon>mdi-cart</v-icon>
-      </v-btn>
       <Settings />
       <Info />
       <v-btn
