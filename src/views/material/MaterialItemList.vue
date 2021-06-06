@@ -118,10 +118,8 @@ export default {
         joinInPlace(items, catalogs, "catalog");
         joinInPlace(totalItems, items, "item");
         const supplierItemsUnique = supplierItems.reduce((acc, item) => {
-          const thing = acc.find((group) => group.id === item.item);
-          if (thing) {
-            // ignore
-          } else {
+          const unique = acc.find((unique) => unique.item === item.item);
+          if (unique == null) {
             acc.push(item);
           }
           return acc;
