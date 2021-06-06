@@ -138,6 +138,7 @@ export default {
     download: function () {
       const mappedItems = this.totalItems.map((item) => {
         return {
+          ID: item.item.id,
           Anzahl: item.quantity,
           Einheit: item.item.unit.name,
           Name: item.item.name,
