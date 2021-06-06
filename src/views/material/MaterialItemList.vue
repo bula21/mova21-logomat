@@ -80,24 +80,54 @@ export default {
     },
     async fetchData() {
       try {
-        const [orderItems, items, units, catalogs] = await Promise.all([
+        const [
+          orderItems,
+          items,
+          units,
+          catalogs,
+          sections,
+          orderTypes,
+          supplierItems,
+          suppliers,
+        ] = await Promise.all([
           apiAuthenticated("/items/mat_order_item", limit(-1)),
           apiAuthenticated("/items/mat_item", limit(-1)),
           apiAuthenticated("/items/mat_unit"),
           apiAuthenticated("/items/mat_catalog"),
+          apiAuthenticated("/items/mat_section"),
+          apiAuthenticated("/items/mat_order_type"),
+          apiAuthenticated("/items/mat_supplier_item", limit(-1)),
+          apiAuthenticated("/items/mat_supplier"),
         ]);
         const totalItems = orderItems.reduce((acc, item) => {
           const thing = acc.find((group) => group.item === item.item);
           if (thing) {
             thing.quantity += item.quantity;
           } else {
-            acc.push({ item: item.item, quantity: item.quantity });
+            acc.push({
+              item: item.item,
+              quantity: item.quantity,
+              supplierItem: item.item,
+            });
           }
           return acc;
         }, []);
         joinInPlace(items, units, "unit");
+        joinInPlace(catalogs, sections, "section");
+        joinInPlace(catalogs, orderTypes, "order_type");
         joinInPlace(items, catalogs, "catalog");
         joinInPlace(totalItems, items, "item");
+        const supplierItemsUnique = supplierItems.reduce((acc, item) => {
+          const thing = acc.find((group) => group.id === item.item);
+          if (thing) {
+            // ignore
+          } else {
+            acc.push(item);
+          }
+          return acc;
+        }, []);
+        joinInPlace(supplierItemsUnique, suppliers, "supplier");
+        joinInPlace(totalItems, supplierItemsUnique, "supplierItem", "item");
         this.totalItems = Object.freeze(totalItems);
       } catch (err) {
         if (err instanceof ApiError) {
@@ -115,7 +145,12 @@ export default {
           Name: item.item.name,
           Beschreibung: item.item.description,
           Katalog: item.item.catalog.name,
+          Teilbereich: item.item.catalog.section.name,
+          Bestellungstyp: item.item.catalog.order_type.name,
           Richtpreis: item.item.price,
+          Lieferant: item.supplierItem ? item.supplierItem.supplier.name : null,
+          Artikel: item.supplierItem ? item.supplierItem.name : null,
+          Code: item.supplierItem ? item.supplierItem.code : null,
         };
       });
       const data = XLSX.utils.json_to_sheet(mappedItems);
