@@ -59,6 +59,19 @@
       }"
       class="elevation-1"
     >
+      <template v-slot:item.quantity="{ item }">
+        <span v-if="item.cancellation === undefined"
+          ><v-icon
+            color="red"
+            small
+            v-on:click="cancel(item.id)"
+            v-if="showConfirmLead"
+            >mdi-delete</v-icon
+          >
+          {{ item.quantity }}</span
+        >
+        <span v-else class="text--disabled">( {{ item.quantity }} )</span>
+      </template>
       <template v-slot:item.item.price="{ item }">
         <span>{{ item.item.price.toFixed(2) }}</span>
       </template>
@@ -204,7 +217,23 @@ export default {
         }
         this.order = Object.freeze(order);
         this.showOrder = true;
-        const [orderItems, items, units, catalogs] = await Promise.all([
+      } catch (err) {
+        if (err instanceof ApiError) {
+          this.$emit("api-error", err.userMessage());
+        } else {
+          throw err;
+        }
+      }
+    },
+    async fetchList() {
+      try {
+        const [
+          orderItems,
+          items,
+          units,
+          catalogs,
+          cancellations,
+        ] = await Promise.all([
           apiAuthenticated(
             "/items/mat_order_item",
             filter("order", "=", this.orderId)
@@ -212,13 +241,16 @@ export default {
           apiAuthenticated("/items/mat_item", limit(-1)),
           apiAuthenticated("/items/mat_unit"),
           apiAuthenticated("/items/mat_catalog"),
+          apiAuthenticated("/items/mat_order_item_cancellation"),
         ]);
         joinInPlace(items, units, "unit");
         joinInPlace(items, catalogs, "catalog");
         joinInPlace(orderItems, items, "item");
         orderItems.forEach((element) => {
           element.total = element.quantity * element.item.price;
+          element.cancellation = element.id;
         });
+        joinInPlace(orderItems, cancellations, "cancellation", "order_item");
         this.orderItems = Object.freeze(orderItems);
         this.total = orderItems.reduce((acc, item) => {
           return acc + item.quantity * item.item.price;
@@ -310,12 +342,22 @@ export default {
         name: this.user.email,
       };
       this.showConfirm = false;
+      this.showConfirmLead = false;
       await apiAuthCreate("/items/mat_order_confirmation", confirmation);
       this.fetchConfirmation();
+    },
+    async cancel(orderItem) {
+      const cancellation = {
+        order_item: orderItem,
+        name: this.user.email,
+      };
+      await apiAuthCreate("/items/mat_order_item_cancellation", cancellation);
+      this.fetchList();
     },
   },
   created() {
     this.fetchData();
+    this.fetchList();
     this.fetchConfirmation();
   },
 };
