@@ -31,9 +31,9 @@
       dense
       :headers="orders"
       :items="itemOrders"
-      :items-per-page="10"
+      :items-per-page="20"
       :footer-props="{
-        'items-per-page-options': [10, 40, -1],
+        'items-per-page-options': [20, 50, -1],
         showFirstLastPage: true,
       }"
       class="elevation-1"
