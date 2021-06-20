@@ -7,9 +7,9 @@
   <v-card>
     <portal to="topnav-title">Material / Bestellungen</portal>
     <MaterialNavigation />
-
     <v-card-title>Bestellung</v-card-title>
     <v-card-text>
+      <v-checkbox v-model="todo" label="VLR2" v-if="showTodo" />
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
@@ -59,14 +59,22 @@
 import { apiAuthenticated, ApiError, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
+import { mapState } from "vuex";
 
 import MaterialNavigation from "@/components/material/MaterialNavigation";
 
 export default {
   name: "MaterialOrderList",
   components: { MaterialNavigation },
+  computed: {
+    ...mapState({
+      user: "user",
+    }),
+  },
   data: () => ({
     search: "",
+    todo: false,
+    showTodo: false,
     headers: [
       { text: "Name", value: "name" },
       { text: "Status", value: "state.name", width: "150px" },
@@ -116,6 +124,21 @@ export default {
         joinInPlace(orders, order_types, "order_type");
         joinInPlace(orders, delivery_types, "delivery_type");
         joinInPlace(orderItems, items, "item");
+        var myDepartements = [];
+        departements.forEach((element) => {
+          if (element.lead.split(";").includes(this.user.email)) {
+            myDepartements.push(element.id);
+            this.showTodo = true;
+          }
+        });
+        var myOrders = orders;
+        if (this.todo) {
+          myOrders = myOrders.filter(
+            (order) =>
+              myDepartements.includes(order.client.departement.id) &&
+              order.state.id != 4
+          );
+        }
         const totalItems = orderItems.reduce((acc, item) => {
           const thing = acc.find((group) => group.id === item.order);
           if (thing) {
@@ -131,8 +154,8 @@ export default {
         orders.forEach((element) => {
           element.total = element.id;
         });
-        joinInPlace(orders, totalItems, "total");
-        this.orders = Object.freeze(orders);
+        joinInPlace(myOrders, totalItems, "total");
+        this.orders = Object.freeze(myOrders);
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
@@ -165,6 +188,9 @@ export default {
     if (localStorage.orderSearch) {
       this.search = localStorage.orderSearch;
     }
+    if (localStorage.orderTodo) {
+      this.todo = JSON.parse(localStorage.orderTodo);
+    }
   },
   watch: {
     search(orderSearch) {
@@ -173,6 +199,10 @@ export default {
       } else {
         localStorage.orderSearch = orderSearch;
       }
+    },
+    todo(orderTodo) {
+      localStorage.orderTodo = orderTodo;
+      this.fetchData();
     },
   },
 };
