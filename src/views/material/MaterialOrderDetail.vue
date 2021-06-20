@@ -86,7 +86,10 @@
       </template>
     </v-data-table>
     <v-card-text v-if="showConfirm">
-      <v-btn v-on:click="confirm">Bestätigen</v-btn>
+      <v-btn v-on:click="confirm">Bestätigung</v-btn>
+    </v-card-text>
+    <v-card-text v-if="showConfirmLead">
+      <v-btn v-on:click="confirm">Bestätigung Ressortleitung</v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -138,6 +141,7 @@ export default {
     ],
     confirmationItems: [],
     showConfirm: false,
+    showConfirmLead: false,
   }),
   methods: {
     async fetchData() {
@@ -188,8 +192,15 @@ export default {
           order.projekt = "n/a";
           order.standort = "n/a";
         }
-        if (order.state.id == 2) {
-          this.showConfirm = true;
+        if (
+          order.state.id != 4 &&
+          order.client.departement.lead.split(";").includes(this.user.email)
+        ) {
+          this.showConfirmLead = true;
+        } else {
+          if (order.state.id == 2) {
+            this.showConfirm = true;
+          }
         }
         this.order = Object.freeze(order);
         this.showOrder = true;
