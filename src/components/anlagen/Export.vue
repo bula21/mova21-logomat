@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { apiAuthenticated } from "@/lib/api";
+import { apiAuthenticated, limit } from "@/lib/api";
 import { createObjectCsvStringifier } from "csv-writer";
 import { joinInPlace } from "@/lib/join";
 
@@ -70,7 +70,7 @@ export default {
     createCsv(fields, rows) {
       const fieldNames = fields.map((x) => x.field);
       const csvWriter = createObjectCsvStringifier({
-        path: "blah.csv",
+        path: "items.csv",
         header: fieldNames,
       });
       return fieldNames.join(",") + "\n" + csvWriter.stringifyRecords(rows);
@@ -98,8 +98,10 @@ export default {
         (x) => x.options?.template === "{{first_name}} {{last_name}}"
       );
 
+      // get items
+      const items = await apiAuthenticated(`/items/${name}`, limit(-1));
+
       // join users
-      const items = await apiAuthenticated(`/items/${name}`);
       for (const field of fieldsToJoinUsers) {
         joinInPlace(
           items,
@@ -109,6 +111,8 @@ export default {
           (user) => `${user.first_name} ${user.last_name} ${user.email}`
         );
       }
+
+      // create CSV
       const csv = this.createCsv(collectionFields, items);
       this.sendCsvDownload(`${name}.csv`, csv);
     },
