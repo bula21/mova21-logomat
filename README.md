@@ -61,4 +61,5 @@ We host fonts and icons locally.
 ## Resources
 
 * Logomat Admin Page: <https://avanti.bula21.ch/x/oQTJAQ>
-* Test Anlagen: <http://localhost:8080/#/anlagen/9999>, <http://localhost:8080/#/anlagen/2805> 
+* Test Anlagen: <http://localhost:8080/#/anlagen/9999>, <http://localhost:8080/#/anlagen/2805>
+* v8 Docs: <https://v8.docs.directus.io/getting-started/introduction.html>
