@@ -25,6 +25,9 @@
     <v-card-text>
       <v-btn v-on:click="download">Export</v-btn>
     </v-card-text>
+    <v-card-text>
+      <v-btn v-on:click="prog">Export Materialliste Ressort Programm</v-btn>
+    </v-card-text>
   </v-card>
 </template>
 
@@ -185,6 +188,24 @@ export default {
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, data, "data");
       XLSX.writeFile(wb, "sponsoring.xlsx");
+    },
+    async prog() {
+      try {
+        const items = await apiAuthenticated(
+          "/items/prog_material",
+          limit("-1")
+        );
+        const data = XLSX.utils.json_to_sheet(items);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, data, "data");
+        XLSX.writeFile(wb, "prog_material.xlsx");
+      } catch (err) {
+        if (err instanceof ApiError) {
+          this.$emit("api-error", err.userMessage());
+        } else {
+          throw err;
+        }
+      }
     },
   },
   created() {
