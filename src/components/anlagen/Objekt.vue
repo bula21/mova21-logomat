@@ -7,6 +7,7 @@
     <DescriptionTable
       :item="objekt"
       :props="[
+        { prop: 'id' },
         { prop: 'objektstatus' },
         { prop: 'typisierung', title: 'Typ' },
         { prop: 'masse', title: 'Masse' },

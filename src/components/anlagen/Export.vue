@@ -72,6 +72,7 @@ export default {
       const csvWriter = createObjectCsvStringifier({
         path: "items.csv",
         header: fieldNames,
+        fieldDelimiter: ";",
       });
       return fieldNames.join(",") + "\n" + csvWriter.stringifyRecords(rows);
     },
