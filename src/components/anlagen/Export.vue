@@ -49,7 +49,7 @@
 
 <script>
 import { apiAuthenticated, limit } from "@/lib/api";
-import { createObjectCsvStringifier } from "csv-writer";
+import { createArrayCsvStringifier } from "csv-writer";
 import { joinInPlace } from "@/lib/join";
 
 export default {
@@ -69,14 +69,29 @@ export default {
     },
     createCsv(fields, rows) {
       const delimiter = ";";
-      const fieldNames = fields.map((x) => x.field);
-      const csvWriter = createObjectCsvStringifier({
+
+      const transformCell = (data) => {
+        if (typeof data === "string" || data instanceof String) {
+          return data.replace(/\n/g, " ");
+        }
+        return data;
+      };
+
+      // convert row objects to arrays
+      const rowsTransformed = rows.map((rowObj) => {
+        return fields.map((field) => transformCell(rowObj[field.field]));
+      });
+
+      const header = fields.map((x) => ({ id: x.field, title: x.field }));
+      const csvWriter = createArrayCsvStringifier({
         path: "items.csv",
-        header: fieldNames,
+        header: header,
         fieldDelimiter: delimiter,
       });
+
       return (
-        fieldNames.join(delimiter) + ";\n" + csvWriter.stringifyRecords(rows)
+        csvWriter.getHeaderString() +
+        csvWriter.stringifyRecords(rowsTransformed)
       );
     },
     sendCsvDownload(name, content) {
