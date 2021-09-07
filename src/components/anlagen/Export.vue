@@ -69,6 +69,7 @@ export default {
     },
     createCsv(fields, rows) {
       const delimiter = ";";
+      const headers = fields.map((x) => x.field);
 
       const transformCell = (data) => {
         if (typeof data === "string" || data instanceof String) {
@@ -79,13 +80,12 @@ export default {
 
       // convert row objects to arrays
       const rowsTransformed = rows.map((rowObj) => {
-        return fields.map((field) => transformCell(rowObj[field.field]));
+        return headers.map((header) => transformCell(rowObj[header]));
       });
 
-      const header = fields.map((x) => ({ id: x.field, title: x.field }));
       const csvWriter = createArrayCsvStringifier({
         path: "items.csv",
-        header: header,
+        header: headers,
         fieldDelimiter: delimiter,
       });
 
