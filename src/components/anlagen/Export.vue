@@ -117,6 +117,18 @@ export default {
         );
       }
 
+      // join more stuff, per case
+      if (name === "objekt") {
+        const projekte = await apiAuthenticated(`/items/projekt`, limit(-1));
+        joinInPlace(
+          items,
+          projekte,
+          "projekt",
+          "id",
+          (projekt) => `#${projekt.id} - ${projekt.projektname}`
+        );
+      }
+
       // create CSV
       const csv = this.createCsv(collectionFields, items);
       this.sendCsvDownload(`${name}.csv`, csv);
