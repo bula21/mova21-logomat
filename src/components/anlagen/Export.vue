@@ -68,13 +68,16 @@ export default {
       this.show = true;
     },
     createCsv(fields, rows) {
+      const delimiter = ";";
       const fieldNames = fields.map((x) => x.field);
       const csvWriter = createObjectCsvStringifier({
         path: "items.csv",
         header: fieldNames,
-        fieldDelimiter: ";",
+        fieldDelimiter: delimiter,
       });
-      return fieldNames.join(",") + "\n" + csvWriter.stringifyRecords(rows);
+      return (
+        fieldNames.join(delimiter) + ";\n" + csvWriter.stringifyRecords(rows)
+      );
     },
     sendCsvDownload(name, content) {
       const link = document.createElement("a");
