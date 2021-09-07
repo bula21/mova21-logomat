@@ -95,10 +95,11 @@ export default {
     async export_(name) {
       const fields = await apiAuthenticated("/fields");
       const collectionFields = fields.filter(
+        // matches collection name, and is not a reverse foreign key relationship
         (x) => x.collection === name && x.interface !== "one-to-many"
       );
+      // hack to find all fields which reference users
       const fieldsToJoinUsers = collectionFields.filter(
-        // hack
         (x) => x.options?.template === "{{first_name}} {{last_name}}"
       );
 
