@@ -66,7 +66,11 @@
             <v-list-item-title>Wasser</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="export_('abwasser')" style="cursor: pointer" ripple>
+        <v-list-item
+          @click="export_('abwasser')"
+          style="cursor: pointer"
+          ripple
+        >
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>
           </v-list-item-icon>
@@ -74,7 +78,11 @@
             <v-list-item-title>Abwasser</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="export_('abfallentsorgung')" style="cursor: pointer" ripple>
+        <v-list-item
+          @click="export_('abfallentsorgung')"
+          style="cursor: pointer"
+          ripple
+        >
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>
           </v-list-item-icon>
