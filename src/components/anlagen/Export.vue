@@ -44,7 +44,7 @@
         </v-list-item>
         <v-list-item @click="export_('telekom')" style="cursor: pointer" ripple>
           <v-list-item-icon>
-            <v-icon>mdi-home</v-icon>
+            <v-icon>mdi-cellphone-basic</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Telekom</v-list-item-title>
@@ -52,7 +52,7 @@
         </v-list-item>
         <v-list-item @click="export_('strom')" style="cursor: pointer" ripple>
           <v-list-item-icon>
-            <v-icon>mdi-home</v-icon>
+            <v-icon>mdi-transmission-tower</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Strom</v-list-item-title>
@@ -60,7 +60,7 @@
         </v-list-item>
         <v-list-item @click="export_('wasser')" style="cursor: pointer" ripple>
           <v-list-item-icon>
-            <v-icon>mdi-home</v-icon>
+            <v-icon>mdi-cup-water</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Wasser</v-list-item-title>
@@ -72,7 +72,7 @@
           ripple
         >
           <v-list-item-icon>
-            <v-icon>mdi-home</v-icon>
+            <v-icon>mdi-tanker-truck</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Abwasser</v-list-item-title>
@@ -84,7 +84,7 @@
           ripple
         >
           <v-list-item-icon>
-            <v-icon>mdi-home</v-icon>
+            <v-icon>mdi-trash-can</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Abfallentsorgung</v-list-item-title>
