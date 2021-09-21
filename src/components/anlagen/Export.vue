@@ -119,16 +119,28 @@ export default {
       const delimiter = ";";
       const headers = fields.map((x) => x.field);
 
-      const transformCell = (data) => {
+      const transformCell = (data, name) => {
+        // remove newlines so M$ Excel does not hiccup
         if (typeof data === "string" || data instanceof String) {
           return data.replace(/\n/g, " ");
+        }
+        // sometimes data cells contain arrays of other objects
+        if (Array.isArray(data)) {
+          if (name === "geraete") {
+            return data.map((x) => x["Gerätename"]).join(", ");
+          } else if (name === "zusaetzliches_material") {
+            return data.map((x) => x["Material"]).join(", ");
+          } else {
+            console.log("UNKNOWN", name, data);
+            return "Array[]";
+          }
         }
         return data;
       };
 
       // convert row objects to arrays
       const rowsTransformed = rows.map((rowObj) => {
-        return headers.map((header) => transformCell(rowObj[header]));
+        return headers.map((header) => transformCell(rowObj[header], header));
       });
 
       const csvWriter = createArrayCsvStringifier({
