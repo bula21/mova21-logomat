@@ -11,7 +11,7 @@
           <v-icon>mdi-table-arrow-right</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>Anlagen CSV-Export</v-list-item-title>
+          <v-list-item-title>CSV-Export</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>
@@ -40,6 +40,54 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Objekte</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="export_('telekom')" style="cursor: pointer" ripple>
+          <v-list-item-icon>
+            <v-icon>mdi-cellphone-basic</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Telekom</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="export_('strom')" style="cursor: pointer" ripple>
+          <v-list-item-icon>
+            <v-icon>mdi-transmission-tower</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Strom</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="export_('wasser')" style="cursor: pointer" ripple>
+          <v-list-item-icon>
+            <v-icon>mdi-cup-water</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Wasser</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          @click="export_('abwasser')"
+          style="cursor: pointer"
+          ripple
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-tanker-truck</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Abwasser</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          @click="export_('abfallentsorgung')"
+          style="cursor: pointer"
+          ripple
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-trash-can</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Abfallentsorgung</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -71,16 +119,28 @@ export default {
       const delimiter = ";";
       const headers = fields.map((x) => x.field);
 
-      const transformCell = (data) => {
+      const transformCell = (data, name) => {
+        // remove newlines so M$ Excel does not hiccup
         if (typeof data === "string" || data instanceof String) {
           return data.replace(/\n/g, " ");
+        }
+        // sometimes data cells contain arrays of other objects
+        if (Array.isArray(data)) {
+          if (name === "geraete") {
+            return data.map((x) => x["Gerätename"]).join(", ");
+          } else if (name === "zusaetzliches_material") {
+            return data.map((x) => x["Material"]).join(", ");
+          } else {
+            console.log("UNKNOWN", name, data);
+            return "Array[]";
+          }
         }
         return data;
       };
 
       // convert row objects to arrays
       const rowsTransformed = rows.map((rowObj) => {
-        return headers.map((header) => transformCell(rowObj[header]));
+        return headers.map((header) => transformCell(rowObj[header], header));
       });
 
       const csvWriter = createArrayCsvStringifier({
