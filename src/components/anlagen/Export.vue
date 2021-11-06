@@ -204,6 +204,20 @@ export default {
         );
       }
 
+      // for all enum/dropdown fields, replace db value with display text
+      collectionFields
+        .filter((field) => field.options?.choices !== undefined)
+        .forEach((field) => {
+          // db value => text
+          const choices = field.options.choices;
+          for (const item of items) {
+            if (choices[item[field.field]] === undefined) {
+              continue;
+            }
+            item[field.field] = choices[item[field.field]];
+          }
+        });
+
       // create CSV
       const csv = this.createCsv(collectionFields, items);
       this.sendCsvDownload(`${name}.csv`, csv);
