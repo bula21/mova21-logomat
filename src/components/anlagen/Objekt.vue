@@ -2,6 +2,10 @@
   <v-card>
     <v-card-title class="primary white--text">
       Objekt: {{ objekt.objektname }}
+      <v-spacer />
+      <v-btn icon v-bind="attrs" @click="genereateLOGdbLink(objekt.id)">
+        <v-icon>mdi-cog</v-icon>
+      </v-btn>
     </v-card-title>
 
     <DescriptionTable
@@ -60,6 +64,14 @@ export default {
   components: {
     AvantiLink,
     DescriptionTable,
+  },
+  methods: {
+    genereateLOGdbLink(id) {
+      const linkToLOGdb = "https://log.bula21.ch/admin/#/_/collections/objekt/";
+      let link;
+      link = linkToLOGdb + id;
+      window.open(link);
+    },
   },
 };
 </script>

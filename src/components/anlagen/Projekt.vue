@@ -1,7 +1,12 @@
 <template>
   <div>
-    <v-card-title class="secondary"> Projekt: {{ title }} </v-card-title>
-
+    <v-card-title class="secondary">
+      Projekt: {{ title }}
+      <v-spacer />
+      <v-btn icon v-bind="attrs" @click="genereateLOGdbLink(projekt.id)">
+        <v-icon>mdi-cog</v-icon>
+      </v-btn>
+    </v-card-title>
     <DescriptionTable
       :item="projekt"
       :props="[
@@ -46,8 +51,18 @@ export default {
   name: "Projekt",
   props: {
     projekt: Object,
+    id: Number,
     title: String,
   },
   components: { DescriptionTable, AvantiLink, OrdnerLink },
+  methods: {
+    genereateLOGdbLink(id) {
+      const linkToLOGdb =
+        "https://log.bula21.ch/admin/#/_/collections/projekt/";
+      let link;
+      link = linkToLOGdb + id;
+      window.open(link);
+    },
+  },
 };
 </script>

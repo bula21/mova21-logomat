@@ -45,6 +45,10 @@
     <v-card elevation="6" class="mb-4">
       <v-card-title class="primary darken-1 white--text"
         >Anlage: {{ anlage.anlagenname }}
+        <v-spacer />
+        <v-btn icon v-bind="attrs" @click="genereateLOGdbLink(anlage.id)">
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
       </v-card-title>
       <DescriptionTable
         :item="anlage"
@@ -222,6 +226,12 @@ export default {
       } else {
         this.$vuetify.goTo(target, { duration: 0 });
       }
+    },
+    genereateLOGdbLink(id) {
+      const linkToLOGdb = "https://log.bula21.ch/admin/#/_/collections/anlage/";
+      let link;
+      link = linkToLOGdb + id;
+      window.open(link);
     },
     filterByProp: (objects, propName, propValue) =>
       objects.filter((obj) => obj[propName] === propValue),
