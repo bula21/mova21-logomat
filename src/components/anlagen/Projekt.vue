@@ -3,9 +3,7 @@
     <v-card-title class="secondary">
       Projekt: {{ title }}
       <v-spacer />
-      <v-btn icon v-bind="attrs" @click="genereateLOGdbLink(projekt.id)">
-        <v-icon>mdi-cog</v-icon>
-      </v-btn>
+      <DirectusAdminLink :id="projekt.id" type="projekt" />
     </v-card-title>
     <DescriptionTable
       :item="projekt"
@@ -46,6 +44,7 @@
 import DescriptionTable from "@/components/DescriptionTable";
 import AvantiLink from "@/components/anlagen/AvantiLink";
 import OrdnerLink from "@/components/anlagen/OrdnerLink";
+import DirectusAdminLink from "@/components/DirectusAdminLink";
 
 export default {
   name: "Projekt",
@@ -54,15 +53,6 @@ export default {
     id: Number,
     title: String,
   },
-  components: { DescriptionTable, AvantiLink, OrdnerLink },
-  methods: {
-    genereateLOGdbLink(id) {
-      const linkToLOGdb =
-        "https://log.bula21.ch/admin/#/_/collections/projekt/";
-      let link;
-      link = linkToLOGdb + id;
-      window.open(link);
-    },
-  },
+  components: { DescriptionTable, AvantiLink, OrdnerLink, DirectusAdminLink },
 };
 </script>
