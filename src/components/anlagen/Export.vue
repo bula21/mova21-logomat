@@ -192,15 +192,24 @@ export default {
         );
       }
 
+      const collectionsWithProjekte = [
+        "objekt",
+        "strom",
+        "telekom",
+        "abfallentsorgung",
+        "abwasser",
+        "wasser",
+      ];
+
       // join more stuff, per case
-      if (name === "objekt") {
+      if (collectionsWithProjekte.includes(name)) {
         const projekte = await apiAuthenticated(`/items/projekt`, limit(-1));
         joinInPlace(
           items,
           projekte,
           "projekt",
           "id",
-          (projekt) => `#${projekt.id} - ${projekt.projektname}`
+          (projekt) => `(${projekt.projekt_id}) ${projekt.projektname}`
         );
       }
 
