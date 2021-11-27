@@ -30,10 +30,10 @@
                 <v-icon v-if="isEmpty(prop.prop)">mdi-diameter-variant</v-icon>
                 <template v-else-if="typeof item[prop.prop] === 'boolean'">
                   <template v-if="item[prop.prop]">
-                    <v-icon>mdi-check-outline</v-icon>
+                    <v-icon>mdi-check-outline</v-icon> (ja)
                   </template>
                   <template v-else>
-                    <v-icon>mdi-close-outline</v-icon>
+                    <v-icon>mdi-close-outline</v-icon> (nein)
                   </template>
                 </template>
                 <template v-else>

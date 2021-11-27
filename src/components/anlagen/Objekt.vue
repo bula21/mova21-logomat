@@ -11,7 +11,7 @@
     <DescriptionTable
       :item="objekt"
       :props="[
-        { prop: 'id' },
+        { prop: 'objekt_id' },
         { prop: 'objektstatus' },
         { prop: 'typisierung', title: 'Typ' },
         { prop: 'masse', title: 'Masse' },
@@ -39,10 +39,12 @@
         { prop: 'benoetigt_bis', default_hide: true },
 
         { prop: 'vum', default_hide: true },
-
         { prop: 'licht', default_hide: true },
-
         { prop: 'avanti_seite', default_hide: true },
+        { prop: 'stunden_aufbau', default_hide: true },
+        { prop: 'anzahl_helfende_aufbau', default_hide: true },
+        { prop: 'stunden_abbau', default_hide: true },
+        { prop: 'anzahl_helfende_abbau', default_hide: true },
       ]"
     >
       <template v-slot:prop.avanti_seite="{ item }">
