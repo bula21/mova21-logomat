@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "../plugins/store";
 
-const BASE_URL = "https://log.bula21.ch/_/";
+const BASE_URL = "https://log.bula21.ch";
 
 export class ApiError extends Error {
   constructor(axiosError, ...params) {
@@ -39,7 +39,7 @@ export class ApiError extends Error {
 }
 
 export const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: `${BASE_URL}/_/`,
 });
 
 export const login = async (email, password) => {
@@ -120,3 +120,6 @@ export const apiAuthCreate = async (path, item) => {
     throw new ApiError(err);
   }
 };
+
+export const directusAdminLink = (item, id) =>
+  `${BASE_URL}/admin/#/_/collections/${item}/${id}`;

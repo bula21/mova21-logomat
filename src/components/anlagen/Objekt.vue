@@ -2,6 +2,8 @@
   <v-card>
     <v-card-title class="primary white--text">
       Objekt: {{ objekt.objektname }}
+      <v-spacer />
+      <DirectusAdminLink :id="objekt.id" type="objekt" />
     </v-card-title>
 
     <DescriptionTable
@@ -53,6 +55,7 @@
 <script>
 import AvantiLink from "@/components/anlagen/AvantiLink";
 import DescriptionTable from "@/components/DescriptionTable";
+import DirectusAdminLink from "@/components/DirectusAdminLink";
 
 export default {
   name: "Objekt",
@@ -62,6 +65,7 @@ export default {
   components: {
     AvantiLink,
     DescriptionTable,
+    DirectusAdminLink,
   },
 };
 </script>

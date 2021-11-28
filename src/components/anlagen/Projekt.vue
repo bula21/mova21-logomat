@@ -1,7 +1,10 @@
 <template>
   <div>
-    <v-card-title class="secondary"> Projekt: {{ title }} </v-card-title>
-
+    <v-card-title class="secondary">
+      Projekt: {{ title }}
+      <v-spacer />
+      <DirectusAdminLink :id="projekt.id" type="projekt" />
+    </v-card-title>
     <DescriptionTable
       :item="projekt"
       :props="[
@@ -41,13 +44,15 @@
 import DescriptionTable from "@/components/DescriptionTable";
 import AvantiLink from "@/components/anlagen/AvantiLink";
 import OrdnerLink from "@/components/anlagen/OrdnerLink";
+import DirectusAdminLink from "@/components/DirectusAdminLink";
 
 export default {
   name: "Projekt",
   props: {
     projekt: Object,
+    id: Number,
     title: String,
   },
-  components: { DescriptionTable, AvantiLink, OrdnerLink },
+  components: { DescriptionTable, AvantiLink, OrdnerLink, DirectusAdminLink },
 };
 </script>

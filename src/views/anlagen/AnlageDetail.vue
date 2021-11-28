@@ -45,6 +45,8 @@
     <v-card elevation="6" class="mb-4">
       <v-card-title class="primary darken-1 white--text"
         >Anlage: {{ anlage.anlagenname }}
+        <v-spacer />
+        <DirectusAdminLink :id="anlage.id" type="anlage" />
       </v-card-title>
       <DescriptionTable
         :item="anlage"
@@ -181,6 +183,7 @@ import Objekt from "@/components/anlagen/Objekt";
 import Projekt from "@/components/anlagen/Projekt";
 import AvantiLink from "@/components/anlagen/AvantiLink";
 import OrdnerLink from "@/components/anlagen/OrdnerLink";
+import DirectusAdminLink from "@/components/DirectusAdminLink";
 
 import { ApiError } from "@/lib/api";
 import { mapState } from "vuex";
@@ -196,6 +199,7 @@ export default {
     Objekt,
     AvantiLink,
     OrdnerLink,
+    DirectusAdminLink,
   },
   computed: {
     ...mapState({
