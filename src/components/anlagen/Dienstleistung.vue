@@ -34,18 +34,17 @@ export default {
   data: () => ({
     commonCols: Object.freeze([
       { prop: "id", title: "Bestellung ID" },
-      { prop: "status" },
       { prop: "bemerkungen_lieferung" },
-      { prop: "kontakt", title: "Besteller*in", default_hide: true },
+      { prop: "kontakt", title: "Besteller:in", default_hide: true },
+      { prop: "location", default_hide: true },
       { prop: "preis", default_hide: true },
+      { prop: "preis_bemerkung", default_hide: true },
     ]),
     abfallentsorgungCols: Object.freeze([]),
     abwasserCols: Object.freeze([{ prop: "geraete", default_hide: true }]),
     stromCols: Object.freeze([
       { prop: "gesamtleistung" },
-      { prop: "stromherkunft", default_hide: true },
       { prop: "anschlusstyp", default_hide: true },
-      { prop: "verteilertyp", default_hide: true },
       { prop: "zusaetzliches_material", default_hide: true },
       { prop: "geraete", default_hide: true },
     ]),
