@@ -58,6 +58,18 @@
             <v-list-item-title>Strom</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item
+          @click="export_strom_material()"
+          style="cursor: pointer"
+          ripple
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-transmission-tower</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Strom Zusätzliches Material</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item @click="export_('wasser')" style="cursor: pointer" ripple>
           <v-list-item-icon>
             <v-icon>mdi-cup-water</v-icon>
@@ -166,6 +178,56 @@ export default {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    },
+    async export_strom_material() {
+      const items = await apiAuthenticated(`/items/strom`, limit(-1));
+
+      const projekte = await apiAuthenticated(`/items/projekt`, limit(-1));
+      joinInPlace(
+        items,
+        projekte,
+        "projekt",
+        "id",
+        (projekt) => `(${projekt.projekt_id}) ${projekt.projektname}`
+      );
+
+      const objekte = await apiAuthenticated(`/items/objekt`, limit(-1));
+      joinInPlace(
+        items,
+        objekte,
+        "objekt",
+        "id",
+        (objekt) => `(${objekt.objekt_id}) ${objekt.objektname}`
+      );
+
+      const toExport = [];
+      for (const i of items) {
+        if (i.zusaetzliches_material !== null) {
+          for (const z of i.zusaetzliches_material) {
+            toExport.push({
+              Projekt: i.projekt,
+              Objekt: i.objekt,
+              Location: i.location,
+              "Zusätzliches_Material[Stückzahl]": z["Stückzahl"],
+              "Zusätzliches_Material[Material]": z["Material"],
+              "Zusätzliches_Material[Lieferant]": z["Lieferant"],
+            });
+          }
+        }
+      }
+
+      const csv = this.createCsv(
+        [
+          { field: "Projekt" },
+          { field: "Objekt" },
+          { field: "Location" },
+          { field: "Zusätzliches_Material[Stückzahl]" },
+          { field: "Zusätzliches_Material[Material]" },
+          { field: "Zusätzliches_Material[Lieferant]" },
+        ],
+        toExport
+      );
+      this.sendCsvDownload(`strom_material.csv`, csv);
     },
     async export_(name) {
       const fields = await apiAuthenticated("/fields");
