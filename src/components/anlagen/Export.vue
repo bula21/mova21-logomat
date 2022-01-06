@@ -275,6 +275,18 @@ export default {
         );
       }
 
+      // replace anlade-id by name
+      if (name === "projekt") {
+        const anlagen = await apiAuthenticated(`/items/anlage`, limit(-1));
+        joinInPlace(
+          items,
+          anlagen,
+          "anlage",
+          "id",
+          (anlage) => `(${anlage.anlagen_id}) ${anlage.anlagenname}`
+        );
+      }
+
       // for all enum/dropdown fields, replace db value with display text
       collectionFields
         .filter((field) => field.options?.choices !== undefined)
