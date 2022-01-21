@@ -79,7 +79,7 @@
         <span>{{ item.total.toFixed(2) }}</span>
       </template>
     </v-data-table>
-    <v-card-text v-if="showTotal">
+    <v-card-text v-if="showTotal" :class="{ 'red accent-1': order.bill }">
       Summe CHF {{ total.toFixed(2) }}
     </v-card-text>
     <v-card-text>

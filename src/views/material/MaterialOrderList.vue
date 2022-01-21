@@ -29,6 +29,7 @@
         showFirstLastPage: true,
       }"
       :search="search"
+      :item-class="itemRowColor"
       id="orderList"
       class="elevation-1"
       @click:row="handleClick"
@@ -91,6 +92,9 @@ export default {
     id: 0,
   }),
   methods: {
+    itemRowColor(item) {
+      return item.bill ? "red accent-1" : "";
+    },
     handleClick(item) {
       this.$router.push({
         name: "materialOrderDetail",
