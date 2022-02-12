@@ -57,8 +57,6 @@
             person: true,
           },
           { prop: 'beschreibung' },
-          { prop: 'standort' },
-          { prop: 'standortcode' },
           { prop: 'ordner_link', title: 'Dateiablage' },
           { prop: 'avanti_link', title: 'Link zu Avanti' },
         ]"
