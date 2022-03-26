@@ -60,17 +60,7 @@
       class="elevation-1"
     >
       <template v-slot:item.quantity="{ item }">
-        <span v-if="item.cancellation === undefined"
-          ><v-icon
-            color="red"
-            small
-            v-on:click="cancel(item.id)"
-            v-if="showConfirmLead"
-            >mdi-delete</v-icon
-          >
-          {{ item.quantity }}</span
-        >
-        <span v-else class="text--disabled">( {{ item.quantity }} )</span>
+        <span> {{ item.quantity }}</span>
       </template>
       <template v-slot:item.item.price="{ item }">
         <span>{{ item.item.price.toFixed(2) }}</span>
@@ -100,9 +90,6 @@
     </v-data-table>
     <v-card-text v-if="showConfirm">
       <v-btn v-on:click="confirm">Bestätigung</v-btn>
-    </v-card-text>
-    <v-card-text v-if="showConfirmLead">
-      <v-btn v-on:click="confirm">Bestätigung Ressortleitung</v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -154,7 +141,6 @@ export default {
     ],
     confirmationItems: [],
     showConfirm: false,
-    showConfirmLead: false,
   }),
   methods: {
     async fetchData() {
@@ -206,14 +192,10 @@ export default {
           order.standort = "n/a";
         }
         if (
-          order.state.id != 4 &&
-          order.client.departement.lead.split(";").includes(this.user.email)
+          order.state.id === 2 &&
+          order.client.name.toLowerCase() === this.user.email.toLowerCase()
         ) {
-          this.showConfirmLead = true;
-        } else {
-          if (order.state.id == 2) {
-            this.showConfirm = true;
-          }
+          this.showConfirm = true;
         }
         this.order = Object.freeze(order);
         this.showOrder = true;
@@ -227,13 +209,7 @@ export default {
     },
     async fetchList() {
       try {
-        const [
-          orderItems,
-          items,
-          units,
-          catalogs,
-          cancellations,
-        ] = await Promise.all([
+        const [orderItems, items, units, catalogs] = await Promise.all([
           apiAuthenticated(
             "/items/mat_order_item",
             filter("order", "=", this.orderId)
@@ -241,16 +217,13 @@ export default {
           apiAuthenticated("/items/mat_item", limit(-1)),
           apiAuthenticated("/items/mat_unit"),
           apiAuthenticated("/items/mat_catalog"),
-          apiAuthenticated("/items/mat_order_item_cancellation"),
         ]);
         joinInPlace(items, units, "unit");
         joinInPlace(items, catalogs, "catalog");
         joinInPlace(orderItems, items, "item");
         orderItems.forEach((element) => {
           element.total = element.quantity * element.item.price;
-          element.cancellation = element.id;
         });
-        joinInPlace(orderItems, cancellations, "cancellation", "order_item");
         this.orderItems = Object.freeze(orderItems);
         this.total = orderItems.reduce((acc, item) => {
           return acc + item.quantity * item.item.price;
