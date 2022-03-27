@@ -59,9 +59,6 @@
       }"
       class="elevation-1"
     >
-      <template v-slot:item.quantity="{ item }">
-        <span> {{ item.quantity }}</span>
-      </template>
       <template v-slot:item.item.price="{ item }">
         <span>{{ item.item.price.toFixed(2) }}</span>
       </template>
