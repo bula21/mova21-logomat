@@ -9,7 +9,11 @@
     <MaterialNavigation />
     <v-card-title>Bestellung</v-card-title>
     <v-card-text>
-      <v-checkbox v-model="todo" label="VLR2" v-if="showTodo" />
+      <v-checkbox
+        v-model="myOrders"
+        label="Meine Bestellungen"
+        v-if="showMyOrders"
+      />
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
@@ -74,8 +78,8 @@ export default {
   },
   data: () => ({
     search: "",
-    todo: false,
-    showTodo: false,
+    myOrders: false,
+    showMyOrders: false,
     headers: [
       { text: "Name", value: "name" },
       { text: "Status", value: "state.name", width: "150px" },
@@ -128,19 +132,18 @@ export default {
         joinInPlace(orders, order_types, "order_type");
         joinInPlace(orders, delivery_types, "delivery_type");
         joinInPlace(orderItems, items, "item");
-        var myDepartements = [];
-        departements.forEach((element) => {
-          if (element.lead.split(";").includes(this.user.email)) {
-            myDepartements.push(element.id);
-            this.showTodo = true;
+        orders.forEach((order) => {
+          if (
+            order.client.name.toLowerCase() === this.user.email.toLowerCase()
+          ) {
+            this.showMyOrders = true;
           }
         });
-        var myOrders = orders;
-        if (this.todo) {
-          myOrders = myOrders.filter(
+        var filteredOrders = orders;
+        if (this.myOrders) {
+          filteredOrders = filteredOrders.filter(
             (order) =>
-              myDepartements.includes(order.client.departement.id) &&
-              order.state.id != 4
+              this.user.email.toLowerCase() === order.client.name.toLowerCase()
           );
         }
         const totalItems = orderItems.reduce((acc, item) => {
@@ -158,8 +161,8 @@ export default {
         orders.forEach((element) => {
           element.total = element.id;
         });
-        joinInPlace(myOrders, totalItems, "total");
-        this.orders = Object.freeze(myOrders);
+        joinInPlace(filteredOrders, totalItems, "total");
+        this.orders = Object.freeze(filteredOrders);
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
@@ -192,8 +195,8 @@ export default {
     if (localStorage.orderSearch) {
       this.search = localStorage.orderSearch;
     }
-    if (localStorage.orderTodo) {
-      this.todo = JSON.parse(localStorage.orderTodo);
+    if (localStorage.orderMyOrders) {
+      this.myOrders = JSON.parse(localStorage.orderMyOrders);
     }
   },
   watch: {
@@ -204,8 +207,8 @@ export default {
         localStorage.orderSearch = orderSearch;
       }
     },
-    todo(orderTodo) {
-      localStorage.orderTodo = orderTodo;
+    myOrders(orderMyOrders) {
+      localStorage.orderMyOrders = orderMyOrders;
       this.fetchData();
     },
   },
