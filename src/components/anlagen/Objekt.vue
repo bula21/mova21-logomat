@@ -24,17 +24,11 @@
           title: 'Kontakt Nutzung',
           person: true,
         },
-        { prop: 'preis', title: 'Preisschätzung' },
         { prop: 'konto', default_hide: true },
         { prop: 'konto_bemerkung', default_hide: true },
 
         { prop: 'bau_durch', default_hide: true },
-        { prop: 'zelt_boden', default_hide: true },
-        {
-          prop: 'zelt_boden_masse',
-          default_hide: true,
-          title: 'Zelt Boden Masse [m x m]',
-        },
+
         { prop: 'zelt_rampe', default_hide: true },
         { prop: 'buehne_typ', title: 'Bühne Type', default_hide: true },
         { prop: 'zaun_typ', default_hide: true },
@@ -44,10 +38,6 @@
         { prop: 'benoetigt_bis', default_hide: true },
 
         { prop: 'licht', default_hide: true },
-        { prop: 'stunden_aufbau', default_hide: true },
-        { prop: 'anzahl_helfende_aufbau', default_hide: true },
-        { prop: 'stunden_abbau', default_hide: true },
-        { prop: 'anzahl_helfende_abbau', default_hide: true },
       ]"
     >
       <template v-slot:prop.avanti_seite="{ item }">
