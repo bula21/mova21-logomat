@@ -46,9 +46,15 @@
       </template>
     </v-data-table>
     <v-card-text v-if="showTotal">
-      Total {{ total }} {{ item.unit.name }}
+      Total {{ total }} {{ item.unit.name }} ( {{ concurrent }} gleichzeitig )
     </v-card-text>
-
+    <v-sparkline
+      color="text"
+      :line-width="1"
+      :value="sparkValue"
+      :labels="sparkLabels"
+      :label-size="2"
+    ></v-sparkline>
     <v-card-title>Lieferanten</v-card-title>
     <v-data-table
       dense
@@ -112,7 +118,10 @@ export default {
     item: {},
     showItem: false,
     total: null,
+    concurrent: null,
     showTotal: false,
+    sparkValue: [],
+    sparkLabels: [],
   }),
   methods: {
     async fetchData() {
@@ -166,6 +175,23 @@ export default {
         this.total = itemOrders.reduce((acc, item) => {
           return acc + item.quantity;
         }, 0);
+        for (
+          let sparkDate = DateTime.fromISO("2022-07-07");
+          sparkDate <= DateTime.fromISO("2022-08-15");
+          sparkDate = sparkDate.plus({ days: 1 })
+        ) {
+          this.sparkValue.push(
+            itemOrders.reduce((acc, item) => {
+              return DateTime.fromISO(item.order.delivery) <= sparkDate &&
+                (item.order.return == null ||
+                  DateTime.fromISO(item.order.return) >= sparkDate)
+                ? acc + item.quantity
+                : acc;
+            }, 0)
+          );
+          this.sparkLabels.push(this.shorterDate(sparkDate));
+        }
+        this.concurrent = Math.max(...this.sparkValue);
         this.showTotal = true;
         const [itemSuppliers, suppliers] = await Promise.all([
           apiAuthenticated(
@@ -192,6 +218,11 @@ export default {
       } else {
         return "";
       }
+    },
+    shorterDate(dateTime) {
+      return dateTime
+        .setLocale("de-ch")
+        .toLocaleString({ month: "2-digit", day: "2-digit" });
     },
   },
   created() {
