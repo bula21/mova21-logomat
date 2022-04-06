@@ -1,5 +1,9 @@
 <template>
-  <v-btn icon :href="directusAdminLink(type, id)" v-if="user.role == 1">
+  <v-btn
+    icon
+    :href="directusAdminLink(type, id)"
+    v-if="user.role == 1 || user.role == 3"
+  >
     <v-icon>mdi-pencil-outline</v-icon>
   </v-btn>
 </template>
