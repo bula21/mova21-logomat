@@ -47,7 +47,7 @@
                 hide-details
                 clearable
                 prepend-inner-icon="mdi-magnify"
-                label="Suche Anlagen oder Projekte"
+                label="Suche Anlagen, Projekte oder Objekte"
                 v-model="filterText"
               />
             </v-col>
