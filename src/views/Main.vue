@@ -118,7 +118,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { apiAuthenticated, ApiError } from "@/lib/api.js";
+import { apiAuthenticated, ApiError, limit } from "@/lib/api.js";
 import { joinInPlace } from "@/lib/join.js";
 
 import Clippy from "@/components/Clippy";
@@ -177,7 +177,25 @@ export default {
       this.$store.commit("logOut");
       this.$router.push({ name: "login" });
     },
-    addProjektNamesToAnlagen(anlagen, projekte) {
+    addProjektNamesToAnlagen(anlagen, projekte, objekte) {
+      const projekteById = projekte.reduce((obj, projekt) => {
+        obj[projekt.id] = projekt;
+        return obj;
+      }, {});
+      for (const objekt of objekte) {
+        const projekt = projekteById[objekt.projekt];
+        if (projekt === undefined) {
+          continue;
+        }
+        if (projekt._objekte === undefined) {
+          projekt._objekte = [];
+        }
+        projekt._objekte.push({
+          name: objekt.objektname,
+          objekt_id: objekt.objekt_id,
+        });
+      }
+
       const anlagenById = anlagen.reduce((obj, anlage) => {
         obj[anlage.id] = anlage;
         return obj;
@@ -190,7 +208,11 @@ export default {
         if (anlage._projekte === undefined) {
           anlage._projekte = [];
         }
-        anlage._projekte.push({ name: projekt.projektname, id: projekt.id });
+        anlage._projekte.push({
+          name: projekt.projektname,
+          id: projekt.id,
+          _objekte: projekt._objekte || [],
+        });
       }
 
       // concatenated for filtering/searching
@@ -198,10 +220,15 @@ export default {
         if (anlage._projekte === undefined) {
           anlage._projekte = [];
         }
-        anlage._projektnamen = anlage._projekte.reduce(
-          (prev, curr) => `${prev} ${curr.name}`,
-          ""
-        );
+        // TODO: rename _projektnamen to _searchterms
+        anlage._projektnamen = anlage._projekte.reduce((str, projekt) => {
+          const objIds = projekt._objekte.reduce(
+            (str2, objekt) => `${str2} ${objekt.objekt_id}`,
+            ""
+          );
+
+          return `${str} ${projekt.name} ${objIds}`;
+        }, "");
       }
     },
     async getFields() {
@@ -219,13 +246,14 @@ export default {
     },
     async fetchGlobalData() {
       try {
-        const [anlagen, users, projekte] = await Promise.all([
-          apiAuthenticated("/items/anlage"),
+        const [anlagen, users, projekte, objekte] = await Promise.all([
+          apiAuthenticated("/items/anlage", limit(-1)),
           apiAuthenticated("/users"),
-          apiAuthenticated("/items/projekt"),
+          apiAuthenticated("/items/projekt", limit(-1)),
+          apiAuthenticated("/items/objekt", limit(-1)),
         ]);
         joinInPlace(anlagen, users, "kontaktperson");
-        this.addProjektNamesToAnlagen(anlagen, projekte);
+        this.addProjektNamesToAnlagen(anlagen, projekte, objekte);
 
         // fetch fields
         const fields = await this.getFields();
@@ -233,6 +261,8 @@ export default {
         // save to store
         this.$store.commit("globalDataLoaded", {
           anlagen: Object.freeze(anlagen),
+          projekte: Object.freeze(projekte),
+          objekte: Object.freeze(objekte),
           users: Object.freeze(users),
           fields: Object.freeze(fields),
         });

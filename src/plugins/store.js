@@ -32,12 +32,16 @@ export default new Vuex.Store({
     // global non-persisted data
     globalDataLoaded: false,
     anlagen: [],
+    projekte: [],
+    objekte: [],
     users: [],
     fields: {},
   },
   mutations: {
-    globalDataLoaded(state, { anlagen, users, fields }) {
+    globalDataLoaded(state, { anlagen, projekte, objekte, users, fields }) {
       state.anlagen = anlagen;
+      state.projekte = projekte;
+      state.objekte = objekte;
       state.users = users;
       state.fields = fields;
       state.globalDataLoaded = true;
