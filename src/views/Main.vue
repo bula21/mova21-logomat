@@ -199,7 +199,7 @@ export default {
           anlage._projekte = [];
         }
         anlage._projektnamen = anlage._projekte.reduce(
-          (prev, curr) => prev + " " + curr.name,
+          (prev, curr) => `${prev} ${curr.name}`,
           ""
         );
       }
