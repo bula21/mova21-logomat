@@ -21,8 +21,6 @@
         },
         { prop: 'ressort_betrieb' },
         { prop: 'ordner_link' },
-        { prop: 'beginn_nutzung' },
-        { prop: 'ende_nutzung' },
 
         { prop: 'prioritaet' },
       ]"

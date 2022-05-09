@@ -59,6 +59,7 @@
           { prop: 'beschreibung' },
           { prop: 'ordner_link', title: 'Dateiablage' },
           { prop: 'avanti_link', title: 'Link zu Avanti' },
+          { prop: 'standort', title: 'Link zur Karte' },
         ]"
       >
         <template v-slot:prop.avanti_link="{ item }">
@@ -66,6 +67,9 @@
         </template>
         <template v-slot:prop.ordner_link="{ item }">
           <OrdnerLink :item="item" />
+        </template>
+        <template v-slot:prop.standort="{ item }">
+          <GISLink :item="item" />
         </template>
       </DescriptionTable>
     </v-card>
@@ -181,6 +185,7 @@ import Objekt from "@/components/anlagen/Objekt";
 import Projekt from "@/components/anlagen/Projekt";
 import AvantiLink from "@/components/anlagen/AvantiLink";
 import OrdnerLink from "@/components/anlagen/OrdnerLink";
+import GISLink from "@/components/anlagen/GISLink";
 import DirectusAdminLink from "@/components/DirectusAdminLink";
 
 import { ApiError } from "@/lib/api";
@@ -198,6 +203,7 @@ export default {
     AvantiLink,
     OrdnerLink,
     DirectusAdminLink,
+    GISLink,
   },
   computed: {
     ...mapState({

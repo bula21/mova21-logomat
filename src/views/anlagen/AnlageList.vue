@@ -24,8 +24,8 @@
           width: '150px',
         },
         {
-          text: 'Dateiablage',
-          value: 'ordner_link',
+          text: 'Karte',
+          value: 'standort',
           filterable: false,
           width: '50px',
         },
@@ -92,7 +92,7 @@
               <Person :item="item.kontaktperson" />
             </td>
             <td>
-              <OrdnerLink :item="item.ordner_link" />
+              <GISLink :item="item.standort" />
             </td>
             <td>
               <v-chip
@@ -115,7 +115,7 @@
 
 <script>
 import Person from "@/components/anlagen/Person";
-import OrdnerLink from "@/components/anlagen/OrdnerLink";
+import GISLink from "@/components/anlagen/GISLink";
 
 import { mapState } from "vuex";
 import { stripTitle } from "@/lib/util";
@@ -144,7 +144,7 @@ export default {
     }),
   },
   components: {
-    OrdnerLink,
+    GISLink,
     Person,
   },
 };
