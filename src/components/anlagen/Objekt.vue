@@ -14,22 +14,13 @@
         { prop: 'typisierung', title: 'Typ' },
         { prop: 'masse', title: 'Masse [m x m]' },
         { prop: 'beschreibung' },
-        {
-          prop: 'kontaktperson_auftraggeber',
-          title: 'Kontakt Auftraggeber',
-          person: true,
-        },
-        {
-          prop: 'kontaktperson_nutzung',
-          title: 'Kontakt Nutzung',
-          person: true,
-        },
+        { prop: 'planung', title: 'Verantwortliche Person', person: true },
+
         { prop: 'konto', default_hide: true },
         { prop: 'konto_bemerkung', default_hide: true },
 
         { prop: 'bau_durch', default_hide: true },
 
-        { prop: 'zelt_rampe', default_hide: true },
         { prop: 'buehne_typ', title: 'Bühne Type', default_hide: true },
         { prop: 'zaun_typ', default_hide: true },
         { prop: 'bodenschutz_typ', default_hide: true },
