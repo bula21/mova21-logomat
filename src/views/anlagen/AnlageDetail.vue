@@ -58,7 +58,6 @@
           },
           { prop: 'beschreibung' },
           { prop: 'ordner_link', title: 'Dateiablage' },
-          { prop: 'avanti_link', title: 'Link zu Avanti' },
           { prop: 'standort', title: 'Link zur Karte' },
         ]"
       >
