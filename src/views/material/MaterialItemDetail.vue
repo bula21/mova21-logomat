@@ -48,13 +48,6 @@
     <v-card-text v-if="showTotal">
       Total {{ total }} {{ item.unit.name }} ( {{ concurrent }} gleichzeitig )
     </v-card-text>
-    <v-sparkline
-      color="text"
-      :line-width="1"
-      :value="sparkValue"
-      :labels="sparkLabels"
-      :label-size="2"
-    ></v-sparkline>
     <v-card-title>Lieferanten</v-card-title>
     <v-data-table
       dense
@@ -68,6 +61,29 @@
         <span>{{ item.price.toFixed(2) }}</span>
       </template>
     </v-data-table>
+    <v-card-title>Lieferungen</v-card-title>
+    <v-data-table
+      dense
+      :headers="deliveries"
+      :items="itemDeliveries"
+      :items-per-page="-1"
+      hide-default-footer
+      class="elevation-1"
+    >
+      <template v-slot:item.supplier_delivery.delivery="{ item }">
+        <span>{{ shortDate(item.supplier_delivery.delivery) }}</span>
+      </template>
+      <template v-slot:item.supplier_delivery.return="{ item }">
+        <span>{{ shortDate(item.supplier_delivery.return) }}</span>
+      </template>
+    </v-data-table>
+    <v-sparkline
+      color="text"
+      :line-width="1"
+      :value="sparkValue"
+      :labels="sparkLabels"
+      :label-size="2"
+    ></v-sparkline>
   </v-card>
 </template>
 
@@ -115,6 +131,20 @@ export default {
       { text: "Preis", value: "price", align: "right" },
     ],
     itemSuppliers: [],
+    deliveries: [
+      { text: "Anzahl", value: "quantity" },
+      { text: "Artikel", value: "supplier_item.name" },
+      { text: "Lieferant", value: "supplier_item.supplier.name" },
+      { text: "Lieferung", value: "supplier_delivery.name" },
+      {
+        text: "Lieferungstyp",
+        value: "supplier_delivery.supplier_delivery_type.name",
+      },
+      { text: "Ausführung", value: "supplier_delivery.delivery_type.name" },
+      { text: "Ausgabe", value: "supplier_delivery.delivery", align: "right" },
+      { text: "Rücknahme", value: "supplier_delivery.return", align: "right" },
+    ],
+    itemDeliveries: [],
     item: {},
     showItem: false,
     total: null,
@@ -202,6 +232,30 @@ export default {
         ]);
         joinInPlace(itemSuppliers, suppliers, "supplier");
         this.itemSuppliers = Object.freeze(itemSuppliers);
+        const itemSupplierIds = itemSuppliers.reduce((acc, item) => {
+          return acc != "" ? acc + "," + item.id : item.id;
+        }, "");
+        const [
+          itemDeliveries,
+          deliveries,
+          supplier_delivery_types,
+        ] = await Promise.all([
+          apiAuthenticated(
+            "/items/mat_supplier_delivery_item",
+            filter("supplier_item", "in", itemSupplierIds)
+          ),
+          apiAuthenticated("/items/mat_supplier_delivery"),
+          apiAuthenticated("/items/mat_supplier_delivery_type"),
+        ]);
+        joinInPlace(itemDeliveries, itemSuppliers, "supplier_item");
+        joinInPlace(
+          deliveries,
+          supplier_delivery_types,
+          "supplier_delivery_type"
+        );
+        joinInPlace(deliveries, delivery_types, "delivery_type");
+        joinInPlace(itemDeliveries, deliveries, "supplier_delivery");
+        this.itemDeliveries = Object.freeze(itemDeliveries);
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
