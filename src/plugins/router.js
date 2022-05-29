@@ -7,12 +7,12 @@ import AnlageDetail from "../views/anlagen/AnlageDetail";
 import MaterialDashboard from "../views/material/MaterialDashboard";
 import MaterialDepartementList from "../views/material/MaterialDepartementList";
 import MaterialItemDetail from "../views/material/MaterialItemDetail";
-import MaterialItemList from "@/views/material/MaterialItemList";
+import MaterialItemList from "../views/material/MaterialItemList";
 import MaterialOrderDetail from "../views/material/MaterialOrderDetail";
 import MaterialOrderList from "../views/material/MaterialOrderList";
 import MaterialDeliveryDetail from "../views/material/MaterialDeliveryDetail";
-import MaterialDeliveryList from "@/views/material/MaterialDeliveryList";
-import MaterialSponsoringList from "@/views/material/MaterialSponsoringList";
+import MaterialDeliveryList from "../views/material/MaterialDeliveryList";
+import MaterialSponsoringList from "../views/material/MaterialSponsoringList";
 import AnlageList from "@/views/anlagen/AnlageList";
 
 import store from "./store";
