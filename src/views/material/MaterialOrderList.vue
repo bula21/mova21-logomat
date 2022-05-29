@@ -7,7 +7,7 @@
   <v-card>
     <portal to="topnav-title">Material / Bestellungen</portal>
     <MaterialNavigation />
-    <v-card-title>Bestellung</v-card-title>
+    <v-card-title>Bestellungen</v-card-title>
     <v-card-text>
       <v-checkbox
         v-model="myOrders"

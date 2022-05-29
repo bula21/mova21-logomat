@@ -8,7 +8,7 @@
     <portal to="topnav-title">Material / Ressorts</portal>
     <MaterialNavigation />
 
-    <v-card-title>Ressort</v-card-title>
+    <v-card-title>Ressorts</v-card-title>
     <v-card-text>
       <v-select
         :items="departements"

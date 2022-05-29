@@ -21,6 +21,15 @@
         </v-list-item-content>
       </v-list-item>
 
+      <v-list-item link :to="{ name: 'materialDeliveryList' }">
+        <v-list-item-action>
+          <v-icon>mdi-truck-delivery-outline</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Lieferungen</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
       <v-list-item link :to="{ name: 'materialDepartementList' }">
         <v-list-item-action>
           <v-icon>mdi-account-group</v-icon>
