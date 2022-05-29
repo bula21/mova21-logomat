@@ -134,7 +134,7 @@ export default {
     deliveries: [
       { text: "Anzahl", value: "quantity" },
       { text: "Artikel", value: "supplier_item.name" },
-      { text: "Lieferant", value: "supplier_item.supplier.name" },
+      { text: "Lieferant", value: "supplier_delivery.supplier.name" },
       { text: "Lieferung", value: "supplier_delivery.name" },
       {
         text: "Lieferungstyp",
@@ -253,6 +253,7 @@ export default {
           supplier_delivery_types,
           "supplier_delivery_type"
         );
+        joinInPlace(deliveries, suppliers, "supplier");
         joinInPlace(deliveries, delivery_types, "delivery_type");
         joinInPlace(itemDeliveries, deliveries, "supplier_delivery");
         this.itemDeliveries = Object.freeze(itemDeliveries);

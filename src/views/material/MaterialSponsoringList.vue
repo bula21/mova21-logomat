@@ -25,9 +25,11 @@
     <v-card-text>
       <v-btn v-on:click="download">Export</v-btn>
     </v-card-text>
+    <!--
     <v-card-text>
       <v-btn v-on:click="prog">Export Materialliste Ressort Programm</v-btn>
     </v-card-text>
+    -->
   </v-card>
 </template>
 
