@@ -109,7 +109,7 @@ export default {
       { text: "Status", value: "order.state.name", width: "150px" },
       {
         text: "Ressort",
-        value: "order.client.departement.name",
+        value: "order.client.department.name",
         width: "150px",
       },
       { text: "Kunde", value: "order.client.name" },
@@ -180,7 +180,7 @@ export default {
           orders,
           states,
           clients,
-          departements,
+          departments,
           order_types,
           delivery_types,
         ] = await Promise.all([
@@ -191,12 +191,12 @@ export default {
           apiAuthenticated("/items/mat_order"),
           apiAuthenticated("/items/mat_state"),
           apiAuthenticated("/items/mat_client"),
-          apiAuthenticated("/items/mat_departement"),
+          apiAuthenticated("/items/mat_department"),
           apiAuthenticated("/items/mat_order_type"),
           apiAuthenticated("/items/mat_delivery_type"),
         ]);
         joinInPlace(orders, states, "state");
-        joinInPlace(clients, departements, "departement");
+        joinInPlace(clients, departments, "department");
         joinInPlace(orders, clients, "client");
         joinInPlace(orders, order_types, "order_type");
         joinInPlace(orders, delivery_types, "delivery_type");

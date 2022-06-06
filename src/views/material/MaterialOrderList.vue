@@ -83,7 +83,7 @@ export default {
     headers: [
       { text: "Name", value: "name" },
       { text: "Status", value: "state.name", width: "150px" },
-      { text: "Ressort", value: "client.departement.name", width: "150px" },
+      { text: "Ressort", value: "client.department.name", width: "150px" },
       { text: "Kunde", value: "client.name" },
       { text: "Bestellungstyp", value: "order_type.name" },
       { text: "Ausführung", value: "delivery_type.name", width: "100px" },
@@ -111,7 +111,7 @@ export default {
           orders,
           states,
           clients,
-          departements,
+          departments,
           order_types,
           delivery_types,
           orderItems,
@@ -120,14 +120,14 @@ export default {
           apiAuthenticated("/items/mat_order"),
           apiAuthenticated("/items/mat_state"),
           apiAuthenticated("/items/mat_client"),
-          apiAuthenticated("/items/mat_departement"),
+          apiAuthenticated("/items/mat_department"),
           apiAuthenticated("/items/mat_order_type"),
           apiAuthenticated("/items/mat_delivery_type"),
           apiAuthenticated("/items/mat_order_item", limit(-1)),
           apiAuthenticated("/items/mat_item", limit(-1)),
         ]);
         joinInPlace(orders, states, "state");
-        joinInPlace(clients, departements, "departement");
+        joinInPlace(clients, departments, "department");
         joinInPlace(orders, clients, "client");
         joinInPlace(orders, order_types, "order_type");
         joinInPlace(orders, delivery_types, "delivery_type");
