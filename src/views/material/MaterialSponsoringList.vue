@@ -191,6 +191,7 @@ export default {
       XLSX.utils.book_append_sheet(wb, data, "data");
       XLSX.writeFile(wb, "sponsoring.xlsx");
     },
+    /*
     async prog() {
       try {
         const items = await apiAuthenticated(
@@ -209,6 +210,7 @@ export default {
         }
       }
     },
+    */
   },
   created() {
     this.fetchData();

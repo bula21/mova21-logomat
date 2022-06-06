@@ -12,7 +12,7 @@
         </tr>
         <tr>
           <td>Ressort</td>
-          <td>{{ order.client.departement.name }}</td>
+          <td>{{ order.client.department.name }}</td>
         </tr>
         <tr>
           <td>Kunde</td>
@@ -146,19 +146,19 @@ export default {
           orders,
           states,
           clients,
-          departements,
+          departments,
           order_types,
           delivery_types,
         ] = await Promise.all([
           apiAuthenticated("/items/mat_order", filter("id", "=", this.orderId)),
           apiAuthenticated("/items/mat_state"),
           apiAuthenticated("/items/mat_client"),
-          apiAuthenticated("/items/mat_departement"),
+          apiAuthenticated("/items/mat_department"),
           apiAuthenticated("/items/mat_order_type"),
           apiAuthenticated("/items/mat_delivery_type"),
         ]);
         joinInPlace(orders, states, "state");
-        joinInPlace(clients, departements, "departement");
+        joinInPlace(clients, departments, "department");
         joinInPlace(orders, clients, "client");
         joinInPlace(orders, order_types, "order_type");
         joinInPlace(orders, delivery_types, "delivery_type");
@@ -280,7 +280,7 @@ export default {
       const mappedOrder = [
         { key: "Name", value: this.order.name },
         { key: "Status", value: this.order.state.name },
-        { key: "Ressort", value: this.order.client.departement.name },
+        { key: "Ressort", value: this.order.client.department.name },
         { key: "Kunde", value: this.order.client.name },
         { key: "Bestellungstyp", value: this.order.order_type.name },
         { key: "Ausführung", value: this.order.delivery_type.name },

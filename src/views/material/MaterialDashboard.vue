@@ -21,7 +21,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn block :to="{ name: 'materialDepartementList' }"
+            <v-btn block :to="{ name: 'materialDepartmentList' }"
               >Ressorts</v-btn
             >
           </v-col>

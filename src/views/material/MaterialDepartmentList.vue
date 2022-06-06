@@ -11,7 +11,7 @@
     <v-card-title>Ressorts</v-card-title>
     <v-card-text>
       <v-select
-        :items="departements"
+        :items="departments"
         label="Ressort"
         item-text="name"
         item-value="id"
@@ -60,10 +60,10 @@ import { apiAuthenticated, ApiError, filter, limit } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 
 export default {
-  name: "MaterialDepartementList",
+  name: "MaterialDepartmentList",
   components: { MaterialNavigation },
   data: () => ({
-    departements: [],
+    departments: [],
     headers: [
       { text: "Kunde", value: "client" },
       { text: "Bestellungen", value: "order" },
@@ -86,7 +86,7 @@ export default {
         const [clients, orders, orderItems, items] = await Promise.all([
           apiAuthenticated(
             "/items/mat_client",
-            filter("departement", "=", value)
+            filter("department", "=", value)
           ),
           apiAuthenticated("/items/mat_order"),
           apiAuthenticated("/items/mat_order_item", limit(-1)),
@@ -151,10 +151,10 @@ export default {
     },
     async fetchData() {
       try {
-        const [departements] = await Promise.all([
-          apiAuthenticated("/items/mat_departement"),
+        const [departments] = await Promise.all([
+          apiAuthenticated("/items/mat_department"),
         ]);
-        this.departements = Object.freeze(departements);
+        this.departments = Object.freeze(departments);
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());

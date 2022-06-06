@@ -5,7 +5,7 @@ import Login from "../views/Login";
 import Main from "../views/Main";
 import AnlageDetail from "../views/anlagen/AnlageDetail";
 import MaterialDashboard from "../views/material/MaterialDashboard";
-import MaterialDepartementList from "../views/material/MaterialDepartementList";
+import MaterialDepartmentList from "../views/material/MaterialDepartmentList";
 import MaterialItemDetail from "../views/material/MaterialItemDetail";
 import MaterialItemList from "../views/material/MaterialItemList";
 import MaterialOrderDetail from "../views/material/MaterialOrderDetail";
@@ -67,9 +67,9 @@ export default new VueRouter({
           component: MaterialOrderDetail,
         },
         {
-          path: "departement",
-          name: "materialDepartementList",
-          component: MaterialDepartementList,
+          path: "department",
+          name: "materialDepartmentList",
+          component: MaterialDepartmentList,
         },
         {
           path: "item",
