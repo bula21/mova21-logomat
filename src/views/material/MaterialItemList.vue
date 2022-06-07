@@ -43,7 +43,11 @@
       </template>
     </v-data-table>
     <v-card-text>
-      <v-btn v-on:click="download">Export</v-btn>
+      <v-row>
+        <v-col><v-btn v-on:click="downloadBasic">Export Basic</v-btn></v-col>
+        <v-col><v-btn v-on:click="downloadPro">Export Pro</v-btn></v-col>
+        <v-col><v-btn v-on:click="downloadPlus">Export Plus</v-btn></v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -85,19 +89,19 @@ export default {
           items,
           units,
           catalogs,
-          sections,
-          orderTypes,
-          supplierItems,
-          suppliers,
+          //          sections,
+          //          orderTypes,
+          //          supplierItems,
+          //          suppliers,
         ] = await Promise.all([
           apiAuthenticated("/items/mat_order_item", limit(-1)),
           apiAuthenticated("/items/mat_item", limit(-1)),
           apiAuthenticated("/items/mat_unit"),
           apiAuthenticated("/items/mat_catalog"),
-          apiAuthenticated("/items/mat_section"),
-          apiAuthenticated("/items/mat_order_type"),
-          apiAuthenticated("/items/mat_supplier_item", limit(-1)),
-          apiAuthenticated("/items/mat_supplier"),
+          //          apiAuthenticated("/items/mat_section"),
+          //          apiAuthenticated("/items/mat_order_type"),
+          //          apiAuthenticated("/items/mat_supplier_item", limit(-1)),
+          //          apiAuthenticated("/items/mat_supplier"),
         ]);
         const totalItems = orderItems.reduce((acc, item) => {
           const thing = acc.find((group) => group.item === item.item);
@@ -108,6 +112,84 @@ export default {
               item: item.item,
               quantity: item.quantity,
               supplierItem: item.item,
+            });
+          }
+          return acc;
+        }, []);
+        joinInPlace(items, units, "unit");
+        //        joinInPlace(catalogs, sections, "section");
+        //        joinInPlace(catalogs, orderTypes, "order_type");
+        joinInPlace(items, catalogs, "catalog");
+        joinInPlace(totalItems, items, "item");
+        //        const supplierItemsUnique = supplierItems.reduce((acc, item) => {
+        //          const unique = acc.find((unique) => unique.item === item.item);
+        //          if (unique == null) {
+        //            acc.push(item);
+        //          }
+        //          return acc;
+        //        }, []);
+        //        joinInPlace(supplierItemsUnique, suppliers, "supplier");
+        //        joinInPlace(totalItems, supplierItemsUnique, "supplierItem", "item");
+        this.totalItems = Object.freeze(totalItems);
+      } catch (err) {
+        if (err instanceof ApiError) {
+          this.$emit("api-error", err.userMessage());
+        } else {
+          throw err;
+        }
+      }
+    },
+    downloadBasic: function () {
+      const mappedItems = this.totalItems.map((item) => {
+        return {
+          Anzahl: item.quantity,
+          Einheit: item.item.unit.name,
+          Name: item.item.name,
+          Beschreibung: item.item.description,
+          Katalog: item.item.catalog.name,
+          Richtpreis: item.item.price,
+        };
+      });
+      const data = XLSX.utils.json_to_sheet(mappedItems);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, data, "data");
+      XLSX.writeFile(wb, "artikel_basic.xlsx");
+    },
+    async downloadPro() {
+      try {
+        const [
+          orderItems,
+          items,
+          units,
+          catalogs,
+          sections,
+          orderTypes,
+          supplierItems,
+          suppliers,
+          supplierDeliveryItems,
+          supplierDeliveries,
+        ] = await Promise.all([
+          apiAuthenticated("/items/mat_order_item", limit(-1)),
+          apiAuthenticated("/items/mat_item", limit(-1)),
+          apiAuthenticated("/items/mat_unit"),
+          apiAuthenticated("/items/mat_catalog"),
+          apiAuthenticated("/items/mat_section"),
+          apiAuthenticated("/items/mat_order_type"),
+          apiAuthenticated("/items/mat_supplier_item", limit(-1)),
+          apiAuthenticated("/items/mat_supplier"),
+          apiAuthenticated("/items/mat_supplier_delivery_item", limit(-1)),
+          apiAuthenticated("/items/mat_supplier_delivery"),
+        ]);
+        const totalItems = orderItems.reduce((acc, item) => {
+          const thing = acc.find((group) => group.item === item.item);
+          if (thing) {
+            thing.quantity += item.quantity;
+          } else {
+            acc.push({
+              item: item.item,
+              quantity: item.quantity,
+              supplierItem: item.item,
+              supplierDeliveryItem: item.item,
             });
           }
           return acc;
@@ -126,7 +208,75 @@ export default {
         }, []);
         joinInPlace(supplierItemsUnique, suppliers, "supplier");
         joinInPlace(totalItems, supplierItemsUnique, "supplierItem", "item");
-        this.totalItems = Object.freeze(totalItems);
+        const supplierDeliveryItemsUnique = supplierDeliveryItems.reduce(
+          (acc, item) => {
+            const unique = acc.find(
+              (unique) => unique.item === item.supplier_item
+            );
+            if (unique == null) {
+              acc.push(item);
+            }
+            return acc;
+          },
+          []
+        );
+        joinInPlace(
+          supplierDeliveryItemsUnique,
+          supplierDeliveries,
+          "supplier_delivery"
+        );
+        joinInPlace(
+          supplierDeliveryItemsUnique,
+          supplierItems,
+          "supplier_item"
+        );
+        const mappedSupplierDeliveryItemsUnique = supplierDeliveryItemsUnique.map(
+          (item) => {
+            return {
+              item: item.supplier_item.item,
+              quantity: item.quantity,
+              supplier_item: item.supplier_item.name,
+              supplier_delivery: item.supplier_delivery.name,
+            };
+          }
+        );
+        joinInPlace(
+          totalItems,
+          mappedSupplierDeliveryItemsUnique,
+          "supplierDeliveryItem",
+          "item"
+        );
+        const mappedItems = totalItems.map((item) => {
+          return {
+            ID: item.item.id,
+            Anzahl: item.quantity,
+            Einheit: item.item.unit.name,
+            Name: item.item.name,
+            Beschreibung: item.item.description,
+            Katalog: item.item.catalog.name,
+            Teilbereich: item.item.catalog.section.name,
+            Bestellungstyp: item.item.catalog.order_type.name,
+            Richtpreis: item.item.price,
+            Lieferant: item.supplierItem
+              ? item.supplierItem.supplier.name
+              : null,
+            Artikel: item.supplierItem ? item.supplierItem.name : null,
+            Code: item.supplierItem ? item.supplierItem.code : null,
+            Anzahl_Lieferung: item.supplierDeliveryItem
+              ? item.supplierDeliveryItem.quantity
+              : null,
+            Artikel_Lieferung: item.supplierDeliveryItem
+              ? item.supplierDeliveryItem.supplier_item
+              : null,
+            Name_Lieferung: item.supplierDeliveryItem
+              ? item.supplierDeliveryItem.supplier_delivery
+              : null,
+          };
+        });
+        const data = XLSX.utils.json_to_sheet(mappedItems);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, data, "data");
+        XLSX.writeFile(wb, "artikel_pro.xlsx");
       } catch (err) {
         if (err instanceof ApiError) {
           this.$emit("api-error", err.userMessage());
@@ -135,27 +285,62 @@ export default {
         }
       }
     },
-    download: function () {
-      const mappedItems = this.totalItems.map((item) => {
-        return {
-          ID: item.item.id,
-          Anzahl: item.quantity,
-          Einheit: item.item.unit.name,
-          Name: item.item.name,
-          Beschreibung: item.item.description,
-          Katalog: item.item.catalog.name,
-          Teilbereich: item.item.catalog.section.name,
-          Bestellungstyp: item.item.catalog.order_type.name,
-          Richtpreis: item.item.price,
-          Lieferant: item.supplierItem ? item.supplierItem.supplier.name : null,
-          Artikel: item.supplierItem ? item.supplierItem.name : null,
-          Code: item.supplierItem ? item.supplierItem.code : null,
-        };
-      });
-      const data = XLSX.utils.json_to_sheet(mappedItems);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, data, "data");
-      XLSX.writeFile(wb, "artikel.xlsx");
+    async downloadPlus() {
+      try {
+        const [
+          orders,
+          clients,
+          departments,
+          order_types,
+          delivery_types,
+          orderItems,
+          items,
+          units,
+          catalogs,
+        ] = await Promise.all([
+          apiAuthenticated("/items/mat_order"),
+          apiAuthenticated("/items/mat_client"),
+          apiAuthenticated("/items/mat_department"),
+          apiAuthenticated("/items/mat_order_type"),
+          apiAuthenticated("/items/mat_delivery_type"),
+          apiAuthenticated("/items/mat_order_item", limit(-1)),
+          apiAuthenticated("/items/mat_item", limit(-1)),
+          apiAuthenticated("/items/mat_unit"),
+          apiAuthenticated("/items/mat_catalog"),
+        ]);
+        joinInPlace(clients, departments, "department");
+        joinInPlace(orders, clients, "client");
+        joinInPlace(orders, order_types, "order_type");
+        joinInPlace(orders, delivery_types, "delivery_type");
+        joinInPlace(items, units, "unit");
+        joinInPlace(items, catalogs, "catalog");
+        joinInPlace(orderItems, orders, "order");
+        joinInPlace(orderItems, items, "item");
+        const mappedItems = orderItems.map((item) => {
+          return {
+            Bestellung: item.order.name,
+            Ressort: item.order.client.department.name,
+            Kunde: item.order.client.name,
+            Ausführung: item.order.delivery_type.name,
+            Ausgabe: item.order.delivery,
+            Rücknahme: item.order.return,
+            Anzahl: item.quantity,
+            Einheit: item.item.unit.name,
+            Artikel: item.item.name,
+            Katalog: item.item.catalog.name,
+          };
+        });
+        const data = XLSX.utils.json_to_sheet(mappedItems);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, data, "data");
+        XLSX.writeFile(wb, "artikel_plus.xlsx");
+      } catch (err) {
+        if (err instanceof ApiError) {
+          this.$emit("api-error", err.userMessage());
+        } else {
+          throw err;
+        }
+      }
     },
   },
   created() {
