@@ -199,50 +199,52 @@ export default {
         joinInPlace(catalogs, orderTypes, "order_type");
         joinInPlace(items, catalogs, "catalog");
         joinInPlace(totalItems, items, "item");
+        joinInPlace(supplierItems, suppliers, "supplier");
         const supplierItemsUnique = supplierItems.reduce((acc, item) => {
           const unique = acc.find((unique) => unique.item === item.item);
           if (unique == null) {
-            acc.push(item);
+            acc.push({
+              item: item.item,
+              supplier: item.supplier.name,
+              name: item.name,
+              code: item.code,
+            });
+          } else {
+            unique.supplier = "...";
+            unique.name = "...";
+            unique.code = "...";
           }
           return acc;
         }, []);
-        joinInPlace(supplierItemsUnique, suppliers, "supplier");
         joinInPlace(totalItems, supplierItemsUnique, "supplierItem", "item");
+        joinInPlace(
+          supplierDeliveryItems,
+          supplierDeliveries,
+          "supplier_delivery"
+        );
+        joinInPlace(supplierDeliveryItems, supplierItems, "supplier_item");
         const supplierDeliveryItemsUnique = supplierDeliveryItems.reduce(
           (acc, item) => {
             const unique = acc.find(
-              (unique) => unique.item === item.supplier_item
+              (unique) => unique.item === item.supplier_item.item
             );
             if (unique == null) {
-              acc.push(item);
+              acc.push({
+                item: item.supplier_item.item,
+                quantity: item.quantity,
+                supplier_delivery: item.supplier_delivery.name,
+              });
+            } else {
+              unique.quantity += item.quantity;
+              unique.supplier_delivery = "...";
             }
             return acc;
           },
           []
         );
         joinInPlace(
-          supplierDeliveryItemsUnique,
-          supplierDeliveries,
-          "supplier_delivery"
-        );
-        joinInPlace(
-          supplierDeliveryItemsUnique,
-          supplierItems,
-          "supplier_item"
-        );
-        const mappedSupplierDeliveryItemsUnique = supplierDeliveryItemsUnique.map(
-          (item) => {
-            return {
-              item: item.supplier_item.item,
-              quantity: item.quantity,
-              supplier_item: item.supplier_item.name,
-              supplier_delivery: item.supplier_delivery.name,
-            };
-          }
-        );
-        joinInPlace(
           totalItems,
-          mappedSupplierDeliveryItemsUnique,
+          supplierDeliveryItemsUnique,
           "supplierDeliveryItem",
           "item"
         );
@@ -257,20 +259,18 @@ export default {
             Teilbereich: item.item.catalog.section.name,
             Bestellungstyp: item.item.catalog.order_type.name,
             Richtpreis: item.item.price,
-            Lieferant: item.supplierItem
-              ? item.supplierItem.supplier.name
-              : null,
+            Lieferant: item.supplierItem ? item.supplierItem.supplier : null,
             Artikel: item.supplierItem ? item.supplierItem.name : null,
             Code: item.supplierItem ? item.supplierItem.code : null,
             Anzahl_Lieferung: item.supplierDeliveryItem
               ? item.supplierDeliveryItem.quantity
               : null,
-            Artikel_Lieferung: item.supplierDeliveryItem
-              ? item.supplierDeliveryItem.supplier_item
-              : null,
             Name_Lieferung: item.supplierDeliveryItem
               ? item.supplierDeliveryItem.supplier_delivery
               : null,
+            Delta: item.supplierDeliveryItem
+              ? item.supplierDeliveryItem.quantity - item.quantity
+              : 0 - item.quantity,
           };
         });
         const data = XLSX.utils.json_to_sheet(mappedItems);
@@ -291,36 +291,39 @@ export default {
           orders,
           clients,
           departments,
-          order_types,
-          delivery_types,
+          deliveryTypes,
           orderItems,
           items,
           units,
           catalogs,
+          sections,
+          orderTypes,
         ] = await Promise.all([
           apiAuthenticated("/items/mat_order"),
           apiAuthenticated("/items/mat_client"),
           apiAuthenticated("/items/mat_department"),
-          apiAuthenticated("/items/mat_order_type"),
           apiAuthenticated("/items/mat_delivery_type"),
           apiAuthenticated("/items/mat_order_item", limit(-1)),
           apiAuthenticated("/items/mat_item", limit(-1)),
           apiAuthenticated("/items/mat_unit"),
           apiAuthenticated("/items/mat_catalog"),
+          apiAuthenticated("/items/mat_section"),
+          apiAuthenticated("/items/mat_order_type"),
         ]);
         joinInPlace(clients, departments, "department");
         joinInPlace(orders, clients, "client");
-        joinInPlace(orders, order_types, "order_type");
-        joinInPlace(orders, delivery_types, "delivery_type");
+        joinInPlace(orders, deliveryTypes, "delivery_type");
         joinInPlace(items, units, "unit");
+        joinInPlace(catalogs, sections, "section");
+        joinInPlace(catalogs, orderTypes, "order_type");
         joinInPlace(items, catalogs, "catalog");
         joinInPlace(orderItems, orders, "order");
         joinInPlace(orderItems, items, "item");
         const mappedItems = orderItems.map((item) => {
           return {
-            Bestellung: item.order.name,
             Ressort: item.order.client.department.name,
             Kunde: item.order.client.name,
+            Bestellung: item.order.name,
             Ausführung: item.order.delivery_type.name,
             Ausgabe: item.order.delivery,
             Rücknahme: item.order.return,
@@ -328,6 +331,8 @@ export default {
             Einheit: item.item.unit.name,
             Artikel: item.item.name,
             Katalog: item.item.catalog.name,
+            Teilbereich: item.item.catalog.section.name,
+            Bestellungstyp: item.item.catalog.order_type.name,
           };
         });
         const data = XLSX.utils.json_to_sheet(mappedItems);
