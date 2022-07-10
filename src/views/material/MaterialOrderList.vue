@@ -27,16 +27,14 @@
       dense
       :headers="headers"
       :items="orders"
-      :items-per-page="20"
-      :footer-props="{
-        'items-per-page-options': [20, 50, -1],
-        showFirstLastPage: true,
-      }"
+      :options.sync="options"
+      :footer-props="{ disableItemsPerPage: true }"
       :search="search"
       :item-class="itemRowColor"
       id="orderList"
       class="elevation-1"
       @click:row="handleClick"
+      loading="true"
     >
       <template v-slot:item.state.name="{ item }">
         <v-chip :color="getColor(item.state)" outlined>
@@ -94,6 +92,7 @@ export default {
     ],
     orders: [],
     id: 0,
+    options: null,
   }),
   methods: {
     itemRowColor(item) {
@@ -198,6 +197,9 @@ export default {
     if (localStorage.orderMyOrders) {
       this.myOrders = JSON.parse(localStorage.orderMyOrders);
     }
+    if (localStorage.orderOptions) {
+      this.options = JSON.parse(localStorage.orderOptions);
+    }
   },
   watch: {
     search(orderSearch) {
@@ -210,6 +212,9 @@ export default {
     myOrders(orderMyOrders) {
       localStorage.orderMyOrders = orderMyOrders;
       this.fetchData();
+    },
+    options(orderOptions) {
+      localStorage.orderOptions = JSON.stringify(orderOptions);
     },
   },
 };
