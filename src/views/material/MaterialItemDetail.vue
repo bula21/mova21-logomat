@@ -31,11 +31,8 @@
       dense
       :headers="orders"
       :items="itemOrders"
-      :items-per-page="20"
-      :footer-props="{
-        'items-per-page-options': [20, 50, -1],
-        showFirstLastPage: true,
-      }"
+      :items-per-page="-1"
+      hide-default-footer
       class="elevation-1"
     >
       <template v-slot:item.order.delivery="{ item }">
