@@ -27,6 +27,8 @@
       dense
       :headers="headers"
       :items="orders"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
       :items-per-page="20"
       :footer-props="{
         'items-per-page-options': [20, 50, -1],
@@ -94,6 +96,8 @@ export default {
     ],
     orders: [],
     id: 0,
+    sortBy: "",
+    sortDesc: false,
   }),
   methods: {
     itemRowColor(item) {
@@ -198,6 +202,12 @@ export default {
     if (localStorage.orderMyOrders) {
       this.myOrders = JSON.parse(localStorage.orderMyOrders);
     }
+    if (localStorage.orderSortBy) {
+      this.sortBy = localStorage.orderSortBy;
+    }
+    if (localStorage.orderSortDesc) {
+      this.sortDesc = JSON.parse(localStorage.orderSortDesc);
+    }
   },
   watch: {
     search(orderSearch) {
@@ -210,6 +220,12 @@ export default {
     myOrders(orderMyOrders) {
       localStorage.orderMyOrders = orderMyOrders;
       this.fetchData();
+    },
+    sortBy(orderSortBy) {
+      localStorage.orderSortBy = orderSortBy;
+    },
+    sortDesc(orderSortDesc) {
+      localStorage.orderSortDesc = orderSortDesc;
     },
   },
 };
