@@ -55,7 +55,16 @@
         <span>{{ item.total.amount.toFixed(2) }}</span>
       </template>
       <template v-slot:item.id="{ item }">
-        <v-icon small>mdi-pencil</v-icon>
+        <a
+          :href="
+            $router.resolve({
+              name: 'materialOrderDetail',
+              params: { id: item.id },
+            }).href
+          "
+        >
+          <v-icon small>mdi-pencil</v-icon></a
+        >
         <span class="text--secondary">{{ item.id }}</span>
       </template>
     </v-data-table>
