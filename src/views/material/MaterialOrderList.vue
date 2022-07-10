@@ -28,7 +28,11 @@
       :headers="headers"
       :items="orders"
       :options.sync="options"
-      :footer-props="{ disableItemsPerPage: true }"
+      :items-per-page="-1"
+      :footer-props="{
+        'items-per-page-options': [-1],
+        showFirstLastPage: true,
+      }"
       :search="search"
       :item-class="itemRowColor"
       id="orderList"
