@@ -2,70 +2,71 @@
   <v-card>
     <portal to="topnav-title">Material / Bestellung / {{ order.name }}</portal>
     <MaterialNavigation />
-
-    <v-card-title v-if="showOrder">{{ order.name }}</v-card-title>
-    <v-card-text v-if="showOrder">
-      <v-simple-table>
-        <tr>
-          <td>Status</td>
-          <td>{{ order.state.name }}</td>
-        </tr>
-        <tr>
-          <td>Ressort</td>
-          <td>{{ order.client.department.name }}</td>
-        </tr>
-        <tr>
-          <td>Kunde</td>
-          <td>{{ order.client.name }}</td>
-        </tr>
-        <tr>
-          <td>Bestellungstyp</td>
-          <td>{{ order.order_type.name }}</td>
-        </tr>
-        <tr>
-          <td>Ausführung</td>
-          <td>{{ order.delivery_type.name }}</td>
-        </tr>
-        <tr>
-          <td>Ausgabe</td>
-          <td>{{ longDate(order.delivery) }}</td>
-        </tr>
-        <tr>
-          <td>Rücknahme</td>
-          <td>{{ longDate(order.return) }}</td>
-        </tr>
-        <tr>
-          <td>Kommentar</td>
-          <td>{{ order.comment }}</td>
-        </tr>
-        <tr>
-          <td>Projekt</td>
-          <td>{{ order.projekt }}</td>
-        </tr>
-        <tr>
-          <td>Standort</td>
-          <td>{{ order.standort }}</td>
-        </tr>
-      </v-simple-table>
-    </v-card-text>
-    <v-data-table
-      dense
-      :headers="headers"
-      :items="orderItems"
-      :items-per-page="-1"
-      hide-default-footer
-      class="elevation-1"
-    >
-      <template v-slot:item.item.price="{ item }">
-        <span>{{ item.item.price.toFixed(2) }}</span>
-      </template>
-      <template v-slot:item.total="{ item }">
-        <span>{{ item.total.toFixed(2) }}</span>
-      </template>
-    </v-data-table>
-    <v-card-text v-if="showTotal" :class="{ 'red accent-1': order.bill }">
-      Summe CHF {{ total.toFixed(2) }}
-    </v-card-text>
+    <div ref="content">
+      <v-card-title v-if="showOrder">{{ order.name }}</v-card-title>
+      <v-card-text v-if="showOrder">
+        <v-simple-table>
+          <tr>
+            <td>Status</td>
+            <td>{{ order.state.name }}</td>
+          </tr>
+          <tr>
+            <td>Ressort</td>
+            <td>{{ order.client.department.name }}</td>
+          </tr>
+          <tr>
+            <td>Kunde</td>
+            <td>{{ order.client.name }}</td>
+          </tr>
+          <tr>
+            <td>Bestellungstyp</td>
+            <td>{{ order.order_type.name }}</td>
+          </tr>
+          <tr>
+            <td>Ausführung</td>
+            <td>{{ order.delivery_type.name }}</td>
+          </tr>
+          <tr>
+            <td>Ausgabe</td>
+            <td>{{ longDate(order.delivery) }}</td>
+          </tr>
+          <tr>
+            <td>Rücknahme</td>
+            <td>{{ longDate(order.return) }}</td>
+          </tr>
+          <tr>
+            <td>Kommentar</td>
+            <td>{{ order.comment }}</td>
+          </tr>
+          <tr>
+            <td>Projekt</td>
+            <td>{{ order.projekt }}</td>
+          </tr>
+          <tr>
+            <td>Standort</td>
+            <td>{{ order.standort }}</td>
+          </tr>
+        </v-simple-table>
+      </v-card-text>
+      <v-data-table
+        dense
+        :headers="headers"
+        :items="orderItems"
+        :items-per-page="-1"
+        hide-default-footer
+        class="elevation-1"
+      >
+        <template v-slot:item.item.price="{ item }">
+          <span>{{ item.item.price.toFixed(2) }}</span>
+        </template>
+        <template v-slot:item.total="{ item }">
+          <span>{{ item.total.toFixed(2) }}</span>
+        </template>
+      </v-data-table>
+      <v-card-text v-if="showTotal" :class="{ 'red accent-1': order.bill }">
+        Summe CHF {{ total.toFixed(2) }}
+      </v-card-text>
+    </div>
     <v-card-title>Bestätigungen</v-card-title>
     <v-data-table
       dense
@@ -84,8 +85,8 @@
     </v-card-text>
     <v-card-text>
       <v-row>
-        <v-col><v-btn v-on:click="exportPDF" disabled>Export PDF</v-btn></v-col>
-        <v-col><v-btn v-on:click="exportXLS">Export XLS</v-btn></v-col>
+        <v-col><v-btn v-on:click="print">Print</v-btn></v-col>
+        <v-col><v-btn v-on:click="download">Download</v-btn></v-col>
       </v-row>
     </v-card-text>
   </v-card>
@@ -276,7 +277,7 @@ export default {
         date.toLocaleString(DateTime.TIME_24_WITH_SECONDS)
       );
     },
-    exportXLS() {
+    download() {
       const mappedOrder = [
         { key: "Name", value: this.order.name },
         { key: "Status", value: this.order.state.name },
@@ -306,8 +307,22 @@ export default {
       XLSX.utils.book_append_sheet(wb, data, "data");
       XLSX.writeFile(wb, "bestellung.xlsx");
     },
-    exportPDF() {
-      console.log("exportPDF");
+    print() {
+      let mywindow = window.open(
+        "",
+        "PRINT",
+        "height=650,width=900,top=100,left=150"
+      );
+
+      const title = "<html><head><title>" + DateTime.now().toISO() + "</title>";
+
+      mywindow.document.write(title);
+      mywindow.document.write("</head><body >");
+      mywindow.document.write(this.$refs.content.innerHTML);
+      mywindow.document.write("</body></html>");
+
+      mywindow.print();
+      mywindow.close();
     },
     async confirm() {
       const confirmation = {
