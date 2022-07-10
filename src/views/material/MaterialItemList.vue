@@ -33,6 +33,7 @@
       id="itemList"
       class="elevation-1"
       @click:row="handleClick"
+      loading="true"
     >
       <template v-slot:item.item.price="{ item }">
         <span>{{ item.item.price.toFixed(2) }}</span>

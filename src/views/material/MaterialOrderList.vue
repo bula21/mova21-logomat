@@ -27,9 +27,7 @@
       dense
       :headers="headers"
       :items="orders"
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
-      :items-per-page="20"
+      :options.sync="options"
       :footer-props="{
         'items-per-page-options': [20, 50, -1],
         showFirstLastPage: true,
@@ -39,6 +37,7 @@
       id="orderList"
       class="elevation-1"
       @click:row="handleClick"
+      loading="true"
     >
       <template v-slot:item.state.name="{ item }">
         <v-chip :color="getColor(item.state)" outlined>
@@ -96,8 +95,7 @@ export default {
     ],
     orders: [],
     id: 0,
-    sortBy: "",
-    sortDesc: false,
+    options: { itemsPerPage: 20 },
   }),
   methods: {
     itemRowColor(item) {
@@ -202,11 +200,8 @@ export default {
     if (localStorage.orderMyOrders) {
       this.myOrders = JSON.parse(localStorage.orderMyOrders);
     }
-    if (localStorage.orderSortBy) {
-      this.sortBy = localStorage.orderSortBy;
-    }
-    if (localStorage.orderSortDesc) {
-      this.sortDesc = JSON.parse(localStorage.orderSortDesc);
+    if (localStorage.orderOptions) {
+      this.options = JSON.parse(localStorage.orderOptions);
     }
   },
   watch: {
@@ -221,11 +216,8 @@ export default {
       localStorage.orderMyOrders = orderMyOrders;
       this.fetchData();
     },
-    sortBy(orderSortBy) {
-      localStorage.orderSortBy = orderSortBy;
-    },
-    sortDesc(orderSortDesc) {
-      localStorage.orderSortDesc = orderSortDesc;
+    options(orderOptions) {
+      localStorage.orderOptions = JSON.stringify(orderOptions);
     },
   },
 };

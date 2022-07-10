@@ -31,6 +31,7 @@
       id="deliveryList"
       class="elevation-1"
       @click:row="handleClick"
+      loading="true"
     >
       <template v-slot:item.delivery="{ item }">
         <span>{{ shortDate(item.delivery) }}</span>
