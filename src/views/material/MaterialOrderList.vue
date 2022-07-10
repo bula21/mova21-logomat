@@ -28,10 +28,7 @@
       :headers="headers"
       :items="orders"
       :options.sync="options"
-      :footer-props="{
-        'items-per-page-options': [20, 50, -1],
-        showFirstLastPage: true,
-      }"
+      :footer-props="{ disableItemsPerPage: true }"
       :search="search"
       :item-class="itemRowColor"
       id="orderList"
@@ -95,7 +92,7 @@ export default {
     ],
     orders: [],
     id: 0,
-    options: { itemsPerPage: 20 },
+    options: null,
   }),
   methods: {
     itemRowColor(item) {
