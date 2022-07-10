@@ -80,11 +80,11 @@
         <span>{{ timestamp(item.time) }}</span>
       </template>
     </v-data-table>
-    <v-card-text v-if="showConfirm">
-      <v-btn v-on:click="confirm">Bestätigung</v-btn>
-    </v-card-text>
     <v-card-text>
       <v-row>
+        <v-col v-if="showConfirm"
+          ><v-btn v-on:click="confirm">Bestätigung</v-btn></v-col
+        >
         <v-col><v-btn v-on:click="print">Print</v-btn></v-col>
         <v-col><v-btn v-on:click="download">Download</v-btn></v-col>
       </v-row>
@@ -314,9 +314,9 @@ export default {
         "height=650,width=900,top=100,left=150"
       );
 
-      const title = "<html><head><title>" + DateTime.now().toISO() + "</title>";
-
-      mywindow.document.write(title);
+      mywindow.document.write(
+        "<html><head><title>" + DateTime.now().toISO() + "</title>"
+      );
       mywindow.document.write("</head><body >");
       mywindow.document.write(this.$refs.content.innerHTML);
       mywindow.document.write("</body></html>");
