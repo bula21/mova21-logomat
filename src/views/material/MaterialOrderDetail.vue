@@ -52,11 +52,8 @@
       dense
       :headers="headers"
       :items="orderItems"
-      :items-per-page="20"
-      :footer-props="{
-        'items-per-page-options': [20, 50, -1],
-        showFirstLastPage: true,
-      }"
+      :items-per-page="-1"
+      hide-default-footer
       class="elevation-1"
     >
       <template v-slot:item.item.price="{ item }">
@@ -68,9 +65,6 @@
     </v-data-table>
     <v-card-text v-if="showTotal" :class="{ 'red accent-1': order.bill }">
       Summe CHF {{ total.toFixed(2) }}
-    </v-card-text>
-    <v-card-text>
-      <v-btn v-on:click="download">Export</v-btn>
     </v-card-text>
     <v-card-title>Bestätigungen</v-card-title>
     <v-data-table
@@ -87,6 +81,12 @@
     </v-data-table>
     <v-card-text v-if="showConfirm">
       <v-btn v-on:click="confirm">Bestätigung</v-btn>
+    </v-card-text>
+    <v-card-text>
+      <v-row>
+        <v-col><v-btn v-on:click="exportPDF" disabled>Export PDF</v-btn></v-col>
+        <v-col><v-btn v-on:click="exportXLS">Export XLS</v-btn></v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -276,7 +276,7 @@ export default {
         date.toLocaleString(DateTime.TIME_24_WITH_SECONDS)
       );
     },
-    download() {
+    exportXLS() {
       const mappedOrder = [
         { key: "Name", value: this.order.name },
         { key: "Status", value: this.order.state.name },
@@ -305,6 +305,9 @@ export default {
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, data, "data");
       XLSX.writeFile(wb, "bestellung.xlsx");
+    },
+    exportPDF() {
+      console.log("exportPDF");
     },
     async confirm() {
       const confirmation = {

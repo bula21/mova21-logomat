@@ -15,6 +15,8 @@
     "clippyjs": "^0.0.3",
     "core-js": "^3.6.5",
     "csv-writer": "^1.6.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "jwt-decode": "^2.2.0",
     "luxon": "^1.25.0",
     "portal-vue": "^2.1.7",
