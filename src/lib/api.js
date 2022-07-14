@@ -121,5 +121,20 @@ export const apiAuthCreate = async (path, item) => {
   }
 };
 
+// https://docs.directus.io/reference/items/#update-an-item
+export const apiAuthUpdate = async (path, item) => {
+  const config = {
+    headers: {
+      Authorization: `bearer ${store.state.user._token}`,
+    },
+  };
+  try {
+    const resp = await api.patch(path, item, config);
+    return resp.data.data;
+  } catch (err) {
+    throw new ApiError(err);
+  }
+};
+
 export const directusAdminLink = (item, id) =>
   `${BASE_URL}/admin/#/_/collections/${item}/${id}`;
