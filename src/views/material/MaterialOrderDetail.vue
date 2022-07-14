@@ -85,6 +85,33 @@
         <v-col v-if="showConfirm"
           ><v-btn v-on:click="confirm">Bestätigung</v-btn></v-col
         >
+        <v-col v-if="showReady"
+          ><v-btn
+            v-on:click="
+              updateState(4);
+              showReady = false;
+            "
+            >Vorbereitung</v-btn
+          ></v-col
+        >
+        <v-col v-if="showDeliver"
+          ><v-btn
+            v-on:click="
+              updateState(5);
+              showDeliver = false;
+            "
+            >Auslieferung</v-btn
+          ></v-col
+        >
+        <v-col v-if="showReturn"
+          ><v-btn
+            v-on:click="
+              updateState(6);
+              showReturn = false;
+            "
+            >Rücknahme</v-btn
+          ></v-col
+        >
         <v-col><v-btn v-on:click="print">Print</v-btn></v-col>
         <v-col><v-btn v-on:click="download">Download</v-btn></v-col>
       </v-row>
@@ -99,6 +126,7 @@ import {
   filter,
   limit,
   apiAuthCreate,
+  apiAuthUpdate,
 } from "@/lib/api";
 import { joinInPlace } from "@/lib/join";
 import { DateTime } from "luxon";
@@ -139,6 +167,9 @@ export default {
     ],
     confirmationItems: [],
     showConfirm: false,
+    showReady: false,
+    showDeliver: false,
+    showReturn: false,
   }),
   methods: {
     async fetchData() {
@@ -194,6 +225,15 @@ export default {
           order.client.name.toLowerCase() === this.user.email.toLowerCase()
         ) {
           this.showConfirm = true;
+        }
+        if (order.state.id < 4) {
+          this.showReady = true;
+        }
+        if (order.state.id === 4) {
+          this.showDeliver = true;
+        }
+        if (order.state.id === 5 && order.order_type.id === 1) {
+          this.showReturn = true;
         }
         this.order = Object.freeze(order);
         this.showOrder = true;
@@ -334,13 +374,12 @@ export default {
       await apiAuthCreate("/items/mat_order_confirmation", confirmation);
       this.fetchConfirmation();
     },
-    async cancel(orderItem) {
-      const cancellation = {
-        order_item: orderItem,
-        name: this.user.email,
+    async updateState(newState) {
+      const update = {
+        state: newState,
       };
-      await apiAuthCreate("/items/mat_order_item_cancellation", cancellation);
-      this.fetchList();
+      await apiAuthUpdate("/items/mat_order/" + this.orderId, update);
+      this.fetchData();
     },
   },
   created() {

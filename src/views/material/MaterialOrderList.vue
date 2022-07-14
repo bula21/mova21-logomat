@@ -38,6 +38,7 @@
       id="orderList"
       class="elevation-1"
       @click:row="handleClick"
+      @contextmenu:row="handleRightClick"
       loading="true"
     >
       <template v-slot:item.state.name="{ item }">
@@ -55,16 +56,7 @@
         <span>{{ item.total.amount.toFixed(2) }}</span>
       </template>
       <template v-slot:item.id="{ item }">
-        <a
-          :href="
-            $router.resolve({
-              name: 'materialOrderDetail',
-              params: { id: item.id },
-            }).href
-          "
-        >
-          <v-icon small>mdi-pencil</v-icon></a
-        >
+        <v-icon small>mdi-pencil</v-icon>
         <span class="text--secondary">{{ item.id }}</span>
       </template>
     </v-data-table>
@@ -116,6 +108,14 @@ export default {
         name: "materialOrderDetail",
         params: { id: item.id },
       });
+    },
+    handleRightClick(event, row) {
+      let orderDetail = this.$router.resolve({
+        name: "materialOrderDetail",
+        params: { id: row.item.id },
+      });
+      window.open(orderDetail.href, "_blank");
+      event.preventDefault();
     },
     async fetchData() {
       try {
@@ -197,6 +197,8 @@ export default {
       else if (state.id == 2) return "orange";
       else if (state.id == 3) return "blue";
       else if (state.id == 4) return "green";
+      else if (state.id == 5) return "cyan";
+      else if (state.id == 6) return "grey";
       else return "red";
     },
   },
